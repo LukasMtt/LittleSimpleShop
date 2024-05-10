@@ -1,0 +1,5 @@
+1. Choice of Code-Editor: Visual Studio Code
+	- setup-"wizard": 
+		- extensions -> c# extension, html css intellisens, github copilot, angular language service, JavaScript and TypeScript, prettier, code spell checker, colorize
+		- settings
+	
