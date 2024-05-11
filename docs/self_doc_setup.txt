@@ -2,4 +2,5 @@
 	- setup-"wizard": 
 		- extensions -> c# extension, html css intellisens, github copilot, angular language service, JavaScript and TypeScript, prettier, code spell checker, colorize
 		- settings
-	
+2. install .net sdk 8, then test setup using https://learn.microsoft.com/de-de/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio-code as source -> includes usable structure
+3. update template project to minimal Hello World, test via swagger
