@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Shop.Data;
 
 namespace App.Controllers;
 
@@ -11,7 +12,9 @@ public class ProductController : ShopBaseController
     public IEnumerable<string> GetProductList()
     {
         Log.Information("list of Hello world");
-        return new List<string>() {"hello world"};
+        // var context = new ShopDbContext();
+        // var prods = context.Product.ToList();
+        return new List<string> { "hellow word" };
     }
 
     [HttpGet]
