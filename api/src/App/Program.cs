@@ -1,13 +1,17 @@
-using FluentMigrator;
+using AutoMapper;
 using FluentMigrator.Runner;
 using Serilog;
+using Shop.ApiModels;
+using Shop.Data.DataModels;
 using Shop.Data.Migrations;
 using Shop.Misc;
 
-class Program {
-    static void Main(string[] args) { 
+class Program
+{
+    static void Main(string[] args)
+    {
         var appSettingsConfig = AppSettingsConfigurationProxy.GetAppSettingConfiguration();
-        
+
         ConfigureSerilog();
 
         try
@@ -17,11 +21,12 @@ class Program {
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton(ConfigureMappings());
 
             if (appSettingsConfig != null)
                 using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
-                    using (var scope = serviceProvider.CreateScope())
-                        UpdateDatabase(scope.ServiceProvider);
+                using (var scope = serviceProvider.CreateScope())
+                    UpdateDatabase(scope.ServiceProvider);
 
             var app = builder.Build();
 
@@ -32,9 +37,7 @@ class Program {
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
             app.MapControllers();
 
             app.Run();
@@ -67,7 +70,8 @@ class Program {
         runner.MigrateUp();
     }
 
-    private static void ConfigureSerilog() {
+    private static void ConfigureSerilog()
+    {
         var logFile = Path.Combine("logs", "log.txt");
 
         Log.Logger = new LoggerConfiguration()
@@ -76,5 +80,15 @@ class Program {
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: true)
             .CreateLogger();
+    }
+
+    private static IMapper ConfigureMappings()
+    {
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+             mc.AddProfile(new MappingProfile());
+        });
+        IMapper mapper = mapperConfig.CreateMapper();
+        return mapper;
     }
 }

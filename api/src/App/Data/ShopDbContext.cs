@@ -5,7 +5,7 @@ using Shop.Misc;
 namespace Shop.Data;
 
 public class ShopDbContext : DbContext {
-    public DbSet<Product> Product { get; set; }
+    public DbSet<ProductEntity> Product { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         var appSettingsConfig = AppSettingsConfigurationProxy.GetAppSettingConfiguration();

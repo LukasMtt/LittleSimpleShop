@@ -1,6 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using Shop.Data;
+using Shop.ApiModels;
 
 namespace App.Controllers;
 
@@ -8,19 +8,17 @@ namespace App.Controllers;
 [Route("shop/[controller]/[action]")]
 public class ProductController : ShopBaseController
 {
-    [HttpGet]
-    public IEnumerable<string> GetProductList()
-    {
-        Log.Information("list of Hello world");
-        // var context = new ShopDbContext();
-        // var prods = context.Product.ToList();
-        return new List<string> { "hellow word" };
+    private IMapper _mapper;
+
+    public ProductController(IMapper mapper) : base() {
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public string GetProduct()
+    public ProductModel GetProduct()
     {
-        Log.Information("Hello world");
-        return "hello world";
+        var exampleProduct = Context.Product.ToList().First();
+        var model = _mapper.Map<ProductModel>(exampleProduct);
+        return model;
     }
 }
