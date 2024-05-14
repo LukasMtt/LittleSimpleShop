@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
+using Shop.Misc.Interfaces;
 
 namespace App.Controllers;
 
@@ -8,7 +9,7 @@ public abstract class ShopBaseController : ControllerBase
 {
     protected ShopDbContext Context;
 
-    public ShopBaseController() {
-        Context = new ShopDbContext();
+    public ShopBaseController(IAppSettingsConfigurationService appSettingsConfigurationService) {
+        Context = new ShopDbContext(appSettingsConfigurationService);
     }
 }

@@ -16,3 +16,21 @@ public class AddProductTable : Migration
     {
     }
 }
+
+[Migration(0000001)]
+public class AddPhotoTable : Migration
+{
+    public override void Up()
+    {
+        Create.Table("Photo")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("Bytes").AsBinary().Nullable()
+            .WithColumn("Description").AsString()
+            .WithColumn("FileExtension").AsString()
+            .WithColumn("Size").AsDecimal(); 
+    }
+
+    public override void Down()
+    {
+    }
+}

@@ -5,15 +5,13 @@ using Shop.ApiModels;
 using Shop.Data.DataModels;
 using Shop.Data.Migrations;
 using Shop.Misc;
+using Shop.Misc.Interfaces;
 
 class Program
 {
     static void Main(string[] args)
     {
-        var appSettingsConfig = AppSettingsConfigurationProxy.GetAppSettingConfiguration();
-
         ConfigureSerilog();
-
         try
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +20,10 @@ class Program
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton(ConfigureMappings());
+            builder.Services.AddSerilog();
+            RegisterCustomServices(builder.Services);
 
+            var appSettingsConfig = new AppSettingsConfigurationService().AppSettingsConfiguration;
             if (appSettingsConfig != null)
                 using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
                 using (var scope = serviceProvider.CreateScope())
@@ -90,5 +91,10 @@ class Program
         });
         IMapper mapper = mapperConfig.CreateMapper();
         return mapper;
+    }
+
+    private static void RegisterCustomServices(IServiceCollection services)
+    {
+        services.AddSingleton<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
     }
 }

@@ -1,14 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using Shop.Data.DataModels;
 using Shop.Misc;
+using Shop.Misc.Interfaces;
 
 namespace Shop.Data;
 
 public class ShopDbContext : DbContext {
     public DbSet<ProductEntity> Product { get; set; }
 
+    private IAppSettingsConfigurationService _appSettingsConfigurationService;
+
+    public ShopDbContext(IAppSettingsConfigurationService appSettingsConfigurationService) : base() {
+        _appSettingsConfigurationService = appSettingsConfigurationService;
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        var appSettingsConfig = AppSettingsConfigurationProxy.GetAppSettingConfiguration();
-        optionsBuilder.UseSqlServer(appSettingsConfig["ConnectionString"]);
+        optionsBuilder.UseSqlServer(_appSettingsConfigurationService.GetAppSettingsConfiguration()["ConnectionString"]);
     }
 }

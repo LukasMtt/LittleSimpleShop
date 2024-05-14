@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Shop.ApiModels;
+using Shop.Misc.Interfaces;
 
 namespace App.Controllers;
 
@@ -10,7 +11,7 @@ public class ProductController : ShopBaseController
 {
     private IMapper _mapper;
 
-    public ProductController(IMapper mapper) : base() {
+    public ProductController(IMapper mapper, IAppSettingsConfigurationService appSettingsConfigurationService) : base(appSettingsConfigurationService) {
         _mapper = mapper;
     }
 
