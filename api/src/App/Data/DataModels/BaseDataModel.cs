@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shop.Data.DataModels;
 
-[PrimaryKey(nameof(Id))]
 public class BaseDataModel {
+    [Key]
     public long Id { get; set; }
 }

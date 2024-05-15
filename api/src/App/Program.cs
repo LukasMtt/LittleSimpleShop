@@ -1,8 +1,7 @@
 using AutoMapper;
 using FluentMigrator.Runner;
 using Serilog;
-using Shop.ApiModels;
-using Shop.Data.DataModels;
+using Shop.Data;
 using Shop.Data.Migrations;
 using Shop.Misc;
 using Shop.Misc.Interfaces;
@@ -16,27 +15,15 @@ class Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddSingleton(ConfigureMappings());
-            builder.Services.AddSerilog();
-            RegisterCustomServices(builder.Services);
-
-            var appSettingsConfig = new AppSettingsConfigurationService().AppSettingsConfiguration;
-            if (appSettingsConfig != null)
-                using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
-                using (var scope = serviceProvider.CreateScope())
-                    UpdateDatabase(scope.ServiceProvider);
-
+            RegisterServices(builder.Services);
+            MigrateDatabase(builder.Services);
+            
             var app = builder.Build();
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
@@ -51,6 +38,29 @@ class Program
         {
             Log.CloseAndFlush();
         }
+    }
+
+    private static void RegisterServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.AddSingleton(ConfigureMappings());
+        services.AddSerilog();
+
+        services.AddDbContext<ShopDbContext>();
+
+        services.AddSingleton<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
+    }
+
+    private static IMapper ConfigureMappings()
+    {
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+             mc.AddProfile(new MappingProfile());
+        });
+        IMapper mapper = mapperConfig.CreateMapper();
+        return mapper;
     }
 
     private static ServiceProvider CreateFluentMigratorServices(IConfigurationRoot appSettingsConfiguration)
@@ -71,30 +81,22 @@ class Program
         runner.MigrateUp();
     }
 
+    private static void MigrateDatabase(IServiceCollection services) {
+        var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>().GetAppSettingsConfiguration();
+        if (appSettingsConfig != null)
+            using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
+                using (var scope = serviceProvider.CreateScope())
+                    UpdateDatabase(scope.ServiceProvider);
+    }
+
     private static void ConfigureSerilog()
     {
         var logFile = Path.Combine("logs", "log.txt");
-
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
             .WriteTo.File(logFile,
                 rollingInterval: RollingInterval.Day,
                 rollOnFileSizeLimit: true)
             .CreateLogger();
-    }
-
-    private static IMapper ConfigureMappings()
-    {
-        var mapperConfig = new MapperConfiguration(mc =>
-        {
-             mc.AddProfile(new MappingProfile());
-        });
-        IMapper mapper = mapperConfig.CreateMapper();
-        return mapper;
-    }
-
-    private static void RegisterCustomServices(IServiceCollection services)
-    {
-        services.AddSingleton<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
     }
 }
