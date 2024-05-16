@@ -50,7 +50,7 @@ class Program
 
         services.AddDbContext<ShopDbContext>();
 
-        services.AddSingleton<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
+        services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
     }
 
     private static IMapper ConfigureMappings()
