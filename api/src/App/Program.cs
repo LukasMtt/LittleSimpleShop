@@ -81,6 +81,7 @@ class Program
         runner.MigrateUp();
     }
 
+    //todo maybe refactor cause does not seem too elegant?
     private static void MigrateDatabase(IServiceCollection services) {
         var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>().GetAppSettingsConfiguration();
         if (appSettingsConfig != null)

@@ -1,3 +1,4 @@
+# .NET
 *.suo
 *.user
 _ReSharper.*
@@ -5,3 +6,44 @@ bin
 obj
 packages
 logs
+
+# Compiled output
+frontend/app/dist
+frontend/app/tmp
+frontend/app/out-tsc
+frontend/app/bazel-out
+
+# Node
+frontend/app/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+frontend/app/.angular/cache
+.sass-cache/
+frontend/app/connect.lock
+frontend/app/coverage
+frontend/app/libpeerconnection.log
+testem.log
+frontend/app/typings
+
+# System files
+.DS_Store
+Thumbs.db
