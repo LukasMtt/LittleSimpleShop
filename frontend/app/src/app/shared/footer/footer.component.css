@@ -1,0 +1,16 @@
+footer {
+  display: grid;
+  grid-template-rows: 1fr;
+  justify-items: center;
+  align-items: center;
+  margin-top: 35px;
+  height: 5vh;
+  font-size: 2vh;
+  background: var(--secondary-background-color);
+}
+
+.footer-item {
+  display: inline;
+  margin: 2vw;
+  font-style: italic;
+}

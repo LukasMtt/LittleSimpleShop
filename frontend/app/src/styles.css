@@ -1,1 +1,157 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-background-color: #ffffff;
+  --secondary-background-color: #dbdbdb;
+}
+
+/* general */
+
+body {
+  margin: 0;
+  font-size: 2.5vh;
+  font-family: "Helvetica", "Arial";
+}
+
+/* cards */
+
+@media (min-width: 1000px) {
+  .card-container {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      width: 85vw;
+      margin-left: auto;
+      margin-right: auto;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      row-gap: 1vw;
+      column-gap: 1vh;
+      margin-top: 35px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .card-container {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      width: 85vw;
+      margin-left: auto;
+      margin-right: auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+      row-gap: 2vw;
+      column-gap: 1.5vh;
+      margin-top: 35px;
+  }
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5%;
+}
+
+.card-img:hover {
+  opacity: 0.75;
+}
+
+.card-text {
+  position: relative;
+}
+
+/* carousel */
+
+.carousel-container {
+  margin-top: 35px;
+  width: 85vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes slide-change {
+  from {opacity: 0;}
+  to {opacity: 1.0}
+}
+
+@media (min-width: 1000px) {
+  .carousel-card-container {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      width: 85vw;
+      margin-left: auto;
+      margin-right: auto;
+      grid-template-columns: 1fr 2fr;
+      grid-template-rows: 1fr;
+      row-gap: 1vw;
+      column-gap: 1.5vh;
+      margin-top: 5vh;
+      opacity: 1.0;
+      animation-name: slide-change;
+      animation-duration: 2s;
+  }
+}
+
+@media (max-width: 1000px) {
+  .carousel-card-container {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      width: 85vw;
+      height: 90vh;
+      margin-left: auto;
+      margin-right: auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: 5fr 1fr;
+      row-gap: 1vw;
+      column-gap: 1.5vh;
+      margin-top: 5vh;
+      opacity: 1.0;
+      animation-name: slide-change;
+      animation-duration: 2s;
+  }
+}
+
+.hidable-slide:not(#slide-0) {
+  display: none;
+}
+
+.pagination-area {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  margin-top: 5px;
+}
+
+.pagination-link:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.pagination-link:active {
+  opacity: 0.1;
+}
+
+/* footer */
+
+footer {
+  display: grid;
+  grid-template-rows: 1fr;
+  justify-items: center;
+  align-items: center;
+  margin-top: 35px;
+  height: 5vh;
+  font-size: 2vh;
+  background: var(--secondary-background-color);
+}
+
+.footer-item {
+  display: inline;
+  margin: 2vw;
+  font-style: italic;
+}
