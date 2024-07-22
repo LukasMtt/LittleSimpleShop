@@ -12,5 +12,4 @@ import { CarouselComponent } from "./shared/carousel/carousel.component";
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'app';
 }

@@ -7,4 +7,6 @@ import { Component, signal } from '@angular/core'
     standalone: true
 })
 export class HeaderComponent {
+    headerTitle = "Lorem Ipsum"
+    headerSubTitle = "Dupsio"
 }
