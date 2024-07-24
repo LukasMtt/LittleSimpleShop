@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core'
     standalone: true
 })
 export class CardComponent {
-    @Input() imageSrc!: string;
+    @Input({required: true}) imageSrc!: string;
 }

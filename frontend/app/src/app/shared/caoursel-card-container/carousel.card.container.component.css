@@ -1,0 +1,47 @@
+@keyframes slide-change {
+    from {opacity: 0;}
+    to {opacity: 1.0}
+  }
+  
+@media (min-width: 1000px) {
+    .carousel-card-container {
+        display: grid;
+        justify-items: center;
+        align-items: start;
+        width: 85vw;
+        margin-left: auto;
+        margin-right: auto;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr;
+        row-gap: 1vw;
+        column-gap: 1.5vh;
+        margin-top: 5vh;
+        opacity: 1.0;
+        animation-name: slide-change;
+        animation-duration: 2s;
+    }
+}
+
+@media (max-width: 1000px) {
+    .carousel-card-container {
+        display: grid;
+        justify-items: center;
+        align-items: start;
+        width: 85vw;
+        height: 90vh;
+        margin-left: auto;
+        margin-right: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: 5fr 1fr;
+        row-gap: 1vw;
+        column-gap: 1.5vh;
+        margin-top: 5vh;
+        opacity: 1.0;
+        animation-name: slide-change;
+        animation-duration: 2s;
+    }
+}
+
+.hidable-slide:not(#slide-0) {
+display: none;
+}
