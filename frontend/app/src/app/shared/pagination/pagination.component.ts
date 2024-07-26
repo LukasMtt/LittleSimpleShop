@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core'
     standalone: true
 })
 export class PaginationComponent {
-    @Output() clickArrowOutput = new EventEmitter()
+    @Output() clickArrowOutput = new EventEmitter<boolean>()
 
     clickArrow(isForward: boolean) {
         this.clickArrowOutput.emit(isForward)

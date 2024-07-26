@@ -42,6 +42,16 @@
     }
 }
 
-.hidable-slide:not(#slide-0) {
-display: none;
+.hidden-slide {
+    display: none;
+    opacity: 0.0;
+    animation-name: slide-change;
+    animation-duration: 2s;
+}
+
+.visible-slide {
+    display: grid;
+    opacity: 1.0;
+    animation-name: slide-change;
+    animation-duration: 2s;
 }

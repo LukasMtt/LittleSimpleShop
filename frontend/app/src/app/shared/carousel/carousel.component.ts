@@ -18,7 +18,6 @@ export class CarouselComponent {
             this.currentSlideIndex = (this.currentSlideIndex+1)%this.slideCount
         else 
             this.currentSlideIndex = (this.currentSlideIndex+this.slideCount-1)%this.slideCount
-        console.log(this.currentSlideIndex)
     }
 
     isActive(index: number) {

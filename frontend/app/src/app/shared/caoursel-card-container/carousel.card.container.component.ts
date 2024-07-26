@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core' 
+import { Component, Input } from '@angular/core'
 import { CardComponent } from '../card/card.component';
 
 @Component({
@@ -16,7 +16,9 @@ export class CarouselCardContainerComponent {
         return `assets\\grid_image_${n}.jpg`
     }
 
-    logMe() {
-        console.log(this.isActive)
+    getCssClass() {
+        if (this.isActive)
+            return "visible-slide"
+        return "hidden-slide"
     }
 }
