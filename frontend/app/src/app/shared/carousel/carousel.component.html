@@ -1,7 +1,7 @@
 <div class="carousel-container">
   <h2>CURRENTUM</h2>
-  <app-carousel-card-container [index]=0 [isActive]=isActive(0)></app-carousel-card-container>
-  <app-carousel-card-container [index]=1 [isActive]=isActive(1)></app-carousel-card-container>
-  <app-carousel-card-container [index]=2 [isActive]=isActive(2)></app-carousel-card-container>
+  @for(i of getSlideCountList(); track i) {
+    <app-carousel-card-container [index]=i [isActive]=isActive(i)></app-carousel-card-container>
+  }
 </div>
 <app-pagination (clickArrowOutput)="changeCard($event)"></app-pagination>

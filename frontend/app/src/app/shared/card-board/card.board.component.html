@@ -1,7 +1,5 @@
 <div class="card-container">
-    <app-card imageSrc={{cardImagePath(1)}}></app-card>
-    <app-card imageSrc={{cardImagePath(2)}}></app-card>
-    <app-card imageSrc={{cardImagePath(3)}}></app-card>
-    <app-card imageSrc={{cardImagePath(4)}}></app-card>
-    <app-card imageSrc={{cardImagePath(5)}}></app-card>
+    @for(i of getCardCountList(); track i) {
+        <app-card imageSrc={{cardImagePath(i+1)}}></app-card>
+    }
 </div>

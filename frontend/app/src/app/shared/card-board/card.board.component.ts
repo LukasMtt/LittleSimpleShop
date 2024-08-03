@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { CardComponent } from '../card/card.component'
 
 @Component({
@@ -9,7 +9,13 @@ import { CardComponent } from '../card/card.component'
     imports: [CardComponent]
 })
 export class CardBoardComponent {
+    @Input() cardCount?: number;
+
     cardImagePath(n: number) {
         return `assets\\grid_image_${n}.jpg`
+    }
+
+    getCardCountList() {
+        return [...Array(this.cardCount ?? 0).keys()];
     }
 }
