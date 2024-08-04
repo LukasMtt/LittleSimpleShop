@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core' 
+import { Component, EventEmitter, Output } from '@angular/core' 
 
 @Component({
     selector: 'app-header',
@@ -9,4 +9,10 @@ import { Component, signal } from '@angular/core'
 export class HeaderComponent {
     headerTitle = "Lorem Ipsum"
     headerSubTitle = "Dupsio"
+
+    @Output() clickRegisterButton = new EventEmitter<void>()
+
+    openRegisterModal() {
+        this.clickRegisterButton.emit();
+    }
 }

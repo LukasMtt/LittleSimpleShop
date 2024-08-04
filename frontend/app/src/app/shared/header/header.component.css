@@ -26,3 +26,7 @@ header {
   align-self: center;
   font-size: 5vh;
 }
+
+.lni-enter:hover {
+  cursor: pointer;
+}

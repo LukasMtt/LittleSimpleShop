@@ -1,0 +1,15 @@
+<form class="register-form" (ngSubmit)="logInputs()">
+  <label for="register-email">Your Email: </label>
+  <input type="email" name="register-email" id="register-email" class="register-form-input-text" required [(ngModel)]="email"/>
+
+  <label for="register-password">Your Password: </label>
+  <input type="password" name="register-password" id="register-password" class="register-form-input-text" required [(ngModel)]="password"/>
+
+  <label for="confirm-register-password">Confirm Your Password: </label>
+  <input type="password" name="confirm-register-password" id="confirm-register-password" class="register-form-input-text" required [(ngModel)]="passwordConfirmed"/>
+
+  <div>
+    <input type="submit" value="Register" />
+    <input type="button" value="Close" (click)="closeRegisterModal()" />
+  </div>
+</form>

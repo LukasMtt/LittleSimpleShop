@@ -1,5 +1,8 @@
-<app-header></app-header>
-<main>
+<app-header (clickRegisterButton)="setShowRegisterModal()" class="{{getHideClassForModalState()}}"></app-header>
+@if(showRegisterModal) {
+  <app-register-modal (closeModalButton)="setCloseRegisterModal()"></app-register-modal>
+}
+<main class="{{getHideClassForModalState()}}">
   <app-card-board [cardCount]=5></app-card-board>
   <app-carousel [slideCount]=3></app-carousel>
   <app-footer></app-footer>
