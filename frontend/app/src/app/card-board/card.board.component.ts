@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core'
-import { CardComponent } from '../card/card.component'
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
     selector: 'app-card-board',
     templateUrl: './card.board.component.html',
     styleUrl: './card.board.component.css',
     standalone: true,
-    imports: [CardComponent]
+    imports: [MatCardModule, MatButtonModule]
 })
 export class CardBoardComponent {
     @Input() cardCount?: number;

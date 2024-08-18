@@ -1,0 +1,19 @@
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 90vh;
+    position: fixed;
+    background: var(--secondary-background-color);
+    opacity: 0.95;
+  }
+  
+  .sidebar-item {
+    margin-left: 2.5vw;
+    height: 5vh;
+  }
+  
+  .sidebar-big-spacer {
+    margin-left: 2.5vw;
+    height: 70vh;
+  }

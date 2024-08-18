@@ -3,7 +3,7 @@ footer {
   grid-template-rows: 1fr;
   justify-items: center;
   align-items: center;
-  margin-top: 35px;
+  margin-top: 4vh;
   height: 5vh;
   font-size: 2vh;
   background: var(--secondary-background-color);

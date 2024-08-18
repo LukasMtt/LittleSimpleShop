@@ -1,0 +1,16 @@
+<header> 
+  <mat-toolbar class="header-toolbar">
+    <button mat-icon-button (click)="onMenuButtonClick()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span></span>
+    <span>AZ</span>
+    <span></span>
+    <button mat-icon-button>
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+  </mat-toolbar> 
+  @if(showSideMenu) {
+    <app-header-sidebar/>
+  }
+</header>
