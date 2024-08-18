@@ -19,3 +19,17 @@ header {
   width: 15vw;
   opacity: 0.7;
 }
+
+.counter-badge {
+  display: inline-block;
+  width: 70%;
+  height: 70%;
+  position: relative;
+  bottom: 70%;
+  right: 30%;
+  z-index: -1;
+  font-size: 1.3vh;
+  font-weight: 800;
+  background-color: white;
+  border-radius: 100%;
+}
