@@ -1,11 +1,11 @@
-<div class="sidebar-menu">
-    <div class="sidebar-item">{{ resourceService.get("MENU_SIDEBAR_SHOP") }}</div>
-    <div class="sidebar-item">{{ resourceService.get("MENU_SIDEBAR_HELP") }}</div>
-    <div class="sidebar-item">{{ resourceService.get("MENU_SIDEBAR_ACCOUNT") }}</div>
-    <div class="sidebar-big-spacer"></div>
-    <div class="sidebar-item">
-        <span>{{ resourceService.get("MENU_SIDEBAR_ABOUT") }}</span>
+<app-sidebar [sidebarPosition]="sidebarPosition">
+    <app-sidebar-item>{{ this.res("MENU_SIDEBAR_SHOP") }}</app-sidebar-item>
+    <app-sidebar-item>{{ this.res("MENU_SIDEBAR_HELP") }}</app-sidebar-item>
+    <app-sidebar-item>{{ this.res("MENU_SIDEBAR_ACCOUNT") }}</app-sidebar-item>
+    <app-sidebar-spacer/>
+    <app-sidebar-item>
+        <span>{{ this.res("MENU_SIDEBAR_ABOUT") }}</span>
         &nbsp;
-        <span>{{ resourceService.get("MENU_SIDEBAR_IMPRESSUM") }}</span>
-    </div>
-</div>
+        <span>{{ this.res("MENU_SIDEBAR_IMPRESSUM") }}</span>
+    </app-sidebar-item>
+</app-sidebar>
