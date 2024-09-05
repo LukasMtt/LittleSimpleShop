@@ -52,7 +52,6 @@ public class AddImageTable : Migration
 
         Create.ForeignKey().FromTable("Image").ForeignColumn("CategoryId").ToTable("Category").PrimaryColumn("Id");
         Create.ForeignKey().FromTable("Image").ForeignColumn("ProductId").ToTable("Product").PrimaryColumn("Id");
-
     }
 
     public override void Down()
