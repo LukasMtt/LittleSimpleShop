@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shop.Data.DataModels;
 
-[Table("Photo")]
-public class PhotoEntity : BaseDataModel {
+[Table("Image")]
+public class ImageEntity : BaseEntity {
     public byte[] Bytes { get; set; }
     public string Description { get; set; }
     public string FileExtension { get; set; }

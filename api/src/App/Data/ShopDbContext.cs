@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Shop.Data.DataModels;
-using Shop.Misc;
 using Shop.Misc.Interfaces;
 
 namespace Shop.Data;

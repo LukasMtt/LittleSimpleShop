@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shop.Data.DataModels;
 
-public class BaseDataModel {
+public class BaseEntity {
     [Key]
     public long Id { get; set; }
 }

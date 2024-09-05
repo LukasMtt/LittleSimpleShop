@@ -12,7 +12,6 @@ public class ProductController : ShopBaseController
     private IMapper _mapper;
     private ShopDbContext _context;
 
-
     public ProductController(IMapper mapper, ShopDbContext context) : base() {
         _mapper = mapper;
         _context = context;
