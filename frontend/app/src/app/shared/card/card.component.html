@@ -1,6 +1,6 @@
-<a routerLink="/products/cups" routerLinkActive="active">
+<a [routerLink]=routerLink routerLinkActive="active">
     <img src={{cardImagePath(1)}} class="card-img" alt="product picture">
 </a>
 <div>
-    <p class="sub-text-card">CUPS</p>
+    <p class="sub-text-card">{{model.name}}</p>
 </div>

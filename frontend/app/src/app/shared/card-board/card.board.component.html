@@ -1,3 +1,3 @@
-@for(i of getCardCountList(); track i) {
-    <app-card [routerLink]="routerLink"></app-card>
+@for(data of dataStore; track data.id) {
+    <app-card [routerLink]=getFullRoute(data.id) [model]=data></app-card>
 }

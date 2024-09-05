@@ -1,1 +1,5 @@
-<app-card-board [cardCount]=5 [columnCount]=3 routerLink="//products//cups"></app-card-board>
+<app-card-board [cardCount]=5 
+                [columnCount]=3 
+                routerLink="//{{routeType}}" 
+                [dataStore]=productService.getCategories()>
+</app-card-board>
