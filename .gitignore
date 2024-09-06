@@ -47,3 +47,4 @@ frontend/app/typings
 # System files
 .DS_Store
 Thumbs.db
+sql/setup_test_scripts

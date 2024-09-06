@@ -8,4 +8,6 @@ public class ImageEntity : BaseEntity {
     public string Description { get; set; }
     public string FileExtension { get; set; }
     public decimal Size { get; set; }
+    public long CategoryId { get; set; }
+    public long ProductId { get; set; }
 }

@@ -6,6 +6,7 @@ namespace Shop.Data.DataModels;
 public class ProductEntity : BaseEntity {
     public string Name { get; set; }
     public string Description { get; set; }
-    public ImageEntity Image { get; set; }
+    public ICollection<ImageEntity> Image { get; set; } = new List<ImageEntity>();
+    public long CategoryId { get; set; }
     public CategoryEntity Category { get; set; }
 }
