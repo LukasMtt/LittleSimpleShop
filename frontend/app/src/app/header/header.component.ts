@@ -18,8 +18,8 @@ export class HeaderComponent extends BaseComponent {
     showSideMenu: boolean = false;
     showCartMenu: boolean = false;
 
-    constructor(resourceService: ResourceService) {
-        super(resourceService)
+    constructor() {
+        super();
     }
     
     onMenuButtonClick() {

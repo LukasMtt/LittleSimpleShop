@@ -1,16 +1,30 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class ResourceService {
-    private resourceObservable: Observable<Object>
 
-    constructor(httpClient: HttpClient) {
-        this.resourceObservable = httpClient.get('assets\\resources.de.json', {responseType: 'json'});
+    private resources: any;
+
+    constructor(private httpClient: HttpClient) {
     }
 
-    getResourceObservable() {
-        return this.resourceObservable;
+  loadResources() {
+    return this.httpClient.get('/assets/resources.de.json')
+      .toPromise()
+      .then(data => {
+        this.resources = data;
+      });
+  }
+
+  get(name: string) {
+    if (!this.resources) {
+      throw Error('Resource file not loaded yet!');
     }
+    var value = this.resources[name];
+    if (!value) {
+      return null;
+    }
+    return value;
+  }
 }

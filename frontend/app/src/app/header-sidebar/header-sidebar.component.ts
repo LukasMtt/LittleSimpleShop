@@ -16,7 +16,7 @@ import { SidebarPosition } from '../enums/sidebar-position.enum';
 export class HeaderSidebarComponent extends BaseComponent {
   readonly sidebarPosition: SidebarPosition = SidebarPosition.Left
   
-  constructor(resourceService: ResourceService) {
-    super(resourceService)
+  constructor() {
+    super();
   }
 }
