@@ -4,8 +4,8 @@ using Shop.Data.DataModels;
 
 public class MappingProfile : Profile {
      public MappingProfile() {
-         CreateMap<ProductEntity, ProductModel>().ReverseMap();
-         CreateMap<CategoryEntity, CategoryModel>().ReverseMap();
-         CreateMap<ImageEntity, ImageModel>().ReverseMap();
+         CreateMap<Product, ProductModel>().ReverseMap();
+         CreateMap<Category, CategoryModel>().ReverseMap();
+         CreateMap<Image, ImageModel>().ReverseMap();
      }
  }
