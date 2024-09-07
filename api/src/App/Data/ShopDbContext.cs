@@ -5,9 +5,9 @@ using Shop.Misc.Interfaces;
 namespace Shop.Data;
 
 public class ShopDbContext : DbContext {
-    public DbSet<ProductEntity> Product { get; set; }
-    public DbSet<CategoryEntity> Category { get; set; }
-    public DbSet<ImageEntity> Image { get; set; }
+    public DbSet<Product> Product { get; set; }
+    public DbSet<Category> Category { get; set; }
+    public DbSet<Image> Image { get; set; }
 
     private IAppSettingsConfigurationService _appSettingsConfigurationService;
 
