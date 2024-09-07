@@ -5,6 +5,7 @@ using Shop.Data;
 using Shop.Data.Migrations;
 using Shop.Misc;
 using Shop.Misc.Interfaces;
+using System.Text.Json.Serialization;
 
 class Program
 {
@@ -27,6 +28,7 @@ class Program
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
+            app.UseCors("CorsPolicy");
 
             app.Run();
         }
@@ -42,7 +44,10 @@ class Program
 
     private static void RegisterServices(IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddCors(options => { options.AddPolicy(name: "CorsPolicy",
+            builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+        );});
+        services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddSingleton(ConfigureMappings());
