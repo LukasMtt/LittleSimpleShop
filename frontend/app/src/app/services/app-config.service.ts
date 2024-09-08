@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,9 @@ export class AppConfigService {
 
   constructor(private httpClient: HttpClient) { }
 
-  loadAppConfig() {
-    return this.httpClient.get('/assets/app.config.json')
-      .toPromise()
-      .then(data => {
-        this.appConfig = data;
-      });
+  async loadAppConfig() {
+    var getConfig$ = this.httpClient.get('/assets/app.config.json');
+    this.appConfig = await lastValueFrom(getConfig$);
   }
 
   getConfigProperty(name: string) {

@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { lastValueFrom } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class ResourceService {
@@ -9,12 +10,9 @@ export class ResourceService {
     constructor(private httpClient: HttpClient) {
     }
 
-  loadResources() {
-    return this.httpClient.get('/assets/resources.de.json')
-      .toPromise()
-      .then(data => {
-        this.resources = data;
-      });
+  async loadResources() {
+    var getResources$ = this.httpClient.get('/assets/resources.de.json');
+    this.resources = await lastValueFrom(getResources$);
   }
 
   get(name: string) {

@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
 import { ProductCategory } from '../models/product-category.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AppConfigService } from './app-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private endpointUrl: string = ""
 
-  constructor() { }
+  constructor(private httpClient: HttpClient, appConfigService: AppConfigService) {
+    this.endpointUrl = appConfigService.getConfigProperty("apiBaseEndpointUrl") + "shop/Product/"
+   }
 
-  getCategories(): ProductCategory[] {
-    return [
-      { id: 1, name: "Cups", overviewImage: "img1"},
-      { id: 2, name: "Plates", overviewImage: "img2"}
-    ]
+  getAllCategories(): Observable<ProductCategory[]> {
+    return this.httpClient.get<ProductCategory[]>(this.endpointUrl + "GetAllCategories")
   }
 
-  getProducts(productCategoryId: number): Product[] {
-    return [
-      { id: 1, name: "Nice Cup", description: "This is a nice cup", overviewImage: "", category: { id: 1, name: "Cups", overviewImage: "img1"}},
-      { id: 2, name: "Super Cup", description: "This is a nice cup", overviewImage: "", category: { id: 1, name: "Cups", overviewImage: "img1"}},
-      { id: 3, name: "Great Cup", description: "This is a nice cup", overviewImage: "", category: { id: 1, name: "Cups", overviewImage: "img1"}},
-      { id: 4, name: "Nice Plate", description: "This is a nice plate", overviewImage: "", category: { id: 2, name: "Plates", overviewImage: "img2"}},
-      { id: 5, name: "Great Plate", description: "This is a nice plate", overviewImage: "", category: { id: 2, name: "Plates", overviewImage: "img2"}},
-    ].filter((x) => x.category.id === productCategoryId)
+  getAllProducts(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(this.endpointUrl + "GetAllProducts")
+  }
+
+  getAllProductsById(productCategoryId: number): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(this.endpointUrl + "GetAllProductsByCategoryId?categoryId=" + productCategoryId)
   }
 }

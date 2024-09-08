@@ -3,6 +3,7 @@ import { CardBoardComponent } from "../shared/card-board/card.board.component";
 import { MatPaginator, PageEvent} from '@angular/material/paginator';
 import { ProductService } from '../services/product.service';
 import { RouteEndpointType } from '../app.routes';
+import { Product } from '../models/product.model';
 
 @Component({
   selector: 'app-product-board',
@@ -15,12 +16,17 @@ export class ProductBoardComponent implements OnInit{
   @Input({required: true}) categoryId!: string
   categoryIdNum!: number
   routeType  = RouteEndpointType.ShowProduct.toString()  
+  productList: Product[] = []
 
-  constructor(public productService: ProductService) {
+  constructor(private productService: ProductService) {
   }
 
   ngOnInit() {
     this.categoryIdNum = Number(this.categoryId)
+    this.productService.getAllProductsById(this.categoryIdNum).subscribe((data) => 
+      { 
+       this.productList = data;
+      });
   }
 
   onChangePage(event: PageEvent) {
