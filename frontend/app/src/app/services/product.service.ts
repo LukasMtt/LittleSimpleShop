@@ -4,26 +4,25 @@ import { ProductCategory } from '../models/product-category.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AppConfigService } from './app-config.service';
+import { EndpointItem, EndpointResolveService } from './endpoint-resolve.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private endpointUrl: string = ""
-
-  constructor(private httpClient: HttpClient, appConfigService: AppConfigService) {
-    this.endpointUrl = appConfigService.getConfigProperty("apiBaseEndpointUrl") + "shop/Product/"
-   }
+  
+  constructor(private httpClient: HttpClient, private endpointResolveService: EndpointResolveService, appConfigService: AppConfigService) {
+  }
 
   getAllCategories(): Observable<ProductCategory[]> {
-    return this.httpClient.get<ProductCategory[]>(this.endpointUrl + "GetAllCategories")
+    return this.httpClient.get<ProductCategory[]>(this.endpointResolveService.buildUrl(EndpointItem.GetAllCategories, []));
   }
 
   getAllProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(this.endpointUrl + "GetAllProducts")
+    return this.httpClient.get<Product[]>(this.endpointResolveService.buildUrl(EndpointItem.GetAllProducts, []));
   }
 
   getAllProductsById(productCategoryId: number): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(this.endpointUrl + "GetAllProductsByCategoryId?categoryId=" + productCategoryId)
+    return this.httpClient.get<Product[]>(this.endpointResolveService.buildUrl(EndpointItem.GetAllProductsByCategoryId, [{key: "categoryId", value: `${productCategoryId}`}]));
   }
 }
