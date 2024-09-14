@@ -13,7 +13,7 @@ export class CardComponent {
   @Input() routerLink: string = ''
   @Input({required: true}) model!: CardViewable
   
-  cardImagePath(n: number) {
-    return `assets\\grid_image_${n}.jpg`
+  createImage() {
+    return 'data:image/webp;base64,' + this.model.image[0].bytes;
   }
 }
