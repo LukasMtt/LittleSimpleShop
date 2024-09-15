@@ -21,32 +21,48 @@ public class ProductController : ShopBaseController
     [HttpGet]
     public List<CategoryModel> GetAllCategories()
     {
-        var categoryModelList = _context.Category
-                                    .Include(x => x.ProductList)
-                                    .Include(x => x.Image)
-                                    .Select(x => _mapper.Map<CategoryModel>(x))
-                                    .ToList();
-        return categoryModelList;
+        return _context.Category
+            .Include(x => x.ProductList)
+            .Include(x => x.Image)
+            .Select(x => _mapper.Map<CategoryModel>(x))
+            .ToList()
+            .OrderBy(x => x.Id)
+            .ToList();
     }
 
     [HttpGet]
     public List<ProductModel> GetAllProducts()
     {
-        var productModelList = _context.Product
-                                    .Include(x => x.Image)
-                                    .Select(x => _mapper.Map<ProductModel>(x))
-                                    .ToList();
-        return productModelList;
+        return _context.Product
+            .Include(x => x.Image)
+            .Select(x => _mapper.Map<ProductModel>(x))
+            .ToList()
+            .OrderBy(x => x.Id)
+            .ToList();
     }
 
     [HttpGet]
-    public List<ProductModel> GetAllProductsByCategoryId(long categoryId)
+    public List<ProductModel> GetAllProductsByCategoryId(long categoryId, int pageOffset, int pageSize)
     {
-        var productModelList = _context.Product
-                                    .Where(x => x.Category.Id == categoryId)
-                                    .Include(x => x.Image)
-                                    .Select(x => _mapper.Map<ProductModel>(x))
-                                    .ToList();
-        return productModelList;
+        return _context.Product
+            .Where(x => x.Category.Id == categoryId)
+            .OrderBy(x => x.Id)
+            .Skip(pageOffset*pageSize)
+            .Take(pageSize)
+            .Include(x => x.Image)
+            .Select(x => _mapper.Map<ProductModel>(x))
+            .ToList();
+    }
+
+    [HttpGet]
+    public int GetProductsByCategoryIdCount(long categoryId)
+    {
+        return _context.Product
+            .Where(x => x.Category.Id == categoryId)
+            .Include(x => x.Image)
+            .Select(x => _mapper.Map<ProductModel>(x))
+            .ToList()
+            .OrderBy(x => x.Id)
+            .Count();
     }
 }

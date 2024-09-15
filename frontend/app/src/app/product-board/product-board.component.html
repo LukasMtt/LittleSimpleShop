@@ -6,9 +6,9 @@
 
 <mat-paginator class="product-paginator" 
                 #paginator 
-                [length]=100 
-                [pageSize]=10 
-                [pageIndex]=3 
+                [length]=getTotalDataLength()
+                [pageSize]=8
+                [pageIndex]=0
                 [hidePageSize]=true 
-                (page)="onChangePage($event)">
+                (page)="onPageChange($event)">
 </mat-paginator> 
