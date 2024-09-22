@@ -4,22 +4,19 @@ import { Product } from '../models/product.model';
 import { ProductService } from '../services/product.service';
 import { debounceTime, fromEvent } from 'rxjs';
 import { NgModule, HostListener } from '@angular/core';
+import { CarouselComponent } from "../carousel/carousel.component";
 
 @Component({
   selector: 'app-product-show',
   standalone: true,
-  imports: [],
+  imports: [CarouselComponent],
   templateUrl: './product-show.component.html',
   styleUrl: './product-show.component.css'
 })
-export class ProductShowComponent implements OnInit, AfterViewInit {
+export class ProductShowComponent implements OnInit {
   @Input({ required: true }) productId!: number;
   
   product: Product | undefined;
-
-  @ViewChild('previewProductColumn') previewProductColumn?: ElementRef;
-  @ViewChild('mainImage') mainImage?: ElementRef;
-  @ViewChild('buttonGroupMainImage') buttonGroupMainImage?: ElementRef;
 
   constructor(private productService: ProductService, private renderer: Renderer2) {
   }
@@ -31,26 +28,14 @@ export class ProductShowComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => this.resizeButtonGroup(), 200);
-    fromEvent(window, 'resize').pipe(debounceTime(50)).subscribe(() => {
-      this.resizeButtonGroup();
-    });
-  }
-
-  resizeButtonGroup() {
-    var heightPreviewProductColumn = this.previewProductColumn?.nativeElement.offsetHeight ?? 0;
-    var heightMainImage = this.mainImage?.nativeElement.offsetHeight ?? 0;
-    var diffHeight = heightPreviewProductColumn - heightMainImage - 10;
-
-    if (this.buttonGroupMainImage?.nativeElement)
-      this.renderer.setStyle(this.buttonGroupMainImage.nativeElement, 'height', `${diffHeight}px`);
-  }
-
   createImage() {
     if (this.product) {
       return 'data:image/webp;base64,' + this.product?.image[0].bytes;
     }
     return '';
+  }
+
+  getFirstImage() {
+    return this.product?.image[0] ? [this.product!.image[0]] : undefined
   }
 }

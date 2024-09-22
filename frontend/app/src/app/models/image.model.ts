@@ -3,5 +3,4 @@ export interface Image {
     description: string
     fileExtension: 'webp' | 'png' | 'jpg' | 'jpeg'
     size: number
-    rubbish: number
 }
