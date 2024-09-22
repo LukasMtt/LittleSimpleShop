@@ -10,7 +10,8 @@ export enum EndpointItem {
     GetAllCategories = "getAllCategories",
     GetAllProducts = "getAllProducts",
     GetAllProductsByCategoryId = "getAllProductsByCategoryId",
-    GetProductsByCategoryIdCount = "getProductsByCategoryIdCount"
+    GetProductsByCategoryIdCount = "getProductsByCategoryIdCount",
+    GetProductById = "getProductById"
 }
 
 @Injectable({
@@ -27,9 +28,10 @@ export class EndpointResolveService {
     getAllProducts: EndpointNode = { parent: this.product, item: EndpointItem.GetAllProducts }
     getAllProductsByCategoryId: EndpointNode = { parent: this.product, item: EndpointItem.GetAllProductsByCategoryId }
     getProductsByCategoryIdCount: EndpointNode = { parent: this.product, item: EndpointItem.GetProductsByCategoryIdCount }
+    getProductById: EndpointNode = { parent: this.product, item: EndpointItem.GetProductById }
 
     leafList: EndpointNode[] = [
-        this.getAllCategories, this.getAllProducts, this.getAllProductsByCategoryId, this.getProductsByCategoryIdCount
+        this.getAllCategories, this.getAllProducts, this.getAllProductsByCategoryId, this.getProductsByCategoryIdCount, this.getProductById
     ]
 
     apiBaseEndpointUrl = ""

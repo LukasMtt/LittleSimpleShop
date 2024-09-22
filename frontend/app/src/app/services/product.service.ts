@@ -27,6 +27,10 @@ export class ProductService {
     return this.httpClient.get<Product[]>(this.endpointResolveService.buildUrl(EndpointItem.GetAllProductsByCategoryId, [{key: "categoryId", value: `${productCategoryId}`}].concat(paginationState.convertToKeyValueList())));
   }
 
+  getProductById(productId: number): Observable<Product> {
+    return this.httpClient.get<Product>(this.endpointResolveService.buildUrl(EndpointItem.GetProductById, [{key: "productId", value: `${productId}`}]));
+  }
+
   getProductsByIdCount(productCategoryId: number): Observable<number> {
     return this.httpClient.get<number>(this.endpointResolveService.buildUrl(EndpointItem.GetProductsByCategoryIdCount, [{key: "categoryId", value: `${productCategoryId}`}]));
   }

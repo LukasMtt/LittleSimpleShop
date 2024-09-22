@@ -1,1 +1,27 @@
-<p>product-show works!</p>
+<div class="flex-col-small" #previewProductColumn>
+    <div>
+        <img [src]=createImage() class="product-show-miniature-image" alt="miniature image"/>
+    </div>
+    <div>
+        <img [src]=createImage() class="product-show-miniature-image" alt="miniature image"/>
+    </div>
+    <div>
+        <img [src]=createImage() class="product-show-miniature-image" alt="miniature image"/>
+    </div>
+    <div>
+        <img [src]=createImage() class="product-show-miniature-image" alt="miniature image"/>
+    </div>
+    <div>
+        <img [src]=createImage() class="product-show-miniature-image" alt="miniature image"/>
+    </div>
+</div>
+<div class="flex-col-big">
+    <img [src]=createImage() #mainImage class="product-show-main-image" alt="big main image "/>
+    <div class="button-group" #buttonGroupMainImage>
+        <button class="shop-button">Add to Cart</button>
+        <button class="shop-button">Share</button>
+    </div>
+</div>
+<div class="flex-col-big">
+    {{ product?.description }}
+</div>

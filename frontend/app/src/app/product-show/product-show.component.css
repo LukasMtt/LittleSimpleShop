@@ -1,0 +1,55 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    height: 65vh;
+    margin-top: 4vh;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 2.5%;
+}
+
+/* flex column modifications */
+
+.flex-col-small {
+    height: fit-content;
+}
+
+.flex-col-big {
+    height: fit-content;
+}
+
+/* images and containers */
+
+.flex-col-small div {
+    height: fit-content;
+    width: 100%;
+}
+
+.product-show-miniature-image {
+    display: block;
+    width: 100%;
+    height: fit-content;
+}
+
+.product-show-main-image {
+    display: block;
+    height: fit-content;
+    width: 100%;
+}
+
+/* button and button group */
+
+.button-group {
+    margin-top: 10px;
+    display: flex;
+    gap: 7px;
+}
+
+.shop-button {
+    height: 100%;
+    margin-right: 5px;
+    border-radius: 10%;
+    border: none;
+    background-color: var(--secondary-background-color);
+}

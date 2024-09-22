@@ -1,3 +1,5 @@
+/* general and base */
+
 :root {
   --primary-background-color: #ffffff;
   --secondary-background-color: #dbdbdb;
@@ -7,14 +9,39 @@
   box-sizing: border-box;
   }
 
+html { 
+  height: 100%; 
+}
+
 body {
+  height: 100%;
   margin: 0;
   font-size: 2.5vh;
   font-family: "Helvetica", "Arial";
 }
 
-.blurry-background-on-open-register-modal {
-  opacity: 0.33;
+/* multi purpose flex columns */
+
+.flex-col-big {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.flex-col-medium {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+.flex-col-small {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+}
+
+.flex-col-tiny {
+  display: flex;
+  flex-direction: column;
+  width: 5%;
+}

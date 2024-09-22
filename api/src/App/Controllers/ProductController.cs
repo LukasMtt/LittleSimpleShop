@@ -55,6 +55,16 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
+    public ProductModel GetProductById(long productId)
+    {
+        return _context.Product
+            .Where(x => x.Id == productId)
+            .Include(x => x.Image)
+            .Select(x => _mapper.Map<ProductModel>(x))
+            .FirstOrDefault();
+    }
+
+    [HttpGet]
     public int GetProductsByCategoryIdCount(long categoryId)
     {
         return _context.Product
