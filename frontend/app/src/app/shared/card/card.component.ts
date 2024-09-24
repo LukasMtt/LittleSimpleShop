@@ -14,6 +14,6 @@ export class CardComponent {
   @Input({required: true}) model!: CardViewable
   
   createImage() {
-    return 'data:image/webp;base64,' + this.model.image[0].bytes;
+    return 'data:image/webp;base64,' + this.model.images[0].bytes;
   }
 }

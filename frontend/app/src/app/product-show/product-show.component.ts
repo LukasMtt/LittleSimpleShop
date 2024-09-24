@@ -1,9 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { Product } from '../models/product.model';
 import { ProductService } from '../services/product.service';
-import { debounceTime, fromEvent } from 'rxjs';
-import { NgModule, HostListener } from '@angular/core';
 import { CarouselComponent } from "../carousel/carousel.component";
 
 @Component({
@@ -18,7 +15,7 @@ export class ProductShowComponent implements OnInit {
   
   product: Product | undefined;
 
-  constructor(private productService: ProductService, private renderer: Renderer2) {
+  constructor(private productService: ProductService) {
   }
 
   ngOnInit(): void {
@@ -30,12 +27,12 @@ export class ProductShowComponent implements OnInit {
 
   createImage() {
     if (this.product) {
-      return 'data:image/webp;base64,' + this.product?.image[0].bytes;
+      return 'data:image/webp;base64,' + this.product?.images[0].bytes;
     }
     return '';
   }
 
-  getFirstImage() {
-    return this.product?.image[0] ? [this.product!.image[0]] : undefined
+  getImages() {
+    return this.product?.images ? [this.product!.images[0], this.product!.images[0], this.product!.images[0]] : []
   }
 }

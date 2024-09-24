@@ -23,7 +23,7 @@ public class ProductController : ShopBaseController
     {
         return _context.Category
             .Include(x => x.ProductList)
-            .Include(x => x.Image)
+            .Include(x => x.Images)
             .Select(x => _mapper.Map<CategoryModel>(x))
             .ToList()
             .OrderBy(x => x.Id)
@@ -34,7 +34,7 @@ public class ProductController : ShopBaseController
     public List<ProductModel> GetAllProducts()
     {
         return _context.Product
-            .Include(x => x.Image)
+            .Include(x => x.Images)
             .Select(x => _mapper.Map<ProductModel>(x))
             .ToList()
             .OrderBy(x => x.Id)
@@ -49,7 +49,7 @@ public class ProductController : ShopBaseController
             .OrderBy(x => x.Id)
             .Skip(pageOffset*pageSize)
             .Take(pageSize)
-            .Include(x => x.Image)
+            .Include(x => x.Images)
             .Select(x => _mapper.Map<ProductModel>(x))
             .ToList();
     }
@@ -59,7 +59,7 @@ public class ProductController : ShopBaseController
     {
         return _context.Product
             .Where(x => x.Id == productId)
-            .Include(x => x.Image)
+            .Include(x => x.Images)
             .Select(x => _mapper.Map<ProductModel>(x))
             .FirstOrDefault();
     }
@@ -69,7 +69,7 @@ public class ProductController : ShopBaseController
     {
         return _context.Product
             .Where(x => x.Category.Id == categoryId)
-            .Include(x => x.Image)
+            .Include(x => x.Images)
             .Select(x => _mapper.Map<ProductModel>(x))
             .ToList()
             .OrderBy(x => x.Id)

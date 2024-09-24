@@ -1,0 +1,41 @@
+:host {
+    height: 100%;
+}
+
+.carousel-container {
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-rows: 1fr;
+    justify-items: center;
+}
+
+.selected-image {
+    width: 100%;
+    height: auto;
+    grid-column: 1 / 4;
+    grid-row: 1/ 2;
+}
+
+/* arrows */
+
+.arrow {
+    z-index: 1;
+    height: fit-content;
+    width: fit-content;
+    margin-top: auto;
+    margin-bottom: auto;
+    grid-row: 1/ 2;
+}
+
+.arrow-left {
+    grid-column: 1 / 2;
+}
+
+.arrow-right {
+    grid-column: 3 / 4;
+}
+
+.arrow:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
