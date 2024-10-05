@@ -1,0 +1,4 @@
+.sidebar-item-selectable:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

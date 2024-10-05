@@ -5,13 +5,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderSidebarComponent } from "../header-sidebar/header-sidebar.component";
 import { BaseComponent } from '../shared/base.component';
 import { CartSidebarComponent } from "../cart-sidebar/cart-sidebar.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrl: './header.component.css',
     standalone: true,
-    imports: [MatToolbarModule, MatButtonModule, MatIconModule, HeaderSidebarComponent, CartSidebarComponent]
+    imports: [MatToolbarModule, MatButtonModule, MatIconModule, HeaderSidebarComponent, CartSidebarComponent, RouterLink]
 })
 export class HeaderComponent extends BaseComponent {
     showSideMenu: boolean = false;

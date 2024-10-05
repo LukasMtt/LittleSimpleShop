@@ -1,11 +1,8 @@
 <app-sidebar [sidebarPosition]="sidebarPosition">
-    <app-sidebar-item>{{ this.res("MENU_SIDEBAR_SHOP") }}</app-sidebar-item>
-    <app-sidebar-item>{{ this.res("MENU_SIDEBAR_HELP") }}</app-sidebar-item>
-    <app-sidebar-item>{{ this.res("MENU_SIDEBAR_ACCOUNT") }}</app-sidebar-item>
+    <app-sidebar-item class="sidebar-item-selectable" [routerLink]='"shop"'>{{ this.res("MENU_SIDEBAR_SHOP") }}</app-sidebar-item>
+    <app-sidebar-item class="sidebar-item-selectable" [routerLink]='"help"'>{{ this.res("MENU_SIDEBAR_HELP") }}</app-sidebar-item>
+    <app-sidebar-item class="sidebar-item-selectable" [routerLink]='"account"'>{{ this.res("MENU_SIDEBAR_ACCOUNT") }}</app-sidebar-item>
     <app-sidebar-spacer/>
-    <app-sidebar-item>
-        <span>{{ this.res("MENU_SIDEBAR_ABOUT") }}</span>
-        &nbsp;
-        <span>{{ this.res("MENU_SIDEBAR_IMPRESSUM") }}</span>
-    </app-sidebar-item>
+    <app-sidebar-item class="sidebar-item-selectable" [routerLink]='"about"'> <span>{{ this.res("MENU_SIDEBAR_ABOUT") }}</span> </app-sidebar-item>
+    <app-sidebar-item class="sidebar-item-selectable" [routerLink]='"imprint"'> <span>{{ this.res("MENU_SIDEBAR_IMPRESSUM") }}</span> </app-sidebar-item>
 </app-sidebar>

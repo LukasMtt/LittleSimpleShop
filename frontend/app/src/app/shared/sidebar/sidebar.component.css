@@ -1,11 +1,25 @@
-.sidebar-menu {
-    display: flex;
-    flex-direction: column;
-    width: 40%;
-    height: 90vh;
-    position: fixed;
-    background: var(--secondary-background-color);
-    opacity: 0.95;
+@media (min-width: 1000px) {
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        height: 90vh;
+        position: fixed;
+        background: var(--secondary-background-color);
+        opacity: 0.95;
+    }
+}
+
+@media (max-width: 1000px) {
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        height: 90vh;
+        position: fixed;
+        background: var(--secondary-background-color);
+        opacity: 0.95;
+    }
 }
 
 .sidebar-right {
