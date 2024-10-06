@@ -1,4 +1,4 @@
-import { Component } from '@angular/core' 
+import { Component, ElementRef, HostListener } from '@angular/core' 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,8 +18,17 @@ export class HeaderComponent extends BaseComponent {
     showSideMenu: boolean = false;
     showCartMenu: boolean = false;
 
-    constructor() {
+    constructor(private elementRef: ElementRef) {
         super();
+    }
+
+    @HostListener('document:click', ['$event.target'])
+    public onArbitraryClick(targetElement: any) {
+        const isClickInsideHeaderElement = this.elementRef.nativeElement.contains(targetElement);
+        if (!isClickInsideHeaderElement) {
+	        this.showSideMenu = false;
+            this.showCartMenu = false;
+        }
     }
     
     onMenuButtonClick() {

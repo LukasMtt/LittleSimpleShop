@@ -5,6 +5,10 @@ header {
   z-index: 9999;
 }
 
+.header-banner:hover {
+  cursor: pointer;
+}
+
 .header-toolbar {
   position: sticky;
   top: 0;
