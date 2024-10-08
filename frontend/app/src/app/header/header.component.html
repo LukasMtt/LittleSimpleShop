@@ -11,10 +11,6 @@
       <span class="counter-badge">8</span>
     </button>
   </mat-toolbar> 
-  @if(showSideMenu) {
-    <app-header-sidebar />
-  }
-  @if(showCartMenu) {
-    <app-cart-sidebar/>
-  }
+  <app-header-sidebar [isHidden]="!showSideMenu"/>
+  <app-cart-sidebar [isHidden]="!showCartMenu"/>
 </header>

@@ -1,3 +1,10 @@
+:host {
+    position: fixed;
+    width: 30%;
+    height: 100%;
+    transition: left 1s;
+}
+
 .sidebar-item-selectable:hover {
     text-decoration: underline;
     cursor: pointer;
