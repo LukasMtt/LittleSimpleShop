@@ -5,7 +5,7 @@ import { ProductService } from '../services/product.service';
 import { RouteEndpointType } from '../app.routes';
 import { Product } from '../models/product.model';
 import { Paginable } from '../shared/paginable';
-import { PaginationState } from '../models/pagination-state.model';
+import { PaginationState } from '../models/pagination.state.model';
 
 @Component({
   selector: 'app-product-board',

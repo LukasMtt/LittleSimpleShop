@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
-import { ProductCategory } from '../models/product-category.model';
+import { ProductCategory } from '../models/product.category.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AppConfigService } from './app-config.service';
-import { EndpointItem, EndpointResolveService } from './endpoint-resolve.service';
-import { PaginationState } from '../models/pagination-state.model';
+import { AppConfigService } from './app.config.service';
+import { EndpointItem, EndpointResolveService } from './endpoint.resolve.service';
+import { PaginationState } from '../models/pagination.state.model';
 
 @Injectable({
   providedIn: 'root'

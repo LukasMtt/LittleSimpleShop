@@ -3,7 +3,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CardComponent } from "../card/card.component";
-import { CardViewable } from '../../models/card-viewable.model';
+import { CardViewable } from '../../models/card.viewable.model';
 
 @Component({
     selector: 'app-card-board',

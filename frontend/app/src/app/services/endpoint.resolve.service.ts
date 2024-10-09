@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core"
 import { EndpointNode } from "../enums/endpoint-item.enum"
-import { AppConfigService } from "./app-config.service"
+import { AppConfigService } from "./app.config.service"
 import { KeyValue } from "@angular/common"
 
 export enum EndpointItem {

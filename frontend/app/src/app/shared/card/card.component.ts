@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { CardViewable } from '../../models/card-viewable.model';
+import { CardViewable } from '../../models/card.viewable.model';
 
 @Component({
   selector: 'app-card',

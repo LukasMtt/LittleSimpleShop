@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { CardBoardComponent } from "../shared/card-board/card.board.component";
 import { ProductService } from '../services/product.service';
 import { RouteEndpointType } from '../app.routes';
-import { Product } from '../models/product.model';
-import { ProductCategory } from '../models/product-category.model';
+import { ProductCategory } from '../models/product.category.model';
 
 @Component({
   selector: 'app-category-board',

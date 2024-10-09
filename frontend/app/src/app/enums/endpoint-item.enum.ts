@@ -1,4 +1,4 @@
-import { EndpointItem } from "../services/endpoint-resolve.service";
+import { EndpointItem } from "../services/endpoint.resolve.service";
 
 export interface EndpointNode {
     parent: EndpointNode | null;
