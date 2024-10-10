@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Product } from '../models/product.model';
 import { ProductService } from '../services/product.service';
 import { CarouselComponent } from "../carousel/carousel.component";
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-show',
@@ -15,7 +16,7 @@ export class ProductShowComponent implements OnInit {
   
   product: Product | undefined;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private cartService: CartService) {
   }
 
   ngOnInit(): void {
@@ -23,6 +24,16 @@ export class ProductShowComponent implements OnInit {
       { 
        this.product = data;
       });
+  }
+
+  addProductToCart() {
+    if (this.product)
+      this.cartService.pushCartItem( {
+        product: this.product,
+        count: 1
+      });
+    else
+      console.log("Adding product to cart failed. No product accessible.");
   }
 
   createImage() {

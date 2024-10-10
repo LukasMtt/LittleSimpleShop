@@ -20,28 +20,6 @@ body {
   font-family: "Helvetica", "Arial";
 }
 
-/* multi purpose flex columns */
-
-.flex-col-big {
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-}
-
-.flex-col-medium {
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-}
-
-.flex-col-small {
-  display: flex;
-  flex-direction: column;
-  width: 10%;
-}
-
-.flex-col-tiny {
-  display: flex;
-  flex-direction: column;
-  width: 5%;
+button:hover {
+  cursor: pointer;
 }
