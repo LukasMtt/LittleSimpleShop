@@ -22,7 +22,13 @@ export class CartService {
   }
 
   pushCartItem(item: CartItem) {
-    this.cart.items.push(item);
+    var existingItem = this.cart.items.find((x) => x.product.id === item.product.id);
+    if (existingItem) {
+      existingItem.count = existingItem.count + 1;
+    }
+    else {
+      this.cart.items.push(item);
+    }
     this.observableCart$.next(this.cart);
   }
 

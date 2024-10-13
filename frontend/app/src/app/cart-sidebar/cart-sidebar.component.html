@@ -1,5 +1,7 @@
 <app-sidebar>
     @for (cartItem of cart?.items; track cartItem.product.id) {
-        <app-sidebar-item>JUNK</app-sidebar-item>
+        <app-sidebar-item class="cart-sidebar-item">
+            <app-cart-item [cartItem]="cartItem"></app-cart-item>
+        </app-sidebar-item>
     }
 </app-sidebar>

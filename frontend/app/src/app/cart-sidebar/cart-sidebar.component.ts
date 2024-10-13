@@ -6,11 +6,12 @@ import { SidebarSpacerComponent } from "../shared/sidebar-spacer/sidebar-spacer.
 import { CartService } from '../services/cart.service';
 import { Cart } from '../models/cart.model';
 import { Subscription } from 'rxjs';
+import { CartItemComponent } from "../cart-item/cart-item.component";
 
 @Component({
   selector: 'app-cart-sidebar',
   standalone: true,
-  imports: [SidebarComponent, SidebarItemComponent, SidebarSpacerComponent],
+  imports: [SidebarComponent, SidebarItemComponent, SidebarSpacerComponent, CartItemComponent],
   templateUrl: './cart-sidebar.component.html',
   styleUrl: './cart-sidebar.component.css'
 })

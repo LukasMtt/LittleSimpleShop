@@ -1,0 +1,33 @@
+:host {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+}
+
+/* preview image  */
+
+.product-preview {
+    width: 20%;
+    height: fit-content;
+}
+
+.product-preview-image {
+    width: 100%;
+    height: auto;
+}
+
+/* count */
+
+.product-count {
+    width: 30%;
+    font-size: 12px;
+}
+
+/* title */
+
+.product-title {
+    width: 20%;
+    overflow: hidden;
+    font-size: 15px;
+}
