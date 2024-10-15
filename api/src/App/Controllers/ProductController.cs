@@ -75,4 +75,17 @@ public class ProductController : ShopBaseController
             .OrderBy(x => x.Id)
             .Count();
     }
+
+    
+    [HttpPost]
+    public List<ProductModel> GetProductsByIds([FromBody] List<long> productIdList)
+    {
+        return _context.Product
+            .Where(x => productIdList.Contains(x.Id))
+            .Include(x => x.Images)
+            .Select(x => _mapper.Map<ProductModel>(x))
+            .ToList()
+            .OrderBy(x => x.Id)
+            .ToList();
+    }
 }

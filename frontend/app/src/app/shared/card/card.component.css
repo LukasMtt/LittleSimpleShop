@@ -1,10 +1,17 @@
 :host {
     aspect-ratio: 1;
+    border: solid;
+    border-color: var(--secondary-background-color);
+    border-radius: 5%;
+    border-width: 0.5px;
+    padding-bottom: 5px;
 }
 
 .card-img {
     width: 100%;
     height: 100%;
+    border: hidden hidden none none;
+    border-radius: 5% 5% 0 0;
 }
   
 .card-img:hover {
