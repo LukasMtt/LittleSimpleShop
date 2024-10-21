@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core'
+import { Component, HostBinding, Input, OnInit} from '@angular/core'
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -30,5 +30,12 @@ export class CardBoardComponent implements OnInit {
 
     getFullRoute(categoryId: number) {
         return `${this.routerLink}//${categoryId}`
+    }
+
+    getStyleForGridExtension(cardViewable: CardViewable) {
+        if (cardViewable.gridRowStartEnd) {
+            return {'grid-row-start': `${cardViewable.gridRowStartEnd[0]}`, 'grid-row-end': `${cardViewable.gridRowStartEnd[1]}`};
+        }
+        return {};
     }
 }

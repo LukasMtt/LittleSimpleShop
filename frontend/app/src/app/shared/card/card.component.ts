@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CardViewable } from '../../models/card.viewable.model';
+import { NgStyle} from '@angular/common'
 
 @Component({
   selector: 'app-card',
@@ -9,7 +10,7 @@ import { CardViewable } from '../../models/card.viewable.model';
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
-export class CardComponent {
+export class CardComponent extends NgStyle {
   @Input() routerLink: string = ''
   @Input({required: true}) model!: CardViewable
   

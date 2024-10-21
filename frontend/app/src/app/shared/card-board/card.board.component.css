@@ -1,42 +1,29 @@
-@media (min-width: 1000px) {
-    :host {
-        display: grid;
-        justify-items: center;
-        align-items: center;
-        width: 80vw;
-        margin-left: auto;
-        margin-right: auto;
-        row-gap: 3vw;
-        column-gap: 10vh;
-        margin-top: 4vh;
-        margin-bottom: 4vh;
-    }
+:host {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    row-gap: 2%;
+    column-gap: 3%;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
 }
   
 @media (max-width: 1000px) {
     :host {
-        display: grid;
         grid-template-columns: 1fr;
-        justify-items: center;
-        align-items: center;
-        width: 80vw;
-        margin-left: auto;
-        margin-right: auto;
-        row-gap: 3vw;
-        column-gap: 10vh;
-        margin-top: 4vh;
-        margin-bottom: 4vh;
-    }
-}
-
-@media (min-width: 1000px) {
-    :host(.grid-design-4-col) {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 
 @media (min-width: 1000px) {
     :host(.grid-design-3-col) {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 44% 25% 25%;
+        grid-template-rows: repeat(3, 27%);
+    }
+
+    :host(.grid-design-4-col) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }

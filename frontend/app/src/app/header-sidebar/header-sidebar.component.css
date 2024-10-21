@@ -1,6 +1,6 @@
 :host {
     position: fixed;
-    width: 40%;
+    width: 35%;
     height: 100%;
     transition: left 1s;
 }
