@@ -1,15 +1,15 @@
 <header> 
   <mat-toolbar class="header-toolbar">
-    <button mat-icon-button (click)="onMenuButtonClick()">
+    <button mat-icon-button (click)="onMenuButtonClick()" class="mat-icon-wrap">
       <mat-icon>menu</mat-icon>
     </button>
     <span></span>
     <span class="header-banner" [routerLink]='"shop"'>{{this.res("SITE_TITLE")}}</span>
     <span></span>
-    <button mat-icon-button (click)="onSearchButtonClick()">
+    <button mat-icon-button (click)="onSearchButtonClick()" class="mat-icon-wrap">
       <mat-icon>search</mat-icon>
     </button>
-    <button mat-icon-button (click)="onCartButtonClick()">
+    <button mat-icon-button (click)="onCartButtonClick()" class="mat-icon-wrap">
       <mat-icon>shopping_basket</mat-icon>
       <span class="counter-badge">{{getCartSize()}}</span>
     </button>

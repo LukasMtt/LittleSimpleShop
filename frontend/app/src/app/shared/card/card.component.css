@@ -30,4 +30,5 @@
     margin-right: auto;
     padding: 10px;
     text-align: center;
+    color: var(--secondary-background-color);
 }
