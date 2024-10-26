@@ -8,9 +8,10 @@ import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-category-board',
+  templateUrl: './category-board.component.html',
+  styleUrl: './category-board.component.css',
   standalone: true,
-  imports: [CardBoardComponent],
-  templateUrl: './category-board.component.html'
+  imports: [CardBoardComponent]
 })
 export class CategoryBoardComponent {
   routeType  = RouteEndpointType.Products.toString()  
