@@ -23,11 +23,6 @@ header {
   background: var(--secondary-background-color);
 }
 
-.header-item {
-  width: 15vw;
-  opacity: 0.7;
-}
-
 .counter-badge {
   display: inline-block;
   width: 70%;
@@ -39,5 +34,6 @@ header {
   font-size: 1.3vh;
   font-weight: 800;
   background-color: white;
+  color: var(--secondary-background-color);
   border-radius: 100%;
 }
