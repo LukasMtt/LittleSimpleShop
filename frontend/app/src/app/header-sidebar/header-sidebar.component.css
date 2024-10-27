@@ -13,3 +13,9 @@
 .link-item {
     height: 5vh;
 }
+
+@media (max-width: 1000px) {
+    .link-item {
+        font-size: 18px;
+    }  
+}
