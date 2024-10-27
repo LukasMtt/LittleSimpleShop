@@ -52,8 +52,4 @@ export class HeaderComponent extends BaseComponent implements OnDestroy {
     getCartSize() {
         return this.cart?.items.length ?? 0;
     }
-
-    onSearchButtonClick() {
-        
-    }
 }
