@@ -39,7 +39,8 @@ export class CartService {
   }
 
   public popCartItemByProductId(productId: number) {
-    this.cart.items.find((x) => x.product && x.product.id == productId);
+    var item = this.cart.items.find((x) => x.product && x.product.id == productId);
+    this.cart.items = this.cart.items.filter((x) => x != item);
     this.setCartStorageString();
     this.cartObservable$.next(this.cart);
   }
@@ -48,6 +49,9 @@ export class CartService {
     var item = this.cart?.items.find((x) => x.product.id == productId);
     if (item) {
       item.count = count;
+      if (count < 1) {
+        this.cart.items = this.cart.items.filter((x) => x != item);
+      }
       this.setCartStorageString();
       this.cartObservable$.next(this.cart);
     }
@@ -65,7 +69,7 @@ export class CartService {
 
   private createCartStorageString() {
     var cartStorageObject: CartStorage = new CartStorage();
-    this.cart.items.forEach(cartItem => {
+    this.cart.items.filter((x) => x && x.count > 0).forEach(cartItem => {
       cartStorageObject.items.push({ productId: cartItem.product?.id ?? 0, count: cartItem.count });
     });
     return JSON.stringify(this.jsonService.getSerializer().serialize(cartStorageObject));

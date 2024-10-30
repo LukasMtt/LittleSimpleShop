@@ -13,7 +13,10 @@ export class TickCounterComponent {
   @Output() counterChange = new EventEmitter<number>();  
   
   tickCounter(amount: number): void {    
-    this.counter += amount;    
+    this.counter += amount; 
+    if (this.counter < 0) {
+      this.counter = 0;
+    }  
     this.counterChange.emit(this.counter);  
   }
 }

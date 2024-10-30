@@ -1,5 +1,5 @@
 <app-sidebar>
-    @for (cartItem of cart?.items; track cartItem.product?.id) {
+    @for (cartItem of getCartItemsForDisplay(); track cartItem) {
         <app-sidebar-item class="cart-sidebar-item">
             <app-cart-item [cartItem]="cartItem"></app-cart-item>
         </app-sidebar-item>

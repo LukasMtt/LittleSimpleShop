@@ -34,6 +34,14 @@ export class CartSidebarComponent extends BaseComponent implements OnChanges, On
     this.setSidebarPositionOnChange();
   }
 
+  getCartItemsForDisplay() {
+    var result = this.cart?.items.filter((x) => x.count > 0);
+    if (!result?.length || result.length < 4) {
+      return result ?? [];
+    }
+    return result.slice(0,4);
+  }
+
   private setSidebarPositionOnChange() {
     if(this.isHidden) {
       this.renderer.setStyle(this.elementRef.nativeElement, 'right', '-50%');
