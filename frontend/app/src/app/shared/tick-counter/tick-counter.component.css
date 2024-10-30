@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.counter-item-wrapper {
+    text-align: center;
+    font-size: 1vw;
+}
+
+.ticker {
+    transform: scale(0.5);
+    aspect-ratio: 1;
+    border: solid;
+    border-radius: 100%;
+    border-color: white;
+    padding: 2px;
+}
+
+.ticker:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}

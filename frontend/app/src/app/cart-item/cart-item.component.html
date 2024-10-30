@@ -4,6 +4,7 @@
 <div class="product-title">
     {{cartItem.product.name}}
 </div>
-<div class="product-count">
-    Anzahl: {{cartItem.count}}
-</div>
+<app-tick-counter 
+    [counter]="cartItem.count" 
+    (counterChange)="updateCartItemCount($event)"
+/>

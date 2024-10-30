@@ -44,6 +44,15 @@ export class CartService {
     this.cartObservable$.next(this.cart);
   }
 
+  public updateCartItemCount(productId: number, count: number) {
+    var item = this.cart?.items.find((x) => x.product.id == productId);
+    if (item) {
+      item.count = count;
+      this.setCartStorageString();
+      this.cartObservable$.next(this.cart);
+    }
+  }
+
   public resetCart() {
     this.cart.items = [];
     this.setCartStorageString();
