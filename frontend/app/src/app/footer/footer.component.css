@@ -1,4 +1,6 @@
 :host {
     display: block;
     height: 5vh;
+    opacity: 0.95;
+    background-color: var(--secondary-background-color);
 }

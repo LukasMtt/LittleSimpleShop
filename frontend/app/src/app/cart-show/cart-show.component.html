@@ -1,0 +1,7 @@
+@for (cartItem of getCartItemsForDisplay(); track cartItem) {
+    <div class="cart-show-item">
+        <app-cart-item [cartItem]="cartItem"></app-cart-item>
+    </div>
+
+    <hr class="cart-show-divider"/>
+}

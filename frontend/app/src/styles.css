@@ -5,6 +5,12 @@
   --secondary-background-color: #745b50;
 }
 
+main {
+  min-height: 80vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
 * {
   box-sizing: border-box;
   font-family: 'Poppins';

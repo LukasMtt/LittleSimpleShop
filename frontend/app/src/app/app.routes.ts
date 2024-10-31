@@ -6,6 +6,7 @@ import { HelpMeComponent } from './help-me/help-me.component';
 import { AccountComponent } from './account/account.component';
 import { AboutComponent } from './about/about.component';
 import { ImprintComponent } from './imprint/imprint.component';
+import { CartShowComponent } from './cart-show/cart-show.component';
 
 export const routes: Routes = [
     { path: '', component: CategoryBoardComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'about', component: AboutComponent },
     { path: 'imprint', component: ImprintComponent },
+    { path: 'cart', component: CartShowComponent},
 
     { path: 'products/:categoryId', component: ProductBoardComponent },
     { path: 'showProduct/:productId', component: ProductShowComponent}

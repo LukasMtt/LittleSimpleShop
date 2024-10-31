@@ -1,0 +1,15 @@
+:host {
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cart-show-item {
+    display: block;
+    width: 50%;
+}
+
+.cart-show-divider {
+    width: 50%;
+    margin-left: 5px;
+}

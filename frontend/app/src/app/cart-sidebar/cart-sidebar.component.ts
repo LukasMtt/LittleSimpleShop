@@ -7,11 +7,12 @@ import { CartService } from '../services/cart.service';
 import { Cart } from '../models/cart.model';
 import { Subscription } from 'rxjs';
 import { CartItemComponent } from "../cart-item/cart-item.component";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cart-sidebar',
   standalone: true,
-  imports: [SidebarComponent, SidebarItemComponent, SidebarSpacerComponent, CartItemComponent],
+  imports: [SidebarComponent, SidebarItemComponent, SidebarSpacerComponent, CartItemComponent, RouterModule],
   templateUrl: './cart-sidebar.component.html',
   styleUrl: './cart-sidebar.component.css'
 })

@@ -9,3 +9,8 @@
 .cart-sidebar-item {
     margin-bottom: 10px;
 }
+
+.full-cart-text {
+    padding-left: 2vw;
+    font-size: 1vw;
+}
