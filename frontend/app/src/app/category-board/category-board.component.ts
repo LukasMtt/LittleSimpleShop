@@ -5,6 +5,7 @@ import { RouteEndpointType } from '../app.routes';
 import { ProductCategory } from '../models/product.category.model';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
+import { TemplateTypeCardBoardSubText } from '../enums/template-type-card-board-sub-text.enum';
 
 @Component({
   selector: 'app-category-board',
@@ -16,6 +17,8 @@ import { forkJoin, Observable } from 'rxjs';
 export class CategoryBoardComponent {
   routeType  = RouteEndpointType.Products.toString()  
   categoryList: ProductCategory[] = []
+
+  templateTypeEnum = TemplateTypeCardBoardSubText;
 
   additionalImageObservable$: Observable<any>[] = [
     this.httpClient.get("assets/test.webp", { responseType: 'blob'}),

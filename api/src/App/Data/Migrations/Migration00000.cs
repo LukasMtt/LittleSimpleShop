@@ -58,3 +58,17 @@ public class AddImageTable : Migration
     {
     }
 }
+
+[Migration(0000003)]
+public class AddPriceToProduct : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("Product")
+            .AddColumn("Price").AsDecimal().WithDefaultValue(0m);
+    }
+
+    public override void Down()
+    {
+    }
+}

@@ -6,6 +6,7 @@ import { RouteEndpointType } from '../app.routes';
 import { Product } from '../models/product.model';
 import { Paginable } from '../shared/paginable';
 import { PaginationState } from '../models/pagination.state.model';
+import { TemplateTypeCardBoardSubText } from '../enums/template-type-card-board-sub-text.enum';
 
 @Component({
   selector: 'app-product-board',
@@ -22,6 +23,7 @@ export class ProductBoardComponent implements OnInit, Paginable {
 
   productList: Product[] = []
   productCount: number = 0
+  templateTypeEnum = TemplateTypeCardBoardSubText;
 
   constructor(private productService: ProductService) {
   }

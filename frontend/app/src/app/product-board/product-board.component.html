@@ -1,7 +1,8 @@
 <app-card-board [cardCount]=5 
                 [columnCount]=4 
                 routerLink="//{{routeType}}" 
-                [dataStore]=productList>
+                [dataStore]=productList
+                [templateType]="templateTypeEnum.NameAndPrice">
 </app-card-board>
 
 <mat-paginator class="product-paginator" 

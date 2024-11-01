@@ -4,4 +4,5 @@ import { ProductCategory } from "./product.category.model"
 export interface Product extends CardViewable {
     description: string
     category: ProductCategory
+    price: number
 }
