@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product.service';
-import { CarouselComponent } from "../carousel/carousel.component";
-import { CartService } from '../../services/cart.service';
-import { CardViewable } from '../../models/card.viewable.model';
+import { Product } from '../../../models/product.model';
+import { ProductService } from '../../../services/product.service';
+import { CarouselComponent } from "../../shared/carousel/carousel.component";
+import { CartService } from '../../../services/cart.service';
+import { CardViewable } from '../../../models/card.viewable.model';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

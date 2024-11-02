@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Image } from '../../models/image.model';
+import { Image } from '../../../models/image.model';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

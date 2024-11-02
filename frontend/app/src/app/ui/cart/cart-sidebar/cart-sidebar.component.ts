@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2 } from '@angular/core';
-import { SidebarComponent } from "../shared/sidebar/sidebar.component";
-import { BaseComponent } from '../shared/base.component';
-import { SidebarItemComponent } from "../shared/sidebar-item/sidebar-item.component";
-import { SidebarSpacerComponent } from "../shared/sidebar-spacer/sidebar-spacer.component";
-import { CartService } from '../../services/cart.service';
-import { Cart } from '../../models/cart.model';
+import { SidebarComponent } from "../../shared/sidebar/sidebar.component";
+import { BaseComponent } from '../../shared/base.component';
+import { SidebarItemComponent } from "../../shared/sidebar-item/sidebar-item.component";
+import { SidebarSpacerComponent } from "../../shared/sidebar-spacer/sidebar-spacer.component";
+import { CartService } from '../../../services/cart.service';
+import { Cart } from '../../../models/cart.model';
 import { Subscription } from 'rxjs';
 import { CartItemComponent } from "../cart-item/cart-item.component";
 import { RouterModule } from '@angular/router';
