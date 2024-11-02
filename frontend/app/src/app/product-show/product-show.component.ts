@@ -3,11 +3,13 @@ import { Product } from '../models/product.model';
 import { ProductService } from '../services/product.service';
 import { CarouselComponent } from "../carousel/carousel.component";
 import { CartService } from '../services/cart.service';
+import { CardViewable } from '../models/card.viewable.model';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-show',
   standalone: true,
-  imports: [CarouselComponent],
+  imports: [CarouselComponent, CurrencyPipe],
   templateUrl: './product-show.component.html',
   styleUrl: './product-show.component.css'
 })
@@ -24,6 +26,14 @@ export class ProductShowComponent implements OnInit {
       { 
        this.product = data;
       });
+  }
+
+  getPrice(cardViewable: CardViewable | undefined) {
+    var product = cardViewable as Product;
+    if (product) {
+        return product.price;
+    }
+    return '';
   }
 
   addProductToCart() {

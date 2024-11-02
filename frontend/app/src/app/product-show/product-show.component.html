@@ -17,5 +17,18 @@
 </div>
 
 <div class="product-description">
-    {{ product?.description }}
+    <div class="product-description-header">
+        <div class="sub-item">
+            {{ product?.name?.toUpperCase() }}
+        </div>
+        <div class="sub-item">
+            &middot;
+        </div>
+        <div class="sub-item">
+            {{ getPrice(product) | currency }}
+        </div>
+    </div>
+    <div class="product-description-text">
+        {{ product?.description }}
+    </div>
 </div>

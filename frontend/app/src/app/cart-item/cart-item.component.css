@@ -5,6 +5,15 @@
     border-color: var(--primary-background-color);
     border-width: 1px;
     padding: 5px;
+    gap: 3%;
+}
+
+.sub-item {
+    width: 33.33%;
+}
+
+.place-right {
+    align-items: flex-end;
 }
 
 /* preview image  */

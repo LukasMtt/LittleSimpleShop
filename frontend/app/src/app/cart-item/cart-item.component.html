@@ -1,8 +1,13 @@
-<div class="product-preview">
+<div class="product-preview sub-item">
     <img class="product-preview-image" [src]="createImage()"/>
 </div>
-<div class="product-title">
-    {{cartItem.product.name}}
+<div class="product-title sub-item">
+    <div>
+        {{cartItem.product.name}}
+    </div>
+    <div>
+        {{ getPrice(cartItem.product) | currency }}
+    </div>
 </div>
 <app-tick-counter 
     [counter]="cartItem.count" 
