@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { CartItem } from '../models/cart.item.model';
+import { CartItem } from '../../models/cart.item.model';
 import { TickCounterComponent } from "../shared/tick-counter/tick-counter.component";
-import { CartService } from '../services/cart.service';
+import { CartService } from '../../services/cart.service';
 import { Subscription } from 'rxjs';
-import { Cart } from '../models/cart.model';
-import { CardViewable } from '../models/card.viewable.model';
-import { Product } from '../models/product.model';
+import { Cart } from '../../models/cart.model';
+import { CardViewable } from '../../models/card.viewable.model';
+import { Product } from '../../models/product.model';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

@@ -6,8 +6,8 @@ import { HeaderSidebarComponent } from "../header-sidebar/header-sidebar.compone
 import { BaseComponent } from '../shared/base.component';
 import { CartSidebarComponent } from "../cart-sidebar/cart-sidebar.component";
 import { RouterLink } from '@angular/router';
-import { CartService } from '../services/cart.service';
-import { Cart } from '../models/cart.model';
+import { CartService } from '../../services/cart.service';
+import { Cart } from '../../models/cart.model';
 import { Subscription } from 'rxjs';
 
 @Component({

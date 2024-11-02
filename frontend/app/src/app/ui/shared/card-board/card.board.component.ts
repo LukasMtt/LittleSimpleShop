@@ -3,9 +3,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CardComponent } from "../card/card.component";
-import { CardViewable } from '../../models/card.viewable.model';
-import { TemplateTypeCardBoardSubText } from '../../enums/template-type-card-board-sub-text.enum';
-import { Product } from '../../models/product.model';
+import { CardViewable } from '../../../models/card.viewable.model';
+import { TemplateTypeCardBoardSubText } from '../../../enums/template-type-card-board-sub-text.enum';
+import { Product } from '../../../models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CardBoardComponent } from "../shared/card-board/card.board.component";
-import { ProductService } from '../services/product.service';
-import { RouteEndpointType } from '../app.routes';
-import { ProductCategory } from '../models/product.category.model';
+import { ProductService } from '../../services/product.service';
+import { RouteEndpointType } from '../../app.routes';
+import { ProductCategory } from '../../models/product.category.model';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
-import { TemplateTypeCardBoardSubText } from '../enums/template-type-card-board-sub-text.enum';
+import { TemplateTypeCardBoardSubText } from '../../enums/template-type-card-board-sub-text.enum';
 
 @Component({
   selector: 'app-category-board',

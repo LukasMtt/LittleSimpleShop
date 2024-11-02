@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ResourceService } from '../services/resource.service';
+import { ResourceService } from '../../services/resource.service';
 
 export class BaseComponent {
     protected resourceService = inject(ResourceService)

@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { ProductBoardComponent } from './product-board/product-board.component';
-import { CategoryBoardComponent } from './category-board/category-board.component';
-import { ProductShowComponent } from './product-show/product-show.component';
-import { HelpMeComponent } from './help-me/help-me.component';
-import { AccountComponent } from './account/account.component';
-import { AboutComponent } from './about/about.component';
-import { ImprintComponent } from './imprint/imprint.component';
-import { CartShowComponent } from './cart-show/cart-show.component';
+import { ProductBoardComponent } from './ui/product-board/product-board.component';
+import { CategoryBoardComponent } from './ui/category-board/category-board.component';
+import { ProductShowComponent } from './ui/product-show/product-show.component';
+import { HelpMeComponent } from './ui/help-me/help-me.component';
+import { AccountComponent } from './ui/account/account.component';
+import { AboutComponent } from './ui/about/about.component';
+import { ImprintComponent } from './ui/imprint/imprint.component';
+import { CartShowComponent } from './ui/cart-show/cart-show.component';
 
 export const routes: Routes = [
     { path: '', component: CategoryBoardComponent },

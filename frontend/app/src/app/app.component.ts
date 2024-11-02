@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './header/header.component';
-import { CardBoardComponent } from './shared/card-board/card.board.component';
-import { FooterComponent } from "./footer/footer.component";
+import { HeaderComponent } from './ui/header/header.component';
+import { CardBoardComponent } from './ui/shared/card-board/card.board.component';
+import { FooterComponent } from "./ui/footer/footer.component";
 
 @Component({
   selector: 'app-root',

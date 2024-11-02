@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardBoardComponent } from "../shared/card-board/card.board.component";
 import { MatPaginator, PageEvent} from '@angular/material/paginator';
-import { ProductService } from '../services/product.service';
-import { RouteEndpointType } from '../app.routes';
-import { Product } from '../models/product.model';
+import { ProductService } from '../../services/product.service';
+import { RouteEndpointType } from '../../app.routes';
+import { Product } from '../../models/product.model';
 import { Paginable } from '../shared/paginable';
-import { PaginationState } from '../models/pagination.state.model';
-import { TemplateTypeCardBoardSubText } from '../enums/template-type-card-board-sub-text.enum';
+import { PaginationState } from '../../models/pagination.state.model';
+import { TemplateTypeCardBoardSubText } from '../../enums/template-type-card-board-sub-text.enum';
 
 @Component({
   selector: 'app-product-board',
