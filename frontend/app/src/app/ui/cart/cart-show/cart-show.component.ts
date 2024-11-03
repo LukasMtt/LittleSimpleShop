@@ -4,11 +4,12 @@ import { Subscription } from 'rxjs';
 import { CartService } from '../../../services/cart.service';
 import { SidebarItemComponent } from "../../shared/sidebar-item/sidebar-item.component";
 import { CartItemComponent } from "../cart-item/cart-item.component";
+import { CartSumComponent } from "../cart-sum/cart-sum.component";
 
 @Component({
   selector: 'app-cart-show',
   standalone: true,
-  imports: [SidebarItemComponent, CartItemComponent],
+  imports: [SidebarItemComponent, CartItemComponent, CartSumComponent],
   templateUrl: './cart-show.component.html',
   styleUrl: './cart-show.component.css'
 })
