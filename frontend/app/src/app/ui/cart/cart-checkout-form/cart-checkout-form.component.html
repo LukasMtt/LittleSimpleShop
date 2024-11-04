@@ -1,0 +1,55 @@
+<form [formGroup]="checkoutFormGroup" class="checkout-form">
+    <label class="flex-item-50 sub-label">Personal Information</label>
+    <br/>
+
+    <div class="form-row">
+        <label for="firstName" class="flex-item-20 form-label">First Name</label>
+    </div>
+    <div class="form-row">
+        <input id="firstName" type="text" formControlName="firstName" class="flex-item-90 form-input">
+    </div>
+
+    <div class="form-row">
+        <label for="lastName" class="flex-item-20 form-label">Last Name</label>
+    </div>
+    <div class="form-row">
+        <input id="lastName" type="text" formControlName="lastName" class="flex-item-90 form-input">
+    </div>
+
+    <div class="form-row">
+        <label for="email" class="flex-item-20 form-label">E-Mail</label>
+    </div>
+    <div class="form-row">
+        <input id="email" type="email" formControlName="email" class="flex-item-90 form-input">
+    </div>
+    
+    <br/>
+    <label class="flex-item-50 sub-label">Contact Information</label>
+    <br/>
+    
+    <div formGroupName="address">
+        <div class="form-row form-row-gap-3">
+            <label for="street" class="flex-item-60 form-label">Street</label>
+            <label for="number" class="flex-item-27 form-label">Number</label>
+        </div>
+        <div class="form-row form-row-gap-3">
+            <input id="street" type="text" formControlName="street" class="flex-item-60 form-input">
+            <input id="number" type="text" formControlName="number" class="flex-item-27 form-input">
+        </div>
+
+        <div class="form-row form-row-gap-3">
+            <label for="city" class="flex-item-60 form-label">City</label>
+            <label for="zip" class="flex-item-27 form-label">Zip</label>
+        </div>
+        <div class="form-row form-row-gap-3">
+            <input id="city" type="city" formControlName="city" class="flex-item-60 form-input">
+            <input id="zip" type="zip" formControlName="zip" class="flex-item-27 form-input">
+        </div>
+    </div>
+    <br/>
+
+    <div class="form-row">
+        <button type="submit">
+            <mat-icon [inline]="true">paypal</mat-icon> Checkout</button>
+    </div>
+</form>

@@ -3,6 +3,7 @@
 :root {
   --primary-background-color: #ffffff;
   --secondary-background-color: #745b50;
+  --secondary-background-color-opaque: #745b5028;
 }
 
 main {

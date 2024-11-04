@@ -5,11 +5,12 @@ import { CartService } from '../../../services/cart.service';
 import { SidebarItemComponent } from "../../shared/sidebar-item/sidebar-item.component";
 import { CartItemComponent } from "../cart-item/cart-item.component";
 import { CartSumComponent } from "../cart-sum/cart-sum.component";
+import { CartCheckoutFormComponent } from "../cart-checkout-form/cart-checkout-form.component";
 
 @Component({
   selector: 'app-cart-show',
   standalone: true,
-  imports: [SidebarItemComponent, CartItemComponent, CartSumComponent],
+  imports: [SidebarItemComponent, CartItemComponent, CartSumComponent, CartCheckoutFormComponent],
   templateUrl: './cart-show.component.html',
   styleUrl: './cart-show.component.css'
 })
