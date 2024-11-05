@@ -15,7 +15,13 @@
 }
 
 .form-input {
+    border-width: 1px;
     height: 5vh;
+}
+
+.ng-invalid:not(form, div).ng-dirty {
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.068);
 }
 
 .form-label {
@@ -26,11 +32,19 @@
     font-size: 1.3vw;
 }
 
+.form-item {
+    margin-bottom: 2vh;
+}
+
 .form-row {
     width: 100%;
     display: flex;
     margin-left: auto;
     margin-right: auto;
+}
+
+.validation-text {
+    color: red;
 }
 
 .form-row-gap-3 {
