@@ -21,8 +21,8 @@ export class CategoryBoardComponent {
   templateTypeEnum = TemplateTypeCardBoardSubText;
 
   additionalImageObservable$: Observable<any>[] = [
-    this.httpClient.get("assets/test.webp", { responseType: 'blob'}),
-    this.httpClient.get("assets/test2.webp", { responseType: 'blob'})
+    this.httpClient.get("assets/images/test.webp", { responseType: 'blob'}),
+    this.httpClient.get("assets/images/test2.webp", { responseType: 'blob'})
   ]
 
   constructor(public productService: ProductService, private httpClient: HttpClient) {
