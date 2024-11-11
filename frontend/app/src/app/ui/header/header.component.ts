@@ -2,13 +2,13 @@ import { Component, ElementRef, HostListener, OnDestroy } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HeaderSidebarComponent } from "../header-sidebar/header-sidebar.component";
 import { BaseComponent } from '../shared/base.component';
 import { CartSidebarComponent } from "../cart/cart-sidebar/cart-sidebar.component";
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart.model';
 import { Subscription } from 'rxjs';
+import { HeaderSidebarComponent } from './header-sidebar/header-sidebar.component';
 
 @Component({
     selector: 'app-header',

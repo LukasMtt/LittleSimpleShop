@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, Renderer2, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { BaseComponent } from '../shared/base.component';
-import { SidebarComponent } from '../shared/sidebar/sidebar.component';
-import { SidebarItemComponent } from "../shared/sidebar-item/sidebar-item.component";
-import { SidebarSpacerComponent } from "../shared/sidebar-spacer/sidebar-spacer.component";
+import { BaseComponent } from '../../shared/base.component';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+import { SidebarItemComponent } from "../../shared/sidebar-item/sidebar-item.component";
+import { SidebarSpacerComponent } from "../../shared/sidebar-spacer/sidebar-spacer.component";
 import { RouterLink } from '@angular/router';
 
 @Component({
