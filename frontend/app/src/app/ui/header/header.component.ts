@@ -41,15 +41,15 @@ export class HeaderComponent extends BaseComponent implements OnDestroy {
         this.cartSubscription$.unsubscribe();
     }
     
-    onMenuButtonClick() {
+    public onMenuButtonClick(): void {
         this.showSideMenu = !this.showSideMenu;
     }
 
-    onCartButtonClick() {
+    public onCartButtonClick(): void {
         this.showCartMenu = !this.showCartMenu;
     }
 
-    getCartSize() {
-        return this.cart?.items.length ?? 0;
+    public getCartSize(): number {
+        return this.cart?.items?.length ?? 0;
     }
 }

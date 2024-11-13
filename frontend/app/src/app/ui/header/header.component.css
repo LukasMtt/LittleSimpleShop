@@ -14,14 +14,16 @@ header {
 }
 
 .header-toolbar {
-  position: sticky;
   top: 0;
   display: grid;
   grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
   height: 7vh;
+  min-height: 50px;
   opacity: 0.95;
   background: var(--secondary-background-color);
 }
+
+/* counter badge */
 
 .counter-badge {
   display: inline-block;
@@ -30,10 +32,12 @@ header {
   position: relative;
   bottom: 70%;
   right: 30%;
+  text-align: center;
+  text-justify: center;
   z-index: -1;
   font-size: 1.3vh;
   font-weight: 800;
   background-color: white;
   color: var(--secondary-background-color);
-  border-radius: 100%;
+  border-radius: 50%;
 }
