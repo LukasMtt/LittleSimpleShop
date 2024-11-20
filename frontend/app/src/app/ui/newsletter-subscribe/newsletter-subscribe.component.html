@@ -1,0 +1,24 @@
+<div class="subscribe-text subscribe-item">
+    Subscribe to the newsletter and never miss a (pottery) thing...
+</div>
+<div class="subscribe-item">
+    <form [formGroup]="newsletterSubscribeFormGroup" class="newsletter-subscribe-form" (ngSubmit)="onSubmit()">
+        <div class="form-item">
+            <div class="form-row">
+                <label for="email" class="flex-item-20 form-label">E-Mail</label>
+            </div>
+            <div class="form-row">
+                <input id="email" type="email" formControlName="email" class="flex-item-90 form-input">
+            </div>
+            @if(!newsletterSubscribeFormGroup.controls.email.valid && newsletterSubscribeFormGroup.controls.email.dirty) {
+                <div class="form-row validation-text">
+                    Valid email is required!
+                </div>   
+            }
+        </div>
+        <button type="submit" class="subscribe-button flex-item-90" disabled matTooltip="Subscribing not available yet.">
+            <mat-icon>email</mat-icon> 
+            <div>Subscribe to newsletter</div>
+        </button>
+    </form>
+</div>
