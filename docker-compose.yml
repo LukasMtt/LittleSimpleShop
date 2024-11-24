@@ -8,30 +8,21 @@ services:
       - MSSQL_SA_PASSWORD=Password123!
     ports:
       - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Password123! -C -Q 'SELECT 1' || exit 1"]
       interval: 10s
       retries: 10
       start_period: 10s
       timeout: 3s
-  sql-server-configurator:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    user: root
-    depends_on:
-      sql-server:
-        condition: service_healthy
-    command: >
-      bash -c '
-      /opt/mssql-tools18/bin/sqlcmd -S sql-server -U sa -P Password123! -C -d master -q "CREATE DATABASE [shop]";
-      echo "Intial database created!";
-      '
   dotnet-api:
     container_name: dotnet-api-container
     image: dotnet-api
     ports:
       - "3000:8080"
     depends_on:
-      - sql-server-configurator
+      - sql-server
   ng-app:
     container_name: ng-app-container
     image: ng-app
@@ -39,3 +30,7 @@ services:
       - "8000:80"
     depends_on:
       - dotnet-api
+volumes:
+  sqlvolume:
+    external: true
+    name: sqlvolume
