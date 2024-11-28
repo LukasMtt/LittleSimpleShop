@@ -35,7 +35,7 @@ header {
   text-align: center;
   text-justify: center;
   z-index: -1;
-  font-size: 1.3vh;
+  font-size: 10px;
   font-weight: 800;
   background-color: white;
   color: var(--secondary-background-color);
