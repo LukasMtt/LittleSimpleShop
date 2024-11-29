@@ -1,16 +1,40 @@
 :host {
-    position: fixed;
-    width: 35%;
-    height: 100%;
-    transition: left 1s;
+  position: fixed;
+  width: 25%;
+  height: 100%;
+  transition: left 1s;
+}
+
+app-sidebar {
+  gap: 65%;
 }
 
 .sidebar-item-selectable:hover {
-    text-decoration: underline;
-    cursor: pointer;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .link-item {
-    height: 5vh;
-    font-size: 17px;
+  height: 100%;
+}
+
+@media (min-width: 700px) {
+  .link-item {
+    font-size: 15px;
+    margin-bottom: 1vh;
+  }
+}
+
+@media (max-width: 700px) {
+  .link-item {
+    font-size: 15px;
+    margin-bottom: 1vh;
+  }
+}
+
+@media (max-width: 500px) {
+  .link-item {
+    font-size: 12px;
+    margin-bottom: 2vh;
+  }
 }

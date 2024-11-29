@@ -9,6 +9,18 @@ header {
   z-index: 9999;
 }
 
+@media (min-width: 500px) {
+  .header-banner {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .header-banner {
+    font-size: 15px;
+  }
+}
+
 .header-banner:hover {
   cursor: pointer;
 }
