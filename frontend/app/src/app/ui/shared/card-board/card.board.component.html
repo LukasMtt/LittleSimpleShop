@@ -1,20 +1,21 @@
 @for(data of dataStore; track data.id) {
-    <app-card [routerLink]=getFullRoute(data.id) [model]=data [ngStyle]="getStyleForGridExtension(data)">
-        <div class="sub-text-card">
-            @if(templateType == templateTypeEnum.NameOnly) {
-                {{ data.name.toUpperCase() }}
-            }
-            @if(templateType == templateTypeEnum.NameAndPrice) {
-                <div class="item-sub-text-card">
-                    {{ data.name.toUpperCase() }}
-                </div>
-                <div class="item-sub-text-card">
-                    &middot;
-                </div>
-                <div class="item-sub-text-card">
-                    {{ getPrice(data) | currency }}
-                </div>
-            }
-        </div>
-    </app-card>
+<app-card
+  [routerLink]="getFullRoute(data.id)"
+  [model]="data"
+  [ngStyle]="getStyleForGridExtension(data)"
+>
+  <div class="sub-text-card">
+    @if(templateType == templateTypeEnum.NameOnly) {
+    {{ data.name.toUpperCase() }}
+    } @if(templateType == templateTypeEnum.NameAndPrice) {
+    <div class="item-sub-text-card">
+      {{ data.name.toUpperCase() }}
+    </div>
+    <div class="item-sub-text-card">&middot;</div>
+    <div class="item-sub-text-card">
+      {{ getPrice(data) | currency }}
+    </div>
+    }
+  </div>
+</app-card>
 }
