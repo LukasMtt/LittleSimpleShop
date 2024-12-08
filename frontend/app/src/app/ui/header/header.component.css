@@ -9,6 +9,24 @@ header {
   z-index: 9999;
 }
 
+/* toolbar */
+
+.header-toolbar {
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
+  height: 7vh;
+  min-height: 50px;
+  opacity: 0.95;
+  background: var(--secondary-background-color);
+}
+
+/* banner */
+
+.header-banner:hover {
+  cursor: pointer;
+}
+
 @media (min-width: 500px) {
   .header-banner {
     font-size: 20px;
@@ -21,18 +39,18 @@ header {
   }
 }
 
-.header-banner:hover {
-  cursor: pointer;
+/* cart */
+
+@media (max-width: 1000px) {
+  .shopping-basket-sidebar-button {
+    display: none;
+  }
 }
 
-.header-toolbar {
-  top: 0;
-  display: grid;
-  grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
-  height: 7vh;
-  min-height: 50px;
-  opacity: 0.95;
-  background: var(--secondary-background-color);
+@media (min-width: 1000px) {
+  .shopping-basket-button-link {
+    display: none;
+  }
 }
 
 /* counter badge */

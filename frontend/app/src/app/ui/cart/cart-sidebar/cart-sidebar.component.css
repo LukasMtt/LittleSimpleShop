@@ -1,16 +1,32 @@
 :host {
-    position: fixed;
-    width: 35%;
-    height: 100%;
-    overflow-y: hidden;
-    transition: right 1s;
+  position: fixed;
+  height: 93vh;
+  width: 35%;
+  overflow-y: hidden;
+  transition: right 1s;
 }
 
-.cart-sidebar-item {
-    margin-bottom: 10px;
+/* cart item */
+
+app-cart-item {
+  width: 93%;
+  height: 25vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.full-cart-text {
-    padding-left: 2vw;
-    font-size: 1vw;
+/* go to cart button */
+
+.go-to-cart-button {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
+  background-color: var(--primary-background-color);
+  border: none;
+  border-radius: 5px;
+  opacity: 1;
+}
+
+.go-to-cart-button:hover {
+  background-color: rgb(166, 166, 168);
 }

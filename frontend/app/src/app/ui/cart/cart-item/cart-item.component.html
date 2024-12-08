@@ -1,15 +1,15 @@
-<div class="product-preview sub-item">
-    <img class="product-preview-image" [src]="createImage()"/>
+<div class="product-preview-image-container">
+  <img class="product-preview-image" [src]="createImage()" />
 </div>
-<div class="product-title sub-item">
-    <div>
-        {{cartItem.product.name}}
-    </div>
-    <div>
-        {{ getPrice(cartItem.product) | currency }}
-    </div>
+<div class="product-preview-title">
+  <div>
+    {{ cartItem.product.name }}
+  </div>
+  <div>
+    {{ getPrice(cartItem.product) | currency }}
+  </div>
 </div>
-<app-tick-counter 
-    [counter]="cartItem.count" 
-    (counterChange)="updateCartItemCount($event)"
+<app-tick-counter
+  [counter]="cartItem.count"
+  (counterChange)="updateCartItemCount($event)"
 />
