@@ -11,7 +11,6 @@
 main {
   min-height: 80vh;
   margin-top: 5vh;
-  margin-bottom: 5vh;
 }
 
 * {
@@ -24,8 +23,8 @@ main {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-html { 
-  height: 100%; 
+html {
+  height: 100%;
 }
 
 body {
@@ -52,11 +51,11 @@ button:hover {
 
 .form-label {
   font-weight: 1000;
-  font-size: 1vw;
+  font-size: 1.4vh;
 }
 
 .sub-label {
-  font-size: 1.3vw;
+  font-size: 1.4vh;
 }
 
 .form-item {
@@ -72,7 +71,7 @@ button:hover {
 
 .validation-text {
   color: red;
-  font-size: 0.9vw;
+  font-size: 1.4vh;
 }
 
 .form-row-gap-3 {

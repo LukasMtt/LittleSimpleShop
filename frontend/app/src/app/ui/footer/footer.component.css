@@ -1,16 +1,26 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 7vh;
-    opacity: 0.95;
-    background-color: var(--secondary-background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 7vh;
+  opacity: 0.95;
+  background-color: var(--secondary-background-color);
 }
 
+/* social media badge */
+
 .badge-social-media {
-    width: fit-content;
-    height: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    color: var(--primary-background-color);
+  width: fit-content;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--primary-background-color);
+}
+
+.badge-social-media:active {
+  opacity: 0.5;
+}
+
+.badge-social-media:hover {
+  cursor: pointer;
 }
