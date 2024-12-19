@@ -4,7 +4,7 @@
   width: 100%;
   justify-content: space-between;
   border: solid;
-  border-color: var(--primary-background-color);
+  border-color: var(--primary-color);
   border-width: 1px;
   padding: 7px;
   gap: 4%;

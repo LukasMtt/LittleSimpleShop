@@ -8,6 +8,7 @@ public class ShopDbContext : DbContext {
     public DbSet<Product> Product { get; set; }
     public DbSet<Category> Category { get; set; }
     public DbSet<Image> Image { get; set; }
+    public DbSet<News> News { get; set; }
 
     private IAppSettingsConfigurationService _appSettingsConfigurationService;
 

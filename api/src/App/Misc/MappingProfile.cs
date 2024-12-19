@@ -7,5 +7,6 @@ public class MappingProfile : Profile {
          CreateMap<Product, ProductModel>().ReverseMap();
          CreateMap<Category, CategoryModel>().ReverseMap();
          CreateMap<Image, ImageModel>().ReverseMap();
+         CreateMap<News, NewsModel>().ReverseMap();
      }
  }

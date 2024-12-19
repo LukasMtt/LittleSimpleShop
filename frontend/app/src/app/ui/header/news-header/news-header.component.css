@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--ternary-color);
+}
+
+.news-text {
+  width: fit-content;
+  height: fit-content;
+  font-size: 1.9vh;
+  color: black;
+  vertical-align: middle;
+}

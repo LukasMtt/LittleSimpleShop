@@ -9,16 +9,21 @@ header {
   z-index: 9999;
 }
 
+/* news header */
+
+app-news-header {
+  height: 4vh;
+}
+
 /* toolbar */
 
 .header-toolbar {
-  top: 0;
   display: grid;
   grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
   height: 7vh;
   min-height: 50px;
   opacity: 0.95;
-  background: var(--secondary-background-color);
+  background: var(--secondary-color);
 }
 
 /* banner */
@@ -68,6 +73,6 @@ header {
   font-size: 10px;
   font-weight: 800;
   background-color: white;
-  color: var(--secondary-background-color);
+  color: var(--secondary-color);
   border-radius: 50%;
 }

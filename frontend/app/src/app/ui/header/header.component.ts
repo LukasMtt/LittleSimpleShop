@@ -9,6 +9,7 @@ import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart.model';
 import { Subscription } from 'rxjs';
 import { HeaderSidebarComponent } from './header-sidebar/header-sidebar.component';
+import { NewsHeaderComponent } from './news-header/news-header.component';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,8 @@ import { HeaderSidebarComponent } from './header-sidebar/header-sidebar.componen
     MatIconModule,
     HeaderSidebarComponent,
     CartSidebarComponent,
-    RouterLink
+    RouterLink,
+    NewsHeaderComponent
   ]
 })
 export class HeaderComponent extends BaseComponent implements OnDestroy {

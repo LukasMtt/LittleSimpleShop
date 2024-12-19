@@ -4,7 +4,7 @@
   margin-right: auto;
   padding-top: 5vh;
   padding-bottom: 5vh;
-  background-color: var(--secondary-background-color-opaque);
+  background-color: var(--ternary-color);
 }
 
 .subscribe-text {

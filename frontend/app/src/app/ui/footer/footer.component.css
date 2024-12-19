@@ -4,7 +4,7 @@
   justify-content: center;
   min-height: 7vh;
   opacity: 0.95;
-  background-color: var(--secondary-background-color);
+  background-color: var(--secondary-color);
 }
 
 /* social media badge */
@@ -14,7 +14,7 @@
   height: fit-content;
   margin-left: auto;
   margin-right: auto;
-  color: var(--primary-background-color);
+  color: var(--primary-color);
 }
 
 .badge-social-media:active {

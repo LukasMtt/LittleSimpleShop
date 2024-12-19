@@ -72,3 +72,21 @@ public class AddPriceToProduct : Migration
     {
     }
 }
+
+[Migration(0000004)]
+public class AddNewsTable : Migration
+{
+    public override void Up()
+    {
+        Create.Table("News")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("ShortText").AsString()
+            .WithColumn("LongText").AsString()
+            .WithColumn("ValidFrom").AsDateTime()
+            .WithColumn("ValidTo").AsDateTime();
+    }
+
+    public override void Down()
+    {
+    }
+}

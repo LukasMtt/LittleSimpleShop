@@ -3,9 +3,9 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 :root {
-  --primary-background-color: #ffffff;
-  --secondary-background-color: #745b50;
-  --secondary-background-color-opaque: #745b5028;
+  --primary-color: #ffffff;
+  --secondary-color: #745b50;
+  --ternary-color: #ece6e0;
 }
 
 main {

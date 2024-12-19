@@ -21,7 +21,7 @@ app-cart-item {
   margin-left: auto;
   margin-right: auto;
   margin-top: 2vh;
-  background-color: var(--primary-background-color);
+  background-color: var(--primary-color);
   border: none;
   border-radius: 5px;
   opacity: 1;
