@@ -9,19 +9,22 @@ import { CartShowComponent } from './ui/cart/cart-show/cart-show.component';
 import { LandingPageComponent } from './ui/landing-page/landing-page.component';
 
 export const routes: Routes = [
-    { path: '', component: LandingPageComponent },
-    { path: 'shop', redirectTo: '' },
-    { path: 'help', component: HelpMeComponent },
-    { path: 'account', component: AccountComponent },
-    { path: 'about', component: AboutComponent },
-    { path: 'imprint', component: ImprintComponent },
-    { path: 'cart', component: CartShowComponent},
+  { path: '', component: LandingPageComponent },
+  { path: 'shop', redirectTo: '' },
+  { path: 'help', component: HelpMeComponent },
+  { path: 'account', component: AccountComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'imprint', component: ImprintComponent },
+  { path: 'cart', component: CartShowComponent },
 
-    { path: 'products/:categoryId', component: ProductBoardComponent },
-    { path: 'showProduct/:productId', component: ProductShowComponent}
+  {
+    path: 'products/:categoryId/:categoryType',
+    component: ProductBoardComponent
+  },
+  { path: 'showProduct/:productId', component: ProductShowComponent }
 ];
 
 export enum RouteEndpointType {
-    Products = "products",
-    ShowProduct = "showProduct"
+  Products = 'products',
+  ShowProduct = 'showProduct'
 }

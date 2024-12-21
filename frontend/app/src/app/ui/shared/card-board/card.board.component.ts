@@ -1,6 +1,4 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { CardComponent } from '../card/card.component';
 import { CardViewable } from '../../../models/card.viewable.model';
@@ -13,19 +11,11 @@ import { CurrencyPipe } from '@angular/common';
   templateUrl: './card.board.component.html',
   styleUrl: './card.board.component.css',
   standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    RouterLink,
-    CardComponent,
-    CurrencyPipe
-  ]
+  imports: [RouterLink, CardComponent, CurrencyPipe]
 })
 export class CardBoardComponent implements OnInit {
-  @Input() cardCount?: number;
   @Input({ required: true }) columnCount!: 3 | 4;
-  @Input() routerLink: string = '';
-  @Input({ required: true }) dataStore!: CardViewable[];
+  @Input({ required: true }) cardItemList!: CardViewable[];
   @Input({ required: true }) templateType!: TemplateTypeCardBoardSubText;
 
   templateTypeEnum = TemplateTypeCardBoardSubText;
@@ -36,20 +26,12 @@ export class CardBoardComponent implements OnInit {
     this.gridDesignCols = `grid-design-${this.columnCount}-col`;
   }
 
-  getCardCountList() {
-    return [...Array(this.cardCount ?? 0).keys()];
-  }
-
   getPrice(cardViewable: CardViewable) {
     var product = cardViewable as Product;
     if (product) {
       return product.price;
     }
     return '';
-  }
-
-  getFullRoute(categoryId: number) {
-    return `${this.routerLink}//${categoryId}`;
   }
 
   getStyleForGridExtension(cardViewable: CardViewable) {

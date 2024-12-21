@@ -1,5 +1,9 @@
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withRouterConfig
+} from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -16,7 +20,7 @@ const appConfigServiceProvider = {
       return appConfigService.loadAppConfig();
     };
   }
-}
+};
 
 const resourceServiceProvider = {
   provide: APP_INITIALIZER,
@@ -27,12 +31,16 @@ const resourceServiceProvider = {
       return resourceService.loadResources();
     };
   }
-}
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes, withComponentInputBinding()), 
-    provideAnimationsAsync(), 
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withRouterConfig({ onSameUrlNavigation: 'reload' })
+    ),
+    provideAnimationsAsync(),
     provideHttpClient(),
     appConfigServiceProvider,
     resourceServiceProvider

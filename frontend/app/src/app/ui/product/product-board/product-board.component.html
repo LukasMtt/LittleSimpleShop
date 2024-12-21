@@ -1,15 +1,17 @@
-<app-card-board [cardCount]=5 
-                [columnCount]=4 
-                routerLink="//{{routeType}}" 
-                [dataStore]=productList
-                [templateType]="templateTypeEnum.NameAndPrice">
+<app-card-board
+  [columnCount]="4"
+  [cardItemList]="productList"
+  [templateType]="templateTypeEnum.NameAndPrice"
+>
 </app-card-board>
 
-<mat-paginator class="product-paginator" 
-                #paginator 
-                [length]=getTotalDataLength()
-                [pageSize]=8
-                [pageIndex]=0
-                [hidePageSize]=true 
-                (page)="onPageChange($event)">
-</mat-paginator> 
+<mat-paginator
+  class="product-paginator"
+  #paginator
+  [length]="getTotalDataLength()"
+  [pageSize]="pageSize"
+  [pageIndex]="pageOffset"
+  [hidePageSize]="true"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>

@@ -90,3 +90,17 @@ public class AddNewsTable : Migration
     {
     }
 }
+
+[Migration(0000005)]
+public class AddIsInSaleToProduct : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("Product")
+            .AddColumn("IsInSale").AsBoolean().WithDefaultValue(false);
+    }
+
+    public override void Down()
+    {
+    }
+}

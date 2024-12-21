@@ -6,4 +6,5 @@ public class ProductModel : BaseApiModel {
     public decimal Price {get; set;}
     public ICollection<ImageModel> Images { get; set; }
     public CategoryModel Category { get; set; }
+    public bool IsInSale { get; set; }
 }

@@ -1,18 +1,15 @@
-@media (min-width: 1000px) {
-    :host {
-        display: block;
-        height: 75vw;
-    }  
+:host {
+  display: block;
 }
 
-@media (max-width: 1000px) {
-    :host {
-        display: block;
-    }  
+@media (min-width: 1000px) {
+  :host {
+    height: 75vw;
+  }
 }
 
 :host {
-    width: 80vw;
-    margin-left: auto;
-    margin-right: auto;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }

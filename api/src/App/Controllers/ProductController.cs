@@ -31,13 +31,27 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public List<ProductModel> GetAllProducts()
+    public List<ProductModel> GetAllProducts(int pageOffset, int pageSize)
     {
         return _context.Product
+            .OrderBy(x => x.Category.Name)
+            .Skip(pageOffset*pageSize)
+            .Take(pageSize)
             .Include(x => x.Images)
             .Select(x => _mapper.Map<ProductModel>(x))
-            .ToList()
-            .OrderBy(x => x.Id)
+            .ToList();
+    }
+
+        [HttpGet]
+    public List<ProductModel> GetAllProductsInSale(int pageOffset, int pageSize)
+    {
+        return _context.Product
+            .Where(x => x.IsInSale)
+            .OrderBy(x => x.Category.Name)
+            .Skip(pageOffset*pageSize)
+            .Take(pageSize)
+            .Include(x => x.Images)
+            .Select(x => _mapper.Map<ProductModel>(x))
             .ToList();
     }
 
@@ -69,14 +83,24 @@ public class ProductController : ShopBaseController
     {
         return _context.Product
             .Where(x => x.Category.Id == categoryId)
-            .Include(x => x.Images)
-            .Select(x => _mapper.Map<ProductModel>(x))
-            .ToList()
-            .OrderBy(x => x.Id)
             .Count();
     }
 
+    [HttpGet]
+    public int GetAllProductsCount()
+    {
+        return _context.Product.Count();
+    }
+
+    [HttpGet]
+    public int GetAllProductsInSaleCount()
+    {
+        return _context.Product
+            .Where(x => x.IsInSale)
+            .Count();
+    }
     
+    //todo not good style to use post here
     [HttpPost]
     public List<ProductModel> GetProductsByIds([FromBody] List<long> productIdList)
     {

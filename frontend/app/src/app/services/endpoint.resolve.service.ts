@@ -10,8 +10,11 @@ export enum EndpointItem {
   News = 'news/',
   GetAllCategories = 'getAllCategories',
   GetAllProducts = 'getAllProducts',
+  GetAllProductsInSale = 'getAllProductsInSale',
   GetAllProductsByCategoryId = 'getAllProductsByCategoryId',
   GetProductsByCategoryIdCount = 'getProductsByCategoryIdCount',
+  GetAllProductsCount = 'getAllProductsCount',
+  GetAllProductsInSaleCount = 'getAllProductsInSaleCount',
   GetProductById = 'getProductById',
   GetProductsByIds = 'getProductsByIds',
   GetAllNews = 'getAllNews'
@@ -35,6 +38,18 @@ export class EndpointResolveService {
   getAllProducts: EndpointNode = {
     parent: this.product,
     item: EndpointItem.GetAllProducts
+  };
+  getAllProductsInSale: EndpointNode = {
+    parent: this.product,
+    item: EndpointItem.GetAllProductsInSale
+  };
+  getAllProductsCount: EndpointNode = {
+    parent: this.product,
+    item: EndpointItem.GetAllProductsCount
+  };
+  getAllProductsInSaleCount: EndpointNode = {
+    parent: this.product,
+    item: EndpointItem.GetAllProductsInSaleCount
   };
   getAllProductsByCategoryId: EndpointNode = {
     parent: this.product,
@@ -64,7 +79,10 @@ export class EndpointResolveService {
     this.getProductsByCategoryIdCount,
     this.getProductById,
     this.getProductsByIds,
-    this.getAllNews
+    this.getAllNews,
+    this.getAllProductsCount,
+    this.getAllProductsInSale,
+    this.getAllProductsInSaleCount
   ];
 
   apiBaseEndpointUrl = '';

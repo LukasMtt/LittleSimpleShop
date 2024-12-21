@@ -17,13 +17,17 @@
   gap: 5%;
   padding: 10px;
   color: var(--secondary-color);
-  font-size: 100%;
 }
 
 @media (max-width: 1000px) {
   :host {
     grid-template-columns: 1fr;
     row-gap: 0.5%;
+  }
+
+  .item-sub-text-card {
+    font-size: 2.8vw;
+    overflow: hidden;
   }
 }
 
@@ -40,8 +44,8 @@
   :host(.grid-design-4-col) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
-}
 
-.item-sub-text-card {
-  font-size: 1.1vw;
+  .item-sub-text-card {
+    font-size: 1.1vw;
+  }
 }
