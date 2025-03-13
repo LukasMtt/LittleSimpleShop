@@ -8,7 +8,18 @@
 .news-text {
   width: fit-content;
   height: fit-content;
-  font-size: 1.9vh;
   color: black;
   vertical-align: middle;
+}
+
+@media (min-width: 500px) {
+  .news-text {
+    font-size: 1.5vh;
+  }
+}
+
+@media (max-width: 500px) {
+  .news-text {
+    font-size: 1.3vh;
+  }
 }

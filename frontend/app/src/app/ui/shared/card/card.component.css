@@ -1,25 +1,31 @@
 :host {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 5px;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 5px;
+  overflow: hidden;
 }
 
 .card-img-container {
-    width: 100%;
-    height: calc(100% - 5vh);
-    overflow: hidden;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.card-bottom-content {
+  height: fit-content;
 }
 
 .card-img {
-    display: block;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
-  
+
 .card-img:hover {
-    opacity: 0.75;
-    cursor: pointer;
-    transform: scale(1.1);
+  opacity: 0.75;
+  cursor: pointer;
+  transform: scale(1.1);
 }

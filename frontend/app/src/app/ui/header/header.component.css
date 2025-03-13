@@ -34,13 +34,13 @@ app-news-header {
 
 @media (min-width: 500px) {
   .header-banner {
-    font-size: 20px;
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 500px) {
   .header-banner {
-    font-size: 15px;
+    font-size: 1rem;
   }
 }
 
