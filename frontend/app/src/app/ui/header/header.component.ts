@@ -49,7 +49,7 @@ export class HeaderComponent extends BaseComponent implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.cartSubscription$.unsubscribe();
   }
 

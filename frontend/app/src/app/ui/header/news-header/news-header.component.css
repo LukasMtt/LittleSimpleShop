@@ -1,5 +1,6 @@
 :host {
   display: flex;
+  height: 1.3rem;
   justify-content: center;
   align-items: center;
   background-color: var(--ternary-color);
@@ -7,19 +8,11 @@
 
 .news-text {
   width: fit-content;
-  height: fit-content;
   color: black;
   vertical-align: middle;
+  padding: 0.8em;
 }
 
-@media (min-width: 500px) {
-  .news-text {
-    font-size: 1.5vh;
-  }
-}
-
-@media (max-width: 500px) {
-  .news-text {
-    font-size: 1.3vh;
-  }
+.news-text {
+  font-size: 0.7rem;
 }

@@ -11,12 +11,6 @@ header {
 
 /* news header */
 
-app-news-header {
-  height: 4vh;
-}
-
-/* toolbar */
-
 .header-toolbar {
   display: grid;
   grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
@@ -26,21 +20,31 @@ app-news-header {
   background: var(--secondary-color);
 }
 
+.medium-button {
+  transform: scale(0.8);
+}
+
 /* banner */
 
 .header-banner:hover {
   cursor: pointer;
 }
 
-@media (min-width: 500px) {
-  .header-banner {
-    font-size: 1.2rem;
+.header-banner {
+  font-size: 1rem;
+}
+
+/* menu side bar */
+
+@media (max-width: 700px) {
+  .header-menu-sidebar {
+    width: 40%;
   }
 }
 
-@media (max-width: 500px) {
-  .header-banner {
-    font-size: 1rem;
+@media (min-width: 700px) {
+  .header-menu-sidebar {
+    width: 25%;
   }
 }
 
@@ -62,15 +66,15 @@ app-news-header {
 
 .counter-badge {
   display: inline-block;
-  width: 70%;
-  height: 70%;
+  width: 60%;
+  height: 60%;
   position: relative;
   bottom: 70%;
   right: 30%;
   text-align: center;
   text-justify: center;
   z-index: -1;
-  font-size: 10px;
+  font-size: 0.55rem;
   font-weight: 800;
   background-color: white;
   color: var(--secondary-color);

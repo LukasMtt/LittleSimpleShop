@@ -24,7 +24,7 @@ export class HeaderSidebarComponent extends BaseComponent implements OnChanges {
     super();
   }
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.setSidebarPositionOnChange();
   }
 
