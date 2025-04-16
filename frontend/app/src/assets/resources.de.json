@@ -6,5 +6,6 @@
   "MENU_SIDEBAR_IMPRESSUM": "Impressum",
   "MENU_SIDEBAR_ABOUT": "About",
   "TO_FULL_CART": "Zum Warenkorb",
-  "TO_FULL_CART_TOOLTIP": "Zum Warenkorb"
+  "TO_FULL_CART_TOOLTIP": "Zum Warenkorb",
+  "CART_SIDEBAR_TOTAL": "Gesamt"
 }

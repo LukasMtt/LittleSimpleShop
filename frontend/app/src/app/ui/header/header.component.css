@@ -34,7 +34,7 @@ header {
   font-size: 1rem;
 }
 
-/* menu side bar */
+/* side bar */
 
 @media (max-width: 700px) {
   .header-menu-sidebar {
@@ -46,6 +46,10 @@ header {
   .header-menu-sidebar {
     width: 25%;
   }
+}
+
+.header-cart-sidebar {
+  width: 35%;
 }
 
 /* cart */

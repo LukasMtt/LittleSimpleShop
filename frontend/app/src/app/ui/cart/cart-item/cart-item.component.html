@@ -6,10 +6,20 @@
     {{ cartItem.product.name }}
   </div>
   <div>
-    {{ getPrice(cartItem.product) | currency }}
+    {{ getPrice() | currency }}
+  </div>
+  <hr />
+  <div>
+    {{ this.res('CART_SIDEBAR_TOTAL') }}
+  </div>
+  <div>
+    {{ getTotalPrice() | currency }}
   </div>
 </div>
-<app-tick-counter
-  [counter]="cartItem.count"
-  (counterChange)="updateCartItemCount($event)"
-/>
+<div class="product-preview-right-column">
+  <app-tick-counter
+    [counter]="cartItem.count"
+    (counterChange)="updateCartItemCount($event)"
+  />
+  <mat-icon (click)="deleteCartItem()" class="delete-icon">delete</mat-icon>
+</div>

@@ -3,36 +3,49 @@
   height: 100%;
   width: 100%;
   justify-content: space-between;
-  border: solid;
-  border-color: var(--primary-color);
-  border-width: 1px;
-  padding: 7px;
   gap: 4%;
 }
 
 /* preview image  */
 
 .product-preview-image-container {
-  height: 23vh;
+  flex: 5;
 }
 
 .product-preview-image {
-  width: 14vw;
+  width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* product preview right column */
+
+.product-preview-right-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2%;
+}
+
+.delete-icon {
+  transform: scale(0.8);
+}
+
+.delete-icon:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.delete-icon:active {
+  opacity: 0.5;
 }
 
 /* title */
 
 .product-preview-title {
-  width: 7vw;
-  font-size: 1vw;
+  flex: 3;
+  font-size: 0.7rem;
   overflow: hidden;
-}
-
-/* tick counter */
-
-app-tick-counter {
-  width: 2.5vw;
-  height: 15vh;
 }

@@ -1,32 +1,34 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  background: var(--secondary-color);
   position: fixed;
-  height: 93vh;
-  width: 35%;
+  height: calc(100% - 7vh - 1.8rem);
   overflow-y: hidden;
   transition: right 1s;
+  opacity: 0.95;
+  padding-bottom: 5%;
 }
 
 /* cart item */
 
 app-cart-item {
-  width: 93%;
-  height: 25vh;
+  width: 90%;
+  height: 27%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.cart-item-divider {
+  opacity: 0.5;
+  border-color: var(--primary-color);
+  width: 100%;
 }
 
 /* go to cart button */
 
 .go-to-cart-button {
+  width: fit-content;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2vh;
-  background-color: var(--primary-color);
-  border: none;
-  border-radius: 5px;
-  opacity: 1;
-}
-
-.go-to-cart-button:hover {
-  background-color: rgb(166, 166, 168);
 }

@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3%;
+  padding: 0.4rem;
+  font-size: 0.66rem;
+  border: none;
+  border-radius: 1%;
+  background-color: var(--ternary-color);
+  white-space: nowrap;
+}
+
+button:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.button-icon {
+  transform: scale(0.66);
+}

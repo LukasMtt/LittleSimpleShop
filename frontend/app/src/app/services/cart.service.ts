@@ -43,13 +43,17 @@ export class CartService {
     this.cartObservable$.next(this.cart);
   }
 
+  //odd handling to pop item (seemingly side effect behavior etc.)
+  //timeout to wait for ui to find item to ensure side bar is not collapsed
   public popCartItemByProductId(productId: number) {
-    var item = this.cart.items.find(
-      (x) => x.product && x.product.id == productId
-    );
-    this.cart.items = this.cart.items.filter((x) => x != item);
-    this.setCartStorageString();
-    this.cartObservable$.next(this.cart);
+    setTimeout(() => {
+      var item = this.cart.items.find(
+        (x) => x.product && x.product.id == productId
+      );
+      this.cart.items = this.cart.items.filter((x) => x != item);
+      this.setCartStorageString();
+      this.cartObservable$.next(this.cart);
+    }, 10);
   }
 
   //odd handling to pop item (seemingly side effect behavior etc.)

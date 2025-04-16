@@ -6,26 +6,18 @@ import {
   OnDestroy,
   Renderer2
 } from '@angular/core';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { BaseComponent } from '../../shared/base.component';
 import { CartService } from '../../../services/cart.service';
 import { Cart } from '../../../models/cart.model';
 import { Subscription } from 'rxjs';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { RouterModule } from '@angular/router';
-import { MatTooltip } from '@angular/material/tooltip';
-import { MatIcon } from '@angular/material/icon';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
   selector: 'app-cart-sidebar',
   standalone: true,
-  imports: [
-    SidebarComponent,
-    CartItemComponent,
-    RouterModule,
-    MatTooltip,
-    MatIcon
-  ],
+  imports: [CartItemComponent, RouterModule, ButtonComponent, ButtonComponent],
   templateUrl: './cart-sidebar.component.html',
   styleUrl: './cart-sidebar.component.css'
 })
@@ -49,15 +41,15 @@ export class CartSidebarComponent
       .subscribe((x) => (this.cart = x));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.cartSubscription$.unsubscribe();
   }
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.setSidebarPositionOnChange();
   }
 
-  getCartItemsForDisplay() {
+  public getCartItemsForDisplay() {
     var result = this.cart?.items.filter((x) => x.count > 0);
     if (!result?.length || result.length < 3) {
       return result ?? [];
@@ -65,7 +57,7 @@ export class CartSidebarComponent
     return result.slice(0, 3);
   }
 
-  onClickCartRoute() {
+  public onClickCartRoute() {
     this.isHidden = true;
     this.setSidebarPositionOnChange();
   }

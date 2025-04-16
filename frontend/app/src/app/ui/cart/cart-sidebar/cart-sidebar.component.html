@@ -1,15 +1,13 @@
-<app-sidebar>
-  @for (cartItem of getCartItemsForDisplay(); track cartItem) {
-  <app-cart-item [cartItem]="cartItem"></app-cart-item>
-  }
+@for (cartItem of getCartItemsForDisplay(); track cartItem) {
+<app-cart-item [cartItem]="cartItem"></app-cart-item>
+<hr class="cart-item-divider" />
+}
 
-  <button
-    type="submit"
-    class="flex-item-30 go-to-cart-button"
-    matTooltip="{{ this.res('TO_FULL_CART') }}"
-    [routerLink]="'cart'"
-    (click)="onClickCartRoute()"
-  >
-    {{ this.res('TO_FULL_CART') }}
-  </button>
-</app-sidebar>
+<app-button
+  type="submit"
+  class="go-to-cart-button"
+  matIcon="shopping_cart"
+  [label]="this.res('TO_FULL_CART')"
+  [routerLink]="'cart'"
+  (click)="onClickCartRoute()"
+></app-button>
