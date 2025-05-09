@@ -1,6 +1,10 @@
-<button type="{{ type }}">
-  <span
-    ><mat-icon class="button-icon">{{ matIcon }}</mat-icon></span
-  >
-  <span>{{ label }}</span>
+<button
+  [type]="type"
+  [style.border]="border"
+  [style.border-color]="'var(--secondary-color)'"
+  [style.border-width]="'0.5px'"
+  [disabled]="disabled"
+>
+  <mat-icon class="button-icon">{{ matIcon }}</mat-icon>
+  <span class="button-label">{{ label }}</span>
 </button>

@@ -1,24 +1,29 @@
-<div class="subscribe-text subscribe-item">
-    Subscribe to the newsletter and never miss a (pottery) thing...
-</div>
-<div class="subscribe-item">
-    <form [formGroup]="newsletterSubscribeFormGroup" class="newsletter-subscribe-form" (ngSubmit)="onSubmit()">
-        <div class="form-item">
-            <div class="form-row">
-                <label for="email" class="flex-item-20 form-label">E-Mail</label>
-            </div>
-            <div class="form-row">
-                <input id="email" type="email" formControlName="email" class="flex-item-90 form-input">
-            </div>
-            @if(!newsletterSubscribeFormGroup.controls.email.valid && newsletterSubscribeFormGroup.controls.email.dirty) {
-                <div class="form-row validation-text">
-                    Valid email is required!
-                </div>   
-            }
-        </div>
-        <button type="submit" class="subscribe-button flex-item-90" disabled matTooltip="Subscribing not available yet.">
-            <mat-icon>email</mat-icon> 
-            <div>Subscribe to newsletter</div>
-        </button>
+<div class="subscribe-container">
+  <div class="subscribe-text subscribe-item">
+    {{ this.res('NEWSLETTER_SUBSCRIBE_TEXT') }}
+  </div>
+  <div class="subscribe-item">
+    <form
+      [formGroup]="newsletterSubscribeFormGroup"
+      class="newsletter-subscribe-form form-v-gap-medium"
+      (ngSubmit)="onSubmit()"
+    >
+      <app-form-section
+        [control]="newsletterSubscribeFormGroup.controls.email"
+        [labelResource]="'FORM_ROW_LABEL_EMAIL'"
+        [validationFailResource]="'VALIDATION_NON_VALID_EMAIL'"
+        [type]="'email'"
+        [id]="'email'"
+      ></app-form-section>
+      <app-button
+        [type]="'submit'"
+        [disabled]="false"
+        [matIcon]="'email'"
+        [label]="this.res('NEWSLETTER_SUBSCRIBE_BUTTON_TEXT')"
+        [border]="'solid'"
+        class="subscribe-button"
+      >
+      </app-button>
     </form>
+  </div>
 </div>

@@ -13,4 +13,5 @@ export class ButtonComponent {
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled: boolean = false;
   @Input() matIcon: string = '';
+  @Input() border: 'solid' | 'none' = 'none';
 }

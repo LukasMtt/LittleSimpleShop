@@ -1,0 +1,10 @@
+.form-input {
+  width: 100%;
+  border-width: 1px;
+  height: 1.5rem;
+}
+
+.form-label {
+  font-weight: 1000;
+  font-size: 0.75rem;
+}

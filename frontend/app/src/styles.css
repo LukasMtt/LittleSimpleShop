@@ -37,30 +37,11 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 /* forms */
-
-.ng-invalid:not(form, div).ng-dirty {
-  border-color: red;
-  background-color: rgba(255, 0, 0, 0.068);
-}
-
-.form-input {
-  border-width: 1px;
-  height: 5vh;
-}
-
-.form-label {
-  font-weight: 1000;
-  font-size: 1.4vh;
-}
-
-.sub-label {
-  font-size: 1.4vh;
-}
-
-.form-item {
-  margin-bottom: 2vh;
-}
 
 .form-row {
   width: 100%;
@@ -69,47 +50,22 @@ button:hover {
   margin-right: auto;
 }
 
+.ng-invalid:not(form, div).ng-dirty {
+  border-color: red;
+  background-color: rgba(255, 0, 0, 0.068);
+}
+
 .validation-text {
   color: red;
-  font-size: 1.4vh;
+  font-size: 0.55rem;
 }
 
-.form-row-gap-3 {
-  gap: 3%;
+.form-v-gap-small {
+  gap: 0.5rem;
 }
 
-/* flex-items */
-
-.flex-item-20 {
-  width: 20%;
-}
-
-.flex-item-25 {
-  width: 25%;
-}
-
-.flex-item-30 {
-  width: 30%;
-}
-
-.flex-item-45 {
-  width: 45%;
-}
-
-.flex-item-50 {
-  width: 50%;
-}
-
-.flex-item-60 {
-  width: 60%;
-}
-
-.flex-item-80 {
-  width: 80%;
-}
-
-.flex-item-90 {
-  width: 90%;
+.form-v-gap-medium {
+  gap: 0.75rem;
 }
 
 /* fonts */

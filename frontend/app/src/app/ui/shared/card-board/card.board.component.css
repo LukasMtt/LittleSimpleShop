@@ -28,11 +28,16 @@
   }
 
   .name-only {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .name-and-price {
     font-size: 1.2rem;
+  }
+}
+@media (max-width: 700px) {
+  .name-only {
+    font-size: 1rem;
   }
 }
 

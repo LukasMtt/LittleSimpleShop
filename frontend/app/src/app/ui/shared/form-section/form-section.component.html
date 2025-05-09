@@ -1,0 +1,12 @@
+@if(control) {
+<div class="form-row">
+  <label [for]="id" class="form-label">{{ this.res(labelResource) }}</label>
+</div>
+<div class="form-row">
+  <input [id]="id" [type]="type" [formControl]="control" class="form-input" />
+</div>
+@if(performValidation && !control.valid && control.dirty) {
+<div class="form-row validation-text">
+  {{ this.res(validationFailResource) }}
+</div>
+} }

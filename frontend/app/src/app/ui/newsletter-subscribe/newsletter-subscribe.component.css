@@ -1,34 +1,45 @@
 :host {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   background-color: var(--ternary-color);
 }
 
+.subscribe-container {
+  display: flex;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+  gap: 0.9em;
+}
+
 .subscribe-text {
-  font-size: 1.3rem;
+  font-size: 0.9rem;
   font-style: italic;
-  margin-bottom: 1rem;
 }
 
 .subscribe-item {
   display: block;
-  width: 30%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.subscribe-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5vw;
-  height: 3rem;
 }
 
 .newsletter-subscribe-form {
   display: flex;
   flex-direction: column;
+}
+
+.subscribe-button {
+  width: 33%;
+  height: 2rem;
+}
+
+@media (max-width: 700px) {
+  .subscribe-button {
+    width: 40%;
+    height: 2rem;
+  }
+
+  .subscribe-container {
+    width: 75%;
+  }
 }
