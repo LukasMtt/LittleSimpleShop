@@ -1,5 +1,9 @@
 <div class="product-preview-image-container-{{ previewPictureSize }}">
-  <img class="product-preview-image" [src]="createImage()" />
+  <img
+    class="product-preview-image"
+    [src]="createImage()"
+    [routerLink]="productLink"
+  />
 </div>
 <div class="product-preview-title">
   <div>
