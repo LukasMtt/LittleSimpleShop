@@ -3,6 +3,7 @@ import { Cart } from '../../../models/cart.model';
 import { Subscription } from 'rxjs';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
+import { BaseComponent } from '../../shared/base.component';
 
 @Component({
   selector: 'app-cart-sum',
@@ -11,12 +12,15 @@ import { CurrencyPipe } from '@angular/common';
   templateUrl: './cart-sum.component.html',
   styleUrl: './cart-sum.component.css'
 })
-export class CartSumComponent {
-  @Input({required: true}) cart!: Cart | undefined;
+export class CartSumComponent extends BaseComponent {
+  @Input({ required: true }) cart!: Cart | undefined;
   cartSubscription$: Subscription;
 
   constructor(public cartService: CartService) {
-    this.cartSubscription$ = cartService.getCartObservable().subscribe((x) => this.cart = x);
+    super();
+    this.cartSubscription$ = cartService
+      .getCartObservable()
+      .subscribe((x) => (this.cart = x));
   }
 
   ngOnDestroy(): void {
@@ -26,7 +30,9 @@ export class CartSumComponent {
   getCartPriceSum() {
     var baseItems = this.cart?.items.filter((x) => x.count > 0);
     if (baseItems && baseItems.length > 0) {
-      return baseItems.map((x) => x.product.price * x.count).reduce((x, y) => x += y);
+      return baseItems
+        .map((x) => x.product.price * x.count)
+        .reduce((x, y) => (x += y));
     }
     return 0;
   }

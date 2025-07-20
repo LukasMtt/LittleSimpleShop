@@ -11,5 +11,6 @@
   "NEWSLETTER_SUBSCRIBE_TEXT": "Abonnier unseren Newsletter und verpasse nichts...",
   "NEWSLETTER_SUBSCRIBE_BUTTON_TEXT": "Abonnieren",
   "VALIDATION_NON_VALID_EMAIL": "Bitte gib eine gültige E-Mail-Adresse ein.",
-  "FORM_ROW_LABEL_EMAIL": "E-Mail"
+  "FORM_ROW_LABEL_EMAIL": "E-Mail",
+  "CART_SUM": "Summe"
 }

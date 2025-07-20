@@ -4,7 +4,8 @@
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  gap: 5%;
+  gap: 1em;
+  margin-bottom: 1em;
 }
 
 .cart-show-item {
@@ -12,5 +13,7 @@
 }
 
 .cart-show-divider {
-  margin-left: 5px;
+  width: 100%;
+  opacity: 0.33;
+  border-color: var(--secondary-color);
 }
