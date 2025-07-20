@@ -1,20 +1,16 @@
 :host {
-    display: flex;
-    flex-direction: row;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 5%;
-}
-
-.show-item {
-    width: 47.5%;
-    margin-left: 2.5vw;
+  display: flex;
+  width: 80vw;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 5%;
 }
 
 .cart-show-item {
-    display: block;
+  display: block;
 }
 
 .cart-show-divider {
-    margin-left: 5px;
+  margin-left: 5px;
 }

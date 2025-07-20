@@ -17,6 +17,7 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class CartItemComponent extends BaseComponent {
   @Input({ required: true }) cartItem!: CartItem;
+  @Input() previewPictureSize: 'medium' | 'large' = 'large';
 
   cartSubscription$: Subscription;
   cart: Cart | undefined;

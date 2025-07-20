@@ -8,8 +8,12 @@
 
 /* preview image  */
 
-.product-preview-image-container {
+.product-preview-image-container-large {
   flex: 5;
+}
+
+.product-preview-image-container-medium {
+  flex: 3;
 }
 
 .product-preview-image {
