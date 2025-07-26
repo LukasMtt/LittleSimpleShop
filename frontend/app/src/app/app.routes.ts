@@ -7,6 +7,7 @@ import { AboutComponent } from './ui/about/about.component';
 import { ImprintComponent } from './ui/imprint/imprint.component';
 import { CartShowComponent } from './ui/cart/cart-show/cart-show.component';
 import { LandingPageComponent } from './ui/landing-page/landing-page.component';
+import { CheckoutTrailComponent } from './ui/checkout-trail/checkout-trail.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -15,7 +16,15 @@ export const routes: Routes = [
   { path: 'account', component: AccountComponent },
   { path: 'about', component: AboutComponent },
   { path: 'imprint', component: ImprintComponent },
-  { path: 'cart', component: CartShowComponent },
+  {
+    path: 'checkout-trail',
+    component: CheckoutTrailComponent,
+    children: [
+      { path: 'cart', component: CartShowComponent, outlet: 'checkout' },
+      { path: 'shipping', component: CartShowComponent, outlet: 'checkout' },
+      { path: 'payment', component: CartShowComponent, outlet: 'checkout' }
+    ]
+  },
 
   {
     path: 'products/:categoryId/:categoryType',

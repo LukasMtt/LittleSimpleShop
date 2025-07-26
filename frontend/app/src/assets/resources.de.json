@@ -12,5 +12,8 @@
   "NEWSLETTER_SUBSCRIBE_BUTTON_TEXT": "Abonnieren",
   "VALIDATION_NON_VALID_EMAIL": "Bitte gib eine gültige E-Mail-Adresse ein.",
   "FORM_ROW_LABEL_EMAIL": "E-Mail",
-  "CART_SUM": "Summe"
+  "CART_SUM": "Summe",
+  "BREADCRUMB_CART": "Warenkorb",
+  "BREADCRUMB_SHIPPING": "Versand",
+  "BREADCRUMB_PAYMENT": "Bezahlen"
 }

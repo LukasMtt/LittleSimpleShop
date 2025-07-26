@@ -1,0 +1,8 @@
+<div class="breadcrumb-container">
+  <app-breadcrumb-checkout
+    [(currentStep)]="currentStep"
+    (currentStepChange)="updateCheckoutStep(currentStep)"
+    [steps]="steps"
+  ></app-breadcrumb-checkout>
+</div>
+<router-outlet name="checkout" class="checkout-content"> </router-outlet>

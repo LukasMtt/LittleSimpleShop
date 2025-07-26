@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.breadcrumb-container {
+  background-color: var(--ternary-color);
+  margin-top: -5vh;
+}
+
+.checkout-content {
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+app-breadcrumb-checkout {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
