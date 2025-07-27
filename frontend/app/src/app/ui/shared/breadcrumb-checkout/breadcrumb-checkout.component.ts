@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { BaseComponent } from '../base.component';
 import { NgClass } from '@angular/common';
@@ -12,7 +19,7 @@ import { NgClass } from '@angular/common';
 })
 export class BreadcrumbCheckoutComponent
   extends BaseComponent
-  implements OnInit
+  implements OnInit, OnChanges
 {
   @Input() currentStep: number = 0;
   @Input() steps: {
@@ -31,7 +38,15 @@ export class BreadcrumbCheckoutComponent
     this.numOfSteps = this.steps.length;
   }
 
+  public ngOnChanges(): void {
+    this.updateStepInternal(this.currentStep);
+  }
+
   public updateStep(step: number): void {
+    this.updateStepInternal(step);
+  }
+
+  private updateStepInternal(step: number): void {
     if (step > this.maxStep + 1) {
       return;
     }

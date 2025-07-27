@@ -8,6 +8,8 @@ import { ImprintComponent } from './ui/imprint/imprint.component';
 import { CartShowComponent } from './ui/cart/cart-show/cart-show.component';
 import { LandingPageComponent } from './ui/landing-page/landing-page.component';
 import { CheckoutTrailComponent } from './ui/checkout-trail/checkout-trail.component';
+import { ShippingComponent } from './ui/checkout-trail/shipping/shipping.component';
+import { PaymentComponent } from './ui/checkout-trail/payment/payment.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -21,8 +23,8 @@ export const routes: Routes = [
     component: CheckoutTrailComponent,
     children: [
       { path: 'cart', component: CartShowComponent, outlet: 'checkout' },
-      { path: 'shipping', component: CartShowComponent, outlet: 'checkout' },
-      { path: 'payment', component: CartShowComponent, outlet: 'checkout' }
+      { path: 'shipping', component: ShippingComponent, outlet: 'checkout' },
+      { path: 'payment', component: PaymentComponent, outlet: 'checkout' }
     ]
   },
 
