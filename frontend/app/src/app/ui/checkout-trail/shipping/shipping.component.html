@@ -1,1 +1,99 @@
-<p>shipping works!</p>
+<form [formGroup]="shipmentFormGroup" class="shipment-form">
+  <label class="sub-label">{{
+    this.res('SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION')
+  }}</label>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('firstName', this.shipmentFormGroup)"
+    [labelResource]="'FORM_ROW_LABEL_FIRST_NAME'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [type]="'text'"
+    [id]="'firstName'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('lastName', this.shipmentFormGroup)"
+    [labelResource]="'FORM_ROW_LABEL_LAST_NAME'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [type]="'text'"
+    [id]="'lastName'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('email', this.shipmentFormGroup)"
+    [labelResource]="'FORM_ROW_LABEL_EMAIL'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' },
+      { key: 'email', value: 'VALIDATION_NON_VALID_EMAIL' }
+    ]"
+    [type]="'email'"
+    [id]="'email'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <label class="sub-label">{{
+    this.res('SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION')
+  }}</label>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('street', getAddressFormGroup())"
+    [labelResource]="'FORM_ROW_LABEL_STREET'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [type]="'text'"
+    [id]="'street'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('number', getAddressFormGroup())"
+    [labelResource]="'FORM_ROW_LABEL_NUMBER'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [type]="'text'"
+    [id]="'number'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('zip', getAddressFormGroup())"
+    [labelResource]="'FORM_ROW_LABEL_ZIP'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [type]="'text'"
+    [id]="'zip'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('city', getAddressFormGroup())"
+    [labelResource]="'FORM_ROW_LABEL_CITY'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [type]="'text'"
+    [id]="'city'"
+    [isRequired]="true"
+  ></app-form-section>
+
+  <app-form-section
+    [control]="getFormControlFromFormGroup('country', getAddressFormGroup())"
+    [labelResource]="'FORM_ROW_LABEL_COUNTRY'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [selectOptions]="getCountrySelectOptions()"
+    [type]="'select'"
+    [id]="'country'"
+    [isRequired]="true"
+  ></app-form-section>
+</form>

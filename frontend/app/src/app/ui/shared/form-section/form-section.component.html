@@ -1,12 +1,23 @@
 @if(control) {
 <div class="form-row">
-  <label [for]="id" class="form-label">{{ this.res(labelResource) }}</label>
+  <label [for]="id" class="form-label">{{ getLabelText() }}</label>
 </div>
+@if (type === 'select' && selectOptions) {
+<div class="form-row">
+  <select [id]="id" [formControl]="control" class="form-select">
+    @for (option of selectOptions; track $index) {
+    <option [value]="option.value">
+      {{ option.label }}
+    </option>
+    }
+  </select>
+</div>
+} @if (type == 'text' || type == 'email') {
 <div class="form-row">
   <input [id]="id" [type]="type" [formControl]="control" class="form-input" />
 </div>
-@if(performValidation && !control.valid && control.dirty) {
+} @if(performValidation && !control.valid && control.dirty) {
 <div class="form-row validation-text">
-  {{ this.res(validationFailResource) }}
+  {{ getErrorMessage(control.errors) }}
 </div>
 } }

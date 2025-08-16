@@ -1,0 +1,6 @@
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  padding: 2.5%;
+  background-color: var(--ternary-color);
+}

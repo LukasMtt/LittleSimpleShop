@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BreadcrumbCheckoutComponent } from '../shared/breadcrumb-checkout/breadcrumb-checkout.component';
+import { ShipmentService } from '../../services/shipment.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout-trail',
@@ -11,30 +13,51 @@ import { BreadcrumbCheckoutComponent } from '../shared/breadcrumb-checkout/bread
 })
 export class CheckoutTrailComponent implements OnInit {
   currentStep: number = 0;
+  shipmentFormGroup: FormGroup;
   steps = [
-    { stepDisplayValue: 'BREADCRUMB_CART', position: 0 },
-    { stepDisplayValue: 'BREADCRUMB_SHIPPING', position: 1 },
-    { stepDisplayValue: 'BREADCRUMB_PAYMENT', position: 2 }
-  ];
-  stepsRouteEndpoints = [
-    { subRoute: 'cart', position: 0 },
-    { subRoute: 'shipping', position: 1 },
-    { subRoute: 'payment', position: 2 }
+    {
+      stepDisplayValue: 'BREADCRUMB_CART',
+      subRoute: 'cart',
+      position: 0,
+      makeStepAccessible: true
+    },
+    {
+      stepDisplayValue: 'BREADCRUMB_SHIPPING',
+      subRoute: 'shipping',
+      position: 1,
+      makeStepAccessible: true
+    },
+    {
+      stepDisplayValue: 'BREADCRUMB_PAYMENT',
+      subRoute: 'payment',
+      position: 2,
+      makeStepAccessible: this.shipmentService.getShipmentFormGroup().valid
+    }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private shipmentService: ShipmentService
+  ) {
+    this.shipmentFormGroup = this.shipmentService.getShipmentFormGroup();
+    this.shipmentFormGroup.valueChanges.subscribe(() => {
+      var shippingStep = this.steps.find((x) => x.subRoute === 'shipping');
+      if (shippingStep) {
+        shippingStep.makeStepAccessible = this.shipmentFormGroup.valid;
+      }
+      this.steps = [...this.steps];
+    });
+  }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.router.navigate([
       'checkout-trail',
       { outlets: { checkout: ['cart'] } }
     ]);
   }
 
-  updateCheckoutStep($step: number) {
-    var endpoint =
-      this.stepsRouteEndpoints.find((x) => x.position === $step)?.subRoute ??
-      '';
+  public updateCheckoutStep($step: number) {
+    var endpoint = this.steps.find((x) => x.position === $step)?.subRoute ?? '';
 
     this.router.navigate([
       'checkout-trail',

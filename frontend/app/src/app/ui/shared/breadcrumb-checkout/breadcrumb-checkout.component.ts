@@ -9,6 +9,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { BaseComponent } from '../base.component';
 import { NgClass } from '@angular/common';
+import { ShipmentService } from '../../../services/shipment.service';
 
 @Component({
   selector: 'app-breadcrumb-checkout',
@@ -25,6 +26,7 @@ export class BreadcrumbCheckoutComponent
   @Input() steps: {
     stepDisplayValue: string;
     position: number;
+    makeStepAccessible: boolean;
   }[] = [];
 
   numOfSteps: number = 0;
@@ -32,6 +34,10 @@ export class BreadcrumbCheckoutComponent
 
   @Output() currentStepChange: EventEmitter<number> =
     new EventEmitter<number>();
+
+  constructor(public shipmentService: ShipmentService) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.steps = this.steps.sort((a, b) => a.position - b.position);
@@ -47,7 +53,10 @@ export class BreadcrumbCheckoutComponent
   }
 
   private updateStepInternal(step: number): void {
-    if (step > this.maxStep + 1) {
+    var stepItem = null;
+    if (this.steps && this.steps.length > 0)
+      stepItem = this.steps.find((x) => x.position == step);
+    if (step > this.maxStep + 1 || stepItem?.makeStepAccessible == false) {
       return;
     }
     if (step > this.maxStep) {

@@ -1,14 +1,14 @@
-@for (item of steps; track item.position) {
+@if (steps && steps.length > 0) { @for (item of steps; track $index) {
 <div
   class="breadcrumb"
   [ngClass]="{
-    'breadcrumb-step-active': this.currentStep === item.position,
-    'breadcrumb-step-not-reached': maxStep + 1 < item.position
-  }"
+        'breadcrumb-step-active': this.currentStep === item.position,
+        'breadcrumb-step-not-reached': maxStep + 1 < item.position || item.makeStepAccessible === false,
+      }"
   (click)="updateStep(item.position)"
 >
   <div>{{ this.res(item.stepDisplayValue) }}</div>
 </div>
 @if (item.position < this.numOfSteps-1) {
 <mat-icon>keyboard_arrow_right</mat-icon>
-} }
+} } }

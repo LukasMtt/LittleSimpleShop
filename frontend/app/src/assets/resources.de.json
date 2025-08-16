@@ -15,5 +15,15 @@
   "CART_SUM": "Summe",
   "BREADCRUMB_CART": "Warenkorb",
   "BREADCRUMB_SHIPPING": "Versand",
-  "BREADCRUMB_PAYMENT": "Bezahlen"
+  "BREADCRUMB_PAYMENT": "Bezahlen",
+  "FORM_ROW_LABEL_FIRST_NAME": "Vorname",
+  "FORM_ROW_LABEL_LAST_NAME": "Nachname",
+  "VALIDATION_FIELD_REQUIRED": "Dieses Feld ist erforderlich.",
+  "FORM_ROW_LABEL_ZIP": "Postleitzahl",
+  "FORM_ROW_LABEL_CITY": "Stadt",
+  "FORM_ROW_LABEL_STREET": "Straße",
+  "FORM_ROW_LABEL_NUMBER": "Hausnummer",
+  "FORM_ROW_LABEL_COUNTRY": "Land",
+  "SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION": "Persönliche Angaben",
+  "SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION": "Addressinformationen"
 }
