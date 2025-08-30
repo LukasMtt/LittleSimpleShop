@@ -17,6 +17,10 @@
   background-color: var(--ternary-color);
 }
 
+.breadcrumb-bottom {
+  margin-top: 1rem;
+}
+
 .checkout-content {
   width: 80vw;
   margin-left: auto;

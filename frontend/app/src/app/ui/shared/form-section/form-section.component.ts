@@ -18,7 +18,7 @@ export class FormSectionComponent extends BaseComponent {
 
   @Input() id: string = '';
   @Input() selectOptions: { value: any; label: string }[] | null = null;
-  @Input() type: 'text' | 'email' | 'select' = 'text';
+  @Input() type: 'text' | 'email' | 'select' | 'checkbox' = 'text';
   @Input() labelResource: string = '';
 
   @Input() validationFailResourcesMap: { key: string; value: string }[] = [];
@@ -26,7 +26,9 @@ export class FormSectionComponent extends BaseComponent {
   @Input() isRequired: boolean = false;
 
   public getLabelText(): string {
-    return `${this.res(this.labelResource)}${this.isRequired ? '*' : ''}`;
+    return `${this.res(this.labelResource)}${
+      this.isRequired ? '*' : ` (${this.res('FORM_ROW_OPTIONAL')})`
+    }`;
   }
 
   public getErrorMessage(error: ValidationErrors | null): string {

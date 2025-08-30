@@ -41,7 +41,7 @@ export class CheckoutTrailComponent implements OnInit {
   ) {
     this.shipmentFormGroup = this.shipmentService.getShipmentFormGroup();
     this.shipmentFormGroup.valueChanges.subscribe(() => {
-      var shippingStep = this.steps.find((x) => x.subRoute === 'shipping');
+      let shippingStep = this.steps.find((x) => x.subRoute === 'payment');
       if (shippingStep) {
         shippingStep.makeStepAccessible = this.shipmentFormGroup.valid;
       }
@@ -57,7 +57,7 @@ export class CheckoutTrailComponent implements OnInit {
   }
 
   public updateCheckoutStep($step: number) {
-    var endpoint = this.steps.find((x) => x.position === $step)?.subRoute ?? '';
+    let endpoint = this.steps.find((x) => x.position === $step)?.subRoute ?? '';
 
     this.router.navigate([
       'checkout-trail',

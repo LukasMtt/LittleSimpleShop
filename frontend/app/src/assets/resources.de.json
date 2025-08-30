@@ -24,6 +24,11 @@
   "FORM_ROW_LABEL_STREET": "Straße",
   "FORM_ROW_LABEL_NUMBER": "Hausnummer",
   "FORM_ROW_LABEL_COUNTRY": "Land",
+  "FORM_ROW_LABEL_COMPANY_NAME": "Firmenname",
+  "FORM_ROW_LABEL_ADDITION": "Addresszusatz",
+  "FORM_ROW_LABEL_PHONE": "Telefon",
+  "FORM_ROW_LABEL_ISNEWSLETTERACTIVATED": "Newsletter abonnieren",
+  "FORM_ROW_OPTIONAL": "optional",
   "SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION": "Persönliche Angaben",
   "SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION": "Addressinformationen"
 }

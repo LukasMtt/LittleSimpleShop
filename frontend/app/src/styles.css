@@ -43,29 +43,9 @@ button:disabled {
 
 /* forms */
 
-.form-row {
-  width: 100%;
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .ng-invalid:not(form, div).ng-dirty {
   border-color: red;
   background-color: rgba(255, 0, 0, 0.068);
-}
-
-.validation-text {
-  color: red;
-  font-size: 0.55rem;
-}
-
-.form-v-gap-small {
-  gap: 0.5rem;
-}
-
-.form-v-gap-medium {
-  gap: 0.75rem;
 }
 
 /* fonts */

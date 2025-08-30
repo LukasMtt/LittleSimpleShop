@@ -40,7 +40,7 @@ export class BreadcrumbCheckoutComponent
   }
 
   public ngOnInit(): void {
-    this.steps = this.steps.sort((a, b) => a.position - b.position);
+    this.steps = this.steps.sort((x, y) => x.position - y.position);
     this.numOfSteps = this.steps.length;
   }
 
@@ -53,7 +53,7 @@ export class BreadcrumbCheckoutComponent
   }
 
   private updateStepInternal(step: number): void {
-    var stepItem = null;
+    let stepItem = null;
     if (this.steps && this.steps.length > 0)
       stepItem = this.steps.find((x) => x.position == step);
     if (step > this.maxStep + 1 || stepItem?.makeStepAccessible == false) {

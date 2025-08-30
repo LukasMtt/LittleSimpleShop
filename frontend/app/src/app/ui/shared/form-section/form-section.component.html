@@ -1,20 +1,25 @@
-@if(control) {
+@if(control) { @if(type != 'checkbox') {
 <div class="form-row">
   <label [for]="id" class="form-label">{{ getLabelText() }}</label>
 </div>
-@if (type === 'select' && selectOptions) {
+} @if (type === 'select' && selectOptions) {
 <div class="form-row">
   <select [id]="id" [formControl]="control" class="form-select">
     @for (option of selectOptions; track $index) {
-    <option [value]="option.value">
+    <option [value]="option.value" class="form-select-option">
       {{ option.label }}
     </option>
     }
   </select>
 </div>
-} @if (type == 'text' || type == 'email') {
+} @else if (type == 'text' || type == 'email') {
 <div class="form-row">
   <input [id]="id" [type]="type" [formControl]="control" class="form-input" />
+</div>
+} @else if (type == 'checkbox') {
+<div class="form-row">
+  <input [id]="id" [type]="type" [formControl]="control" class="form-input" />
+  <label [for]="id" class="form-label">{{ getLabelText() }}</label>
 </div>
 } @if(performValidation && !control.valid && control.dirty) {
 <div class="form-row validation-text">

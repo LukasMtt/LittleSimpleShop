@@ -1,28 +1,46 @@
 <form [formGroup]="shipmentFormGroup" class="shipment-form">
-  <label class="sub-label">{{
-    this.res('SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION')
-  }}</label>
+  <div class="sub-label">
+    {{ this.res('SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION') }}
+  </div>
+
+  <div class="row">
+    <app-form-section
+      [control]="
+        getFormControlFromFormGroup('firstName', this.shipmentFormGroup)
+      "
+      [labelResource]="'FORM_ROW_LABEL_FIRST_NAME'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+      ]"
+      [type]="'text'"
+      [id]="'firstName'"
+      [isRequired]="true"
+      class="first-name-section"
+    ></app-form-section>
+
+    <app-form-section
+      [control]="
+        getFormControlFromFormGroup('lastName', this.shipmentFormGroup)
+      "
+      [labelResource]="'FORM_ROW_LABEL_LAST_NAME'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+      ]"
+      [type]="'text'"
+      [id]="'lastName'"
+      [isRequired]="true"
+      class="last-name-section"
+    ></app-form-section>
+  </div>
 
   <app-form-section
-    [control]="getFormControlFromFormGroup('firstName', this.shipmentFormGroup)"
-    [labelResource]="'FORM_ROW_LABEL_FIRST_NAME'"
-    [validationFailResourcesMap]="[
-      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
-    ]"
+    [control]="
+      getFormControlFromFormGroup('companyName', this.shipmentFormGroup)
+    "
+    [labelResource]="'FORM_ROW_LABEL_COMPANY_NAME'"
     [type]="'text'"
-    [id]="'firstName'"
-    [isRequired]="true"
-  ></app-form-section>
-
-  <app-form-section
-    [control]="getFormControlFromFormGroup('lastName', this.shipmentFormGroup)"
-    [labelResource]="'FORM_ROW_LABEL_LAST_NAME'"
-    [validationFailResourcesMap]="[
-      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
-    ]"
-    [type]="'text'"
-    [id]="'lastName'"
-    [isRequired]="true"
+    [id]="'companyName'"
+    [isRequired]="false"
   ></app-form-section>
 
   <app-form-section
@@ -37,53 +55,92 @@
     [isRequired]="true"
   ></app-form-section>
 
-  <label class="sub-label">{{
-    this.res('SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION')
-  }}</label>
-
   <app-form-section
-    [control]="getFormControlFromFormGroup('street', getAddressFormGroup())"
-    [labelResource]="'FORM_ROW_LABEL_STREET'"
-    [validationFailResourcesMap]="[
-      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
-    ]"
-    [type]="'text'"
-    [id]="'street'"
-    [isRequired]="true"
+    [control]="
+      getFormControlFromFormGroup(
+        'isNewsletterActivated',
+        this.shipmentFormGroup
+      )
+    "
+    [labelResource]="'FORM_ROW_LABEL_ISNEWSLETTERACTIVATED'"
+    [type]="'checkbox'"
+    [id]="'isNewsletterActivated'"
+    [isRequired]="false"
   ></app-form-section>
 
   <app-form-section
-    [control]="getFormControlFromFormGroup('number', getAddressFormGroup())"
-    [labelResource]="'FORM_ROW_LABEL_NUMBER'"
-    [validationFailResourcesMap]="[
-      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
-    ]"
+    [control]="getFormControlFromFormGroup('phone', this.shipmentFormGroup)"
+    [labelResource]="'FORM_ROW_LABEL_PHONE'"
     [type]="'text'"
-    [id]="'number'"
-    [isRequired]="true"
+    [id]="'phone'"
+    [isRequired]="false"
   ></app-form-section>
 
-  <app-form-section
-    [control]="getFormControlFromFormGroup('zip', getAddressFormGroup())"
-    [labelResource]="'FORM_ROW_LABEL_ZIP'"
-    [validationFailResourcesMap]="[
-      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
-    ]"
-    [type]="'text'"
-    [id]="'zip'"
-    [isRequired]="true"
-  ></app-form-section>
+  <br />
+
+  <div class="sub-label">
+    {{ this.res('SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION') }}
+  </div>
+
+  <div class="row">
+    <app-form-section
+      [control]="getFormControlFromFormGroup('street', getAddressFormGroup())"
+      [labelResource]="'FORM_ROW_LABEL_STREET'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+      ]"
+      [type]="'text'"
+      [id]="'street'"
+      [isRequired]="true"
+      class="street-section"
+    ></app-form-section>
+
+    <app-form-section
+      [control]="getFormControlFromFormGroup('number', getAddressFormGroup())"
+      [labelResource]="'FORM_ROW_LABEL_NUMBER'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+      ]"
+      [type]="'text'"
+      [id]="'number'"
+      [isRequired]="true"
+      class="number-section"
+    ></app-form-section>
+  </div>
 
   <app-form-section
-    [control]="getFormControlFromFormGroup('city', getAddressFormGroup())"
-    [labelResource]="'FORM_ROW_LABEL_CITY'"
-    [validationFailResourcesMap]="[
-      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
-    ]"
+    [control]="getFormControlFromFormGroup('addition', getAddressFormGroup())"
+    [labelResource]="'FORM_ROW_LABEL_ADDITION'"
     [type]="'text'"
-    [id]="'city'"
-    [isRequired]="true"
+    [id]="'addition'"
+    [isRequired]="false"
   ></app-form-section>
+
+  <div class="row">
+    <app-form-section
+      [control]="getFormControlFromFormGroup('zip', getAddressFormGroup())"
+      [labelResource]="'FORM_ROW_LABEL_ZIP'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+      ]"
+      [type]="'text'"
+      [id]="'zip'"
+      [isRequired]="true"
+      class="zip-section"
+    ></app-form-section>
+
+    <app-form-section
+      [control]="getFormControlFromFormGroup('city', getAddressFormGroup())"
+      [labelResource]="'FORM_ROW_LABEL_CITY'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+      ]"
+      [type]="'text'"
+      [id]="'city'"
+      [isRequired]="true"
+      class="city-section"
+    ></app-form-section>
+  </div>
 
   <app-form-section
     [control]="getFormControlFromFormGroup('country', getAddressFormGroup())"

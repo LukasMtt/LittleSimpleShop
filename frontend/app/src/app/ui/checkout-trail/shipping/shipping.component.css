@@ -1,6 +1,92 @@
-.checkout-form {
+.shipment-form {
   display: flex;
   flex-direction: column;
+  gap: 0.33rem;
   padding: 2.5%;
-  background-color: var(--ternary-color);
+  border: solid;
+  border-color: var(--ternary-color);
+  border-width: 0.33px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.sub-label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.66;
+}
+
+@media (min-width: 700px) {
+  .shipment-form {
+    width: 80vw;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .street-section {
+    flex: 3;
+  }
+
+  .number-section {
+    flex: 1;
+  }
+
+  .city-section {
+    flex: 3;
+  }
+
+  .zip-section {
+    flex: 1;
+  }
+
+  .first-name-section {
+    flex: 1;
+  }
+
+  .last-name-section {
+    flex: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .shipment-form {
+    width: 90vw;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.66rem;
+  }
+
+  .street-section {
+    flex: 2;
+  }
+
+  .number-section {
+    flex: 1;
+  }
+
+  .city-section {
+    flex: 2;
+  }
+
+  .zip-section {
+    flex: 1;
+  }
+
+  .first-name-section {
+    flex: 1;
+  }
+
+  .last-name-section {
+    flex: 1;
+  }
 }
