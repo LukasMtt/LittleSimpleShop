@@ -4,6 +4,7 @@
       [(currentStep)]="currentStep"
       (currentStepChange)="updateCheckoutStep(currentStep)"
       [steps]="steps"
+      [maxStep]="currentStep"
     ></app-breadcrumb-checkout>
   </div>
   <router-outlet name="checkout" class="checkout-content"> </router-outlet>
@@ -14,5 +15,6 @@
     [(currentStep)]="currentStep"
     (currentStepChange)="updateCheckoutStep(currentStep)"
     [steps]="steps"
+    [maxStep]="currentStep"
   ></app-breadcrumb-checkout>
 </div>

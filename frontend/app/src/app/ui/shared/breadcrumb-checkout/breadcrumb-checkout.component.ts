@@ -28,9 +28,9 @@ export class BreadcrumbCheckoutComponent
     position: number;
     makeStepAccessible: boolean;
   }[] = [];
+  @Input() maxStep: number = 0;
 
   numOfSteps: number = 0;
-  maxStep: number = 0;
 
   @Output() currentStepChange: EventEmitter<number> =
     new EventEmitter<number>();

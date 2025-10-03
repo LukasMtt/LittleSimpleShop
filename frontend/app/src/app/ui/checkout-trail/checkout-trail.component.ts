@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { BreadcrumbCheckoutComponent } from '../shared/breadcrumb-checkout/breadcrumb-checkout.component';
 import { ShipmentService } from '../../services/shipment.service';
 import { FormGroup } from '@angular/forms';
+import { UrlHelper } from '../../helper/url.helper';
 
 @Component({
   selector: 'app-checkout-trail',
@@ -50,18 +51,32 @@ export class CheckoutTrailComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.router.navigate([
-      'checkout-trail',
-      { outlets: { checkout: ['cart'] } }
-    ]);
+    this.initStepSetup();
   }
 
   public updateCheckoutStep($step: number) {
-    let endpoint = this.steps.find((x) => x.position === $step)?.subRoute ?? '';
+    let step = this.steps.find((x) => x.position === $step);
 
     this.router.navigate([
       'checkout-trail',
-      { outlets: { checkout: [endpoint] } }
+      { outlets: { checkout: [step?.subRoute ?? ''] } }
     ]);
+  }
+
+  private initStepSetup(): void {
+    const currentUrl = this.router.url;
+    const step = this.steps.find((x) => {
+      let subOutlet = UrlHelper.getSubOutletTarget(currentUrl);
+      return x.subRoute == (subOutlet.length > 0 ? subOutlet[0] : '');
+    });
+    if (step) {
+      step.makeStepAccessible = true;
+      this.steps = [...this.steps];
+      this.currentStep = step.position;
+      this.updateCheckoutStep(step.position);
+    } else {
+      this.currentStep = 0;
+      this.updateCheckoutStep(0);
+    }
   }
 }

@@ -8,6 +8,7 @@ export enum EndpointItem {
   Shop = 'shop/',
   Product = 'product/',
   News = 'news/',
+  Payment = 'payment/',
   GetAllCategories = 'getAllCategories',
   GetAllProducts = 'getAllProducts',
   GetAllProductsInSale = 'getAllProductsInSale',
@@ -17,7 +18,8 @@ export enum EndpointItem {
   GetAllProductsInSaleCount = 'getAllProductsInSaleCount',
   GetProductById = 'getProductById',
   GetProductsByIds = 'getProductsByIds',
-  GetAllNews = 'getAllNews'
+  GetAllNews = 'getAllNews',
+  CreateCheckoutSession = 'createCheckoutSession'
 }
 
 @Injectable({
@@ -30,6 +32,7 @@ export class EndpointResolveService {
 
   product: EndpointNode = { parent: this.shop, item: EndpointItem.Product };
   news: EndpointNode = { parent: this.shop, item: EndpointItem.News };
+  payment: EndpointNode = { parent: this.shop, item: EndpointItem.Payment };
 
   getAllCategories: EndpointNode = {
     parent: this.product,
@@ -71,6 +74,10 @@ export class EndpointResolveService {
     parent: this.news,
     item: EndpointItem.GetAllNews
   };
+  createCheckoutSession: EndpointNode = {
+    parent: this.payment,
+    item: EndpointItem.CreateCheckoutSession
+  };
 
   leafList: EndpointNode[] = [
     this.getAllCategories,
@@ -82,7 +89,8 @@ export class EndpointResolveService {
     this.getAllNews,
     this.getAllProductsCount,
     this.getAllProductsInSale,
-    this.getAllProductsInSaleCount
+    this.getAllProductsInSaleCount,
+    this.createCheckoutSession
   ];
 
   apiBaseEndpointUrl = '';

@@ -30,5 +30,6 @@
   "FORM_ROW_LABEL_ISNEWSLETTERACTIVATED": "Newsletter abonnieren",
   "FORM_ROW_OPTIONAL": "optional",
   "SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION": "Persönliche Angaben",
-  "SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION": "Addressinformationen"
+  "SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION": "Addressinformationen",
+  "BUTTON_PAY_NOW_WITH_STRIPE": "Jetzt mit Stripe bezahlen"
 }

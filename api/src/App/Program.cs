@@ -44,9 +44,12 @@ class Program
 
     private static void RegisterServices(IServiceCollection services)
     {
-        services.AddCors(options => { options.AddPolicy(name: "CorsPolicy",
-            builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
-        );});
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: "CorsPolicy",
+                builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+            );
+        });
         services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -56,6 +59,7 @@ class Program
         services.AddDbContext<ShopDbContext>();
 
         services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
+        services.AddTransient<StripePaymentService>();
     }
 
     private static IMapper ConfigureMappings()
