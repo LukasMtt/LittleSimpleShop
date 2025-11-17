@@ -1,10 +1,12 @@
+using Microsoft.Extensions.Primitives;
+using Serilog;
 using Shop.ApiModels;
 using Shop.Data;
 using Shop.Misc.Interfaces;
 using Stripe;
 using Stripe.Checkout;
 
-namespace Shop.Misc;
+namespace Shop.Service;
 
 public class StripePaymentService
 {
@@ -18,17 +20,22 @@ public class StripePaymentService
         _appSettingsConfigurationService = appSettingsConfigurationService;
         _context = context;
         _currency = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripeCurrency"];
+
+        StripeConfiguration.ApiKey = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripePrivateKey"];
     }
 
-    public async Task<Session> CreateCheckoutSession(CheckoutCartModel model)
+    public async Task<Session> CreateCheckoutSession(CheckoutCartModel model, long orderId)
     {
-        StripeConfiguration.ApiKey = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripePrivateKey"];
         var frontendBaseUrl = _appSettingsConfigurationService.GetAppSettingsConfiguration()["FrontendBaseUrl"];
 
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = _allowedPaymentMethods ,
+            PaymentMethodTypes = _allowedPaymentMethods,
             LineItems = ConvertCheckoutCartItems(model),
+            Metadata = new Dictionary<string, string>
+            {
+                { "InternalOrderId",  orderId.ToString() }
+            },
             Mode = "payment",
             SuccessUrl = FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl),
             CancelUrl = FrontendHelper.GetPaymentCancelUrl(frontendBaseUrl),
@@ -36,6 +43,36 @@ public class StripePaymentService
 
         var service = new SessionService();
         return await service.CreateAsync(options);
+    }
+
+    public bool HandleStripeWebhookEvent(string json, StringValues signatureHeader)
+    {
+        var webhookSecret = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripeWebhookSecret"];
+        try
+        {
+            var stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, webhookSecret);
+            switch (stripeEvent.Type)
+            {
+                case EventTypes.CheckoutSessionCompleted:
+                    var session = stripeEvent.Data.Object as Session;
+                    Log.Information("Checkout session completed: {0}", session.Id);
+                    HandleCheckoutSessionCompletedEvent(session);
+                    break;
+            }
+            return true;
+        }
+        catch (StripeException e)
+        {
+            Log.Error("Stripe webhook error: {0}", e.Message);
+            return false;
+        }
+    }
+
+    private void HandleCheckoutSessionCompletedEvent(Session session)
+    {
+        //todo send mail 
+        //todo update order status 
+        //todo create document
     }
 
     private List<SessionLineItemOptions> ConvertCheckoutCartItems(CheckoutCartModel model)
@@ -58,7 +95,7 @@ public class StripePaymentService
                         },
                     },
                     Quantity = item.Count,
-                });  
+                });
             }
         }
         return lineItems;

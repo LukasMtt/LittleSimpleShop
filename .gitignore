@@ -43,6 +43,8 @@ frontend/app/coverage
 frontend/app/libpeerconnection.log
 testem.log
 frontend/app/typings
+appsettings.json
+appsettings.Development.json
 
 # System files
 .DS_Store

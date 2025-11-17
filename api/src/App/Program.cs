@@ -5,6 +5,7 @@ using Shop.Data;
 using Shop.Data.Migrations;
 using Shop.Misc;
 using Shop.Misc.Interfaces;
+using Shop.Service;
 using System.Text.Json.Serialization;
 
 class Program
@@ -60,6 +61,7 @@ class Program
 
         services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
         services.AddTransient<StripePaymentService>();
+        services.AddTransient<OrderService>();
     }
 
     private static IMapper ConfigureMappings()

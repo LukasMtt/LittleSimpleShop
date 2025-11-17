@@ -10,6 +10,7 @@ import { LandingPageComponent } from './ui/landing-page/landing-page.component';
 import { CheckoutTrailComponent } from './ui/checkout-trail/checkout-trail.component';
 import { ShippingComponent } from './ui/checkout-trail/shipping/shipping.component';
 import { PaymentComponent } from './ui/checkout-trail/payment/payment.component';
+import { CheckoutSuccessComponent } from './ui/checkout-success/checkout-success.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'account', component: AccountComponent },
   { path: 'about', component: AboutComponent },
   { path: 'imprint', component: ImprintComponent },
+
   {
     path: 'checkout-trail',
     component: CheckoutTrailComponent,
@@ -27,6 +29,7 @@ export const routes: Routes = [
       { path: 'payment', component: PaymentComponent, outlet: 'checkout' }
     ]
   },
+  { path: 'checkout-success', component: CheckoutSuccessComponent },
 
   {
     path: 'products/:categoryId/:categoryType',

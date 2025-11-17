@@ -104,3 +104,27 @@ public class AddIsInSaleToProduct : Migration
     {
     }
 }
+
+[Migration(0000006)]
+public class AddOrderPersistenceTables : Migration
+{
+    public override void Up()
+    {
+        Create.Table("Order")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("OrderDate").AsDateTime().NotNullable();
+
+        Create.Table("OrderProduct")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("OrderId").AsInt64().NotNullable()
+            .WithColumn("ProductId").AsInt64().NotNullable()
+            .WithColumn("Quantity").AsInt32().NotNullable();
+
+        Create.ForeignKey().FromTable("OrderProduct").ForeignColumn("OrderId").ToTable("Order").PrimaryColumn("Id");
+        Create.ForeignKey().FromTable("OrderProduct").ForeignColumn("ProductId").ToTable("Product").PrimaryColumn("Id");
+    }
+
+    public override void Down()
+    {
+    }
+}
