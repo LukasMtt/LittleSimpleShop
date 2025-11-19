@@ -1,4 +1,10 @@
+<div>
+  <span class="payment-instruction-text">
+    {{ this.res('PAYMENT_INSTRUCTION_TEXT') }}
+  </span>
+</div>
 <app-button
   [label]="this.res('BUTTON_PAY_NOW_WITH_STRIPE')"
   (click)="checkout()"
+  class="payment-button"
 />

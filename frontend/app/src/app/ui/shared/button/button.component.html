@@ -5,6 +5,8 @@
   [style.border-width]="'0.5px'"
   [disabled]="disabled"
 >
+  @if(matIcon) {
   <mat-icon class="button-icon">{{ matIcon }}</mat-icon>
+  }
   <span class="button-label">{{ label }}</span>
 </button>

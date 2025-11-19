@@ -1,1 +1,20 @@
-<p>checkout-success works!</p>
+<div>
+  <span class="checkout-success-text">
+    {{ this.res('CHECKOUT_SUCCESS_TEXT') }}
+  </span>
+</div>
+<div>
+  <span class="checkout-success-contact bold-label">
+    {{ this.res('CONTACT_EMAIL') }}:
+  </span>
+  <span class="checkout-success-contact">
+    {{ this.email }}
+  </span>
+  <br />
+  <span class="checkout-success-contact bold-label">
+    {{ this.res('CONTACT_PHONE') }}:
+  </span>
+  <span class="checkout-success-contact">
+    {{ this.phone }}
+  </span>
+</div>

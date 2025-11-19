@@ -5,10 +5,13 @@ import { KeyValue } from '@angular/common';
 
 export enum EndpointItem {
   ROOT = '',
+
   Shop = 'shop/',
   Product = 'product/',
   News = 'news/',
   Payment = 'payment/',
+  Metadata = 'metadata/',
+
   GetAllCategories = 'getAllCategories',
   GetAllProducts = 'getAllProducts',
   GetAllProductsInSale = 'getAllProductsInSale',
@@ -19,7 +22,8 @@ export enum EndpointItem {
   GetProductById = 'getProductById',
   GetProductsByIds = 'getProductsByIds',
   GetAllNews = 'getAllNews',
-  CreateCheckoutSession = 'createCheckoutSession'
+  CreateCheckoutSession = 'createCheckoutSession',
+  GetMetadata = 'getMetadata'
 }
 
 @Injectable({
@@ -33,6 +37,7 @@ export class EndpointResolveService {
   product: EndpointNode = { parent: this.shop, item: EndpointItem.Product };
   news: EndpointNode = { parent: this.shop, item: EndpointItem.News };
   payment: EndpointNode = { parent: this.shop, item: EndpointItem.Payment };
+  metadata: EndpointNode = { parent: this.shop, item: EndpointItem.Metadata };
 
   getAllCategories: EndpointNode = {
     parent: this.product,
@@ -78,6 +83,10 @@ export class EndpointResolveService {
     parent: this.payment,
     item: EndpointItem.CreateCheckoutSession
   };
+  getMetadata: EndpointNode = {
+    parent: this.metadata,
+    item: EndpointItem.GetMetadata
+  };
 
   leafList: EndpointNode[] = [
     this.getAllCategories,
@@ -90,7 +99,8 @@ export class EndpointResolveService {
     this.getAllProductsCount,
     this.getAllProductsInSale,
     this.getAllProductsInSaleCount,
-    this.createCheckoutSession
+    this.createCheckoutSession,
+    this.getMetadata
   ];
 
   apiBaseEndpointUrl = '';
