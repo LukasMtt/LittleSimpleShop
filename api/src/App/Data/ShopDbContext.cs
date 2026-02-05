@@ -21,4 +21,9 @@ public class ShopDbContext : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         optionsBuilder.UseSqlServer(_appSettingsConfigurationService.GetAppSettingsConfiguration()["ConnectionString"]);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Product>().HasQueryFilter(p => p.LifecycleState != ProductLifecycleState.Archived);
+    }
 }

@@ -13,7 +13,7 @@ public class StripePaymentService
     private IAppSettingsConfigurationService _appSettingsConfigurationService;
     private ShopDbContext _context;
     private string _currency;
-    private readonly List<string> _allowedPaymentMethods = new List<string> { "card", "paypal" };
+    private readonly List<string> _allowedPaymentMethods = new List<string> { "card", "paypal", "alipay" };
 
     public StripePaymentService(IAppSettingsConfigurationService appSettingsConfigurationService, ShopDbContext context)
     {
@@ -37,6 +37,7 @@ public class StripePaymentService
                 { "InternalOrderId",  orderId.ToString() }
             },
             Mode = "payment",
+            //todo send and create the jwt for the anonymous user to identify him after payment - an anon user identifies by the order he did
             SuccessUrl = FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl),
             CancelUrl = FrontendHelper.GetPaymentCancelUrl(frontendBaseUrl),
         };
@@ -70,7 +71,7 @@ public class StripePaymentService
 
     private void HandleCheckoutSessionCompletedEvent(Session session)
     {
-        //todo send mail 
+        //todo send mail with: link to sub site that tracks your order etc
         //todo update order status 
         //todo create document
     }
