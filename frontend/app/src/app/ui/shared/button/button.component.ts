@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -8,10 +8,19 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './button.component.html',
   styleUrl: './button.component.css'
 })
-export class ButtonComponent {
+export class ButtonComponent implements OnInit {
   @Input() label: string = '';
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled: boolean = false;
   @Input() matIcon: string = '';
   @Input() border: 'solid' | 'none' = 'none';
+  @Input() hideLabelOnMobile: boolean = false;
+
+  public labelClass: string = 'button-label';
+
+  public ngOnInit() {
+    if (this.hideLabelOnMobile) {
+      this.labelClass += ' hide-label-on-mobile';
+    }
+  }
 }

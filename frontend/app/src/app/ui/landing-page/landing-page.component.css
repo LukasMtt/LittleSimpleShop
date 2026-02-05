@@ -1,7 +1,6 @@
 :host {
-  display: block;
-}
-
-app-newsletter-subscribe {
-  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  gap: 1.5rem;
 }

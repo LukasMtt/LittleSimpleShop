@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { TemplateTypeCardBoardSubText } from '../../enums/template-type-card-board-sub-text.enum';
 import { CategoryType } from '../../enums/category-type.enum';
+import { BaseComponent } from '../shared/base.component';
 
 @Component({
   selector: 'app-category-board',
@@ -15,7 +16,7 @@ import { CategoryType } from '../../enums/category-type.enum';
   standalone: true,
   imports: [CardBoardComponent]
 })
-export class CategoryBoardComponent {
+export class CategoryBoardComponent extends BaseComponent {
   routeType = RouteEndpointType.Products.toString();
   categoryList: ProductCategory[] = [];
 
@@ -30,6 +31,7 @@ export class CategoryBoardComponent {
     public productService: ProductService,
     private httpClient: HttpClient
   ) {
+    super();
     productService.getAllCategories().subscribe((data) => {
       forkJoin(this.additionalImageObservable$).subscribe(([img1, img2]) => {
         data.forEach(
@@ -42,11 +44,13 @@ export class CategoryBoardComponent {
         this.categoryList = data;
 
         this.extendCategoryListBySyntheticCategories(
+          this.res(`CATEGORY_TYPE_${CategoryType.All.toUpperCase()}`),
           img1,
           this.getAllCategory,
           this.getTargetRoute(0, CategoryType.All)
         );
         this.extendCategoryListBySyntheticCategories(
+          this.res(`CATEGORY_TYPE_${CategoryType.Sale.toUpperCase()}`),
           img2,
           this.getSaleCategory,
           this.getTargetRoute(0, CategoryType.Sale)
@@ -56,13 +60,14 @@ export class CategoryBoardComponent {
   }
 
   private getAllCategory(
+    name: string,
     imageStr: string,
     targetRoute: string
   ): ProductCategory {
     imageStr = imageStr.replace('data:image/webp;base64,', '');
     return {
       id: 0,
-      name: CategoryType.All,
+      name: name,
       images: [
         { bytes: imageStr, description: '', fileExtension: 'webp', size: 0 }
       ],
@@ -72,13 +77,14 @@ export class CategoryBoardComponent {
   }
 
   private getSaleCategory(
+    name: string,
     imageStr: string,
     targetRoute: string
   ): ProductCategory {
     imageStr = imageStr.replace('data:image/webp;base64,', '');
     return {
       id: 0,
-      name: CategoryType.Sale,
+      name: name,
       images: [
         { bytes: imageStr, description: '', fileExtension: 'webp', size: 0 }
       ],
@@ -88,6 +94,7 @@ export class CategoryBoardComponent {
   }
 
   private extendCategoryListBySyntheticCategories(
+    name: string,
     img: Blob,
     categoryProducerFunction: CategoryProducerFunction,
     targetRoute: string
@@ -95,7 +102,7 @@ export class CategoryBoardComponent {
     let reader = new FileReader();
     reader.addEventListener('load', () => {
       this.categoryList.push(
-        categoryProducerFunction(reader.result as string, targetRoute)
+        categoryProducerFunction(name, reader.result as string, targetRoute)
       );
     });
     reader.readAsDataURL(img);
@@ -107,6 +114,7 @@ export class CategoryBoardComponent {
 }
 
 type CategoryProducerFunction = (
+  name: string,
   imgStr: string,
   targetRoute: string
 ) => ProductCategory;

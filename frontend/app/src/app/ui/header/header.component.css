@@ -1,5 +1,5 @@
 * {
-  color: #e2d7d2;
+  color: var(--primary-color);
 }
 
 header {
@@ -14,8 +14,7 @@ header {
 .header-toolbar {
   display: grid;
   grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
-  height: 7vh;
-  min-height: 50px;
+  height: 8vh;
   opacity: 0.95;
   background: var(--secondary-color);
 }

@@ -5,6 +5,10 @@
   height: 100%;
   padding-bottom: 5px;
   overflow: hidden;
+  border: solid;
+  border-color: var(--ternary-color);
+  border-radius: 5px;
+  border-width: 2px;
 }
 
 .card-img-container {

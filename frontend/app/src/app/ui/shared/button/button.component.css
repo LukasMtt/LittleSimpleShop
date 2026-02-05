@@ -27,3 +27,9 @@ button:hover {
 .button-label {
   font-size: 0.66rem;
 }
+
+@media (max-width: 700px) {
+  .hide-label-on-mobile {
+    display: none;
+  }
+}

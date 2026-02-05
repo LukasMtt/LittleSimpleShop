@@ -7,11 +7,11 @@
   <div class="sub-text-card">
     @if(templateType == templateTypeEnum.NameOnly) {
     <div class="item-sub-text-card name-only">
-      {{ cardItem.name.toUpperCase() }}
+      {{ cardItem.name }}
     </div>
     } @if(templateType == templateTypeEnum.NameAndPrice) {
     <div class="item-sub-text-card name-and-price">
-      {{ cardItem.name.toUpperCase() }}
+      {{ cardItem.name }}
     </div>
     <div class="item-sub-text-card name-and-price">&middot;</div>
     <div class="item-sub-text-card name-and-price">

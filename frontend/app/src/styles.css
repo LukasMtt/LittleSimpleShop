@@ -3,14 +3,15 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 :root {
-  --primary-color: #ffffff;
-  --secondary-color: #745b50;
-  --ternary-color: #ece6e0;
+  --primary-color: #f7f9f6;
+  --secondary-color: #4f6f52;
+  --ternary-color: #e3ece4;
+
+  --custom-min-height: calc(100vh - 2 * 7vh - 1rem);
 }
 
 main {
-  min-height: 80vh;
-  margin-top: 5vh;
+  background-color: var(--primary-color);
 }
 
 * {
@@ -24,11 +25,11 @@ main {
 }
 
 html {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
   font-size: 16px;
 }

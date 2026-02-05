@@ -1,16 +1,15 @@
 :host {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 1rem;
   justify-content: space-between;
-  min-height: 80vh;
+  min-height: var(--custom-min-height);
 }
 
 .top-section {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  margin-top: -5vh;
 }
 
 .breadcrumb-container {

@@ -4,11 +4,11 @@
   grid-template-rows: 5fr 1fr;
   width: 75%;
   height: fit-content;
-  margin-top: 4vh;
   margin-left: auto;
   margin-right: auto;
   column-gap: 2%;
   row-gap: 28%;
+  padding-top: 2rem;
 }
 
 /* images and containers */
