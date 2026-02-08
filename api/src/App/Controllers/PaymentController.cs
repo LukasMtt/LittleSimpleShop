@@ -25,7 +25,7 @@ public class PaymentController : ControllerBase
         {
             return Problem("Failed to create order before checkout.", statusCode: 500);
         }
-        Session session = await _stripePaymentService.CreateCheckoutSession(model, (long)result.ResultData);
+        Session session = await _stripePaymentService.CreateCheckoutSession(model, (long)result.ResultData!);
         return Ok(new { id = session.Id });
     }
 

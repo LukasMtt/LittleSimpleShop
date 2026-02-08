@@ -1,5 +1,7 @@
 using AutoMapper;
 using FluentMigrator.Runner;
+using Microsoft.Extensions.Http.Resilience;
+using Polly;
 using Serilog;
 using Shop.Data;
 using Shop.Data.Migrations;
@@ -62,6 +64,22 @@ class Program
         services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
         services.AddTransient<StripePaymentService>();
         services.AddTransient<OrderService>();
+
+        services.AddHttpClient<IFileStorageService, SeaweedFsService>(client =>
+        {
+            client.BaseAddress = new Uri(services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>()!.GetAppSettingsConfiguration()["SeaweedFs:Url"]!);
+        })
+        .AddResilienceHandler("default", builder =>
+        {
+            builder.AddTimeout(TimeSpan.FromSeconds(30));
+            builder.AddRetry(new HttpRetryStrategyOptions
+            {
+                MaxRetryAttempts = 3,
+                BackoffType = DelayBackoffType.Linear,
+                Delay = TimeSpan.FromMilliseconds(20), 
+                UseJitter = true
+            });
+        });
     }
 
     private static IMapper ConfigureMappings()
@@ -94,7 +112,7 @@ class Program
 
     //todo maybe refactor cause does not seem too elegant?
     private static void MigrateDatabase(IServiceCollection services) {
-        var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>().GetAppSettingsConfiguration();
+        var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>()!.GetAppSettingsConfiguration();
         if (appSettingsConfig != null)
             using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
                 using (var scope = serviceProvider.CreateScope())

@@ -4,10 +4,9 @@ namespace Shop.Data.DataModels;
 
 [Table("Image")]
 public class Image : Entity {
-    public byte[] Bytes { get; set; }
-    public string Description { get; set; }
-    public string FileExtension { get; set; }
-    public decimal Size { get; set; }
-    public long CategoryId { get; set; }
-    public long ProductId { get; set; }
+    public string? FileId { get; set; }
+    public required string Description { get; set; }
+    public required string FileExtension { get; set; }
+    public long? CategoryId { get; set; }
+    public long? ProductId { get; set; }
 }

@@ -18,13 +18,16 @@ public class OrderService
     {
         var order = new Order
         {
-            OrderDate = DateTime.UtcNow,
-            OrderProducts = model.CartItems?.Select(item => new OrderProduct
-            {
-                Product = _context.Product.Find(item.ProductId),
-                Quantity = item.Count
-            }).ToList() ?? new List<OrderProduct>()
+            OrderDate = DateTime.UtcNow
         };
+
+        order.OrderProducts = model.CartItems?.Select(item => new OrderProduct
+            {
+                Product = _context.Product.Find(item.ProductId)!,
+                Quantity = item.Count,
+                Order = order
+            }).ToList() ?? new List<OrderProduct>();
+
         _context.Order.Add(order);
 
         return await _context.SaveChangesAsync() > 0

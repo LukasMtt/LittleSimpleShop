@@ -15,3 +15,20 @@ public class AddProductStateColumn : Migration
     {
     }
 }
+
+[Migration(0000101)]
+public class RelocateBinaryFileDataToFileStorage : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("Image")
+            .AddColumn("FileId").AsString(50).WithDefaultValue(null).Nullable();
+
+        Delete.Column("Bytes").FromTable("Image");
+        Delete.Column("Size").FromTable("Image");
+    }
+
+    public override void Down()
+    {
+    }
+}

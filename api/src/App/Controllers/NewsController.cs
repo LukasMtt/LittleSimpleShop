@@ -12,7 +12,7 @@ public class NewsController : ShopBaseController
     private IMapper _mapper;
     private ShopDbContext _context;
 
-    public NewsController(IMapper mapper, ShopDbContext context) : base() {
+    public NewsController(IMapper mapper, ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService) {
         _mapper = mapper;
         _context = context;
     }

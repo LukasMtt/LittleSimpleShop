@@ -19,7 +19,7 @@ public class StripePaymentService
     {
         _appSettingsConfigurationService = appSettingsConfigurationService;
         _context = context;
-        _currency = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripeCurrency"];
+        _currency = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripeCurrency"]!;
 
         StripeConfiguration.ApiKey = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripePrivateKey"];
     }
@@ -37,9 +37,8 @@ public class StripePaymentService
                 { "InternalOrderId",  orderId.ToString() }
             },
             Mode = "payment",
-            //todo send and create the jwt for the anonymous user to identify him after payment - an anon user identifies by the order he did
-            SuccessUrl = FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl),
-            CancelUrl = FrontendHelper.GetPaymentCancelUrl(frontendBaseUrl),
+            SuccessUrl = FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl!),
+            CancelUrl = FrontendHelper.GetPaymentCancelUrl(frontendBaseUrl!),
         };
 
         var service = new SessionService();
@@ -56,7 +55,7 @@ public class StripePaymentService
             {
                 case EventTypes.CheckoutSessionCompleted:
                     var session = stripeEvent.Data.Object as Session;
-                    Log.Information("Checkout session completed: {0}", session.Id);
+                    Log.Information("Checkout session completed: {0}", session!.Id);
                     HandleCheckoutSessionCompletedEvent(session);
                     break;
             }

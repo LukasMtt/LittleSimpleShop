@@ -7,6 +7,10 @@ namespace App.Controllers;
 [Route("shop/[controller]/[action]")]
 public class MetadataController : ShopBaseController
 {
+    public MetadataController(IFileStorageService fileStorageService) : base(fileStorageService)
+    {
+    }
+
     [HttpGet]
     public MetadataShopModel GetMetadata()
     {

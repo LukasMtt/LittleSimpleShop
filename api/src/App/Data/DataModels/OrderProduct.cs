@@ -4,7 +4,7 @@ namespace Shop.Data.DataModels;
 
 [Table("OrderProduct")]
 public class OrderProduct : Entity {
-    public Order Order { get; set; }
-    public Product Product { get; set; }
+    public required Order Order { get; set; }
+    public required Product Product { get; set; }
     public int Quantity { get; set; }
 }
