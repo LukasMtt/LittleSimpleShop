@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shop.ApiModels;
 using Shop.Data;
-using Shop.Data.DataModels;
 
 namespace App.Controllers;
 
 [ApiController]
-[Route("shop/[controller]/[action]")]
 public class ProductController : ShopBaseController
 {
     private IMapper _mapper;
@@ -20,15 +18,36 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public List<CategoryModel> GetAllCategories()
+    public List<CategoryModel> GetAllCustomCategories()
     {
         return _context.Category
+            .Where(x => x.CategoryType == CategoryType.Custom)
             .Include(x => x.ProductList)
             .Include(x => x.Images)
             .Select(x => _mapper.Map<CategoryModel>(x))
             .ToList()
             .OrderBy(x => x.Id)
             .ToList();
+    }
+
+    [HttpGet]
+    public CategoryModel? GetSaleCategory()
+    {
+        return _context.Category
+            .Where(x => x.CategoryType == CategoryType.Sale)
+            .Include(x => x.Images)
+            .Select(x => _mapper.Map<CategoryModel>(x))
+            .FirstOrDefault();
+    }
+
+    [HttpGet]
+    public CategoryModel? GetAllCategory()
+    {
+        return _context.Category
+            .Where(x => x.CategoryType == CategoryType.All)
+            .Include(x => x.Images)
+            .Select(x => _mapper.Map<CategoryModel>(x))
+            .FirstOrDefault();
     }
 
     [HttpGet]
@@ -111,45 +130,5 @@ public class ProductController : ShopBaseController
             .ToList()
             .OrderBy(x => x.Id)
             .ToList();
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetCategoryImage(long categoryId, long imageId)
-    {
-        var images = _context.Category
-            .Where(x => x.Id == categoryId)
-            .Include(x => x.Images)
-            .SelectMany(x => x.Images);
-            
-        return await GetFileAsync(images, imageId);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetProductImage(long productId, long imageId)
-    {
-        var images = _context.Product
-            .Where(x => x.Id == productId)
-            .Include(x => x.Images)
-            .SelectMany(x => x.Images);
-            
-        return await GetFileAsync(images, imageId);
-    }
-
-    [NonAction]
-    private async Task<IActionResult> GetFileAsync(IQueryable<Image> imageQueryable, long imageId)
-    {
-        var image = imageQueryable.FirstOrDefault(x => x.Id == imageId);
-        if (image?.FileId == null)
-        {
-            return NotFound();
-        }
-
-        var fileContentResult = await GetFileAsync(image.FileId);
-        if (fileContentResult == null)
-        {
-            return NotFound();
-        }
-
-        return fileContentResult;
     }
 }

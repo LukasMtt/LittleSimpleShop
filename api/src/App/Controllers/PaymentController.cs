@@ -1,3 +1,4 @@
+using App.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Shop.ApiModels;
@@ -5,13 +6,12 @@ using Shop.Service;
 using Stripe.Checkout;
 
 [ApiController]
-[Route("shop/[controller]/[action]")]
-public class PaymentController : ControllerBase
+public class PaymentController : ShopBaseController
 {
     private StripePaymentService _stripePaymentService;
     private OrderService _orderService;
 
-    public PaymentController(StripePaymentService stripePaymentService, OrderService orderService) : base()
+    public PaymentController(StripePaymentService stripePaymentService, OrderService orderService, IFileStorageService fileStorageService) : base(fileStorageService)
     {
         _stripePaymentService = stripePaymentService;
         _orderService = orderService;

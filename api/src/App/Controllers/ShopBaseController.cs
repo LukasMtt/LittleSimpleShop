@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Controllers;
 
 [ApiController]
+[Route("shop/[controller]/[action]")]
 public abstract class ShopBaseController : ControllerBase
 {
     private readonly IFileStorageService _fileStorageService;

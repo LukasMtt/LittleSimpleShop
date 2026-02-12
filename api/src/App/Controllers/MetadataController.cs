@@ -4,7 +4,6 @@ using Shop.ApiModels;
 namespace App.Controllers;
 
 [ApiController]
-[Route("shop/[controller]/[action]")]
 public class MetadataController : ShopBaseController
 {
     public MetadataController(IFileStorageService fileStorageService) : base(fileStorageService)

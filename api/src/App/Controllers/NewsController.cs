@@ -6,7 +6,6 @@ using Shop.Data;
 namespace App.Controllers;
 
 [ApiController]
-[Route("shop/[controller]/[action]")]
 public class NewsController : ShopBaseController
 {
     private IMapper _mapper;

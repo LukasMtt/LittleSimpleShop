@@ -7,7 +7,7 @@ namespace Shop.Data;
 public class ShopDbContext : DbContext {
     public DbSet<Product> Product { get; set; }
     public DbSet<Category> Category { get; set; }
-    public DbSet<Image> Image { get; set; }
+    public DbSet<PublicImage> PublicImage { get; set; }
     public DbSet<News> News { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<OrderProduct> OrderProduct { get; set; }
