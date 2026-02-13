@@ -6,7 +6,7 @@ import { BaseComponent } from '../shared/base.component';
 import { CartSidebarComponent } from '../cart/cart-sidebar/cart-sidebar.component';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
-import { Cart } from '../../models/cart.model';
+import { CartInput } from '../../models/component/cart.input';
 import { Subscription } from 'rxjs';
 import { HeaderSidebarComponent } from './header-sidebar/header-sidebar.component';
 import { NewsHeaderComponent } from './news-header/news-header.component';
@@ -27,12 +27,15 @@ import { NewsHeaderComponent } from './news-header/news-header.component';
   ]
 })
 export class HeaderComponent extends BaseComponent implements OnDestroy {
-  cart: Cart | undefined;
+  cart: CartInput | undefined;
   cartSubscription$: Subscription;
   showSideMenu: boolean = false;
   showCartMenu: boolean = false;
 
-  constructor(private elementRef: ElementRef, public cartService: CartService) {
+  constructor(
+    private elementRef: ElementRef,
+    public cartService: CartService
+  ) {
     super();
     this.cartSubscription$ = cartService
       .getCartObservable()

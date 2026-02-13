@@ -5,7 +5,7 @@ import {
   EndpointItem,
   EndpointResolveService
 } from './endpoint.resolve.service';
-import { MetadataShop } from '../models/metadata.shop.model';
+import { MetadataShopDTO } from '../models/api/metadata-shop.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,8 @@ export class MetadataService {
     private endpointResolveService: EndpointResolveService
   ) {}
 
-  getMetadata(): Observable<MetadataShop> {
-    return this.httpClient.get<MetadataShop>(
+  getMetadata(): Observable<MetadataShopDTO> {
+    return this.httpClient.get<MetadataShopDTO>(
       this.endpointResolveService.buildUrl(EndpointItem.GetMetadata, [])
     );
   }

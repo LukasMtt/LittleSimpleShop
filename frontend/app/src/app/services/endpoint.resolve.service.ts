@@ -11,8 +11,9 @@ export enum EndpointItem {
   News = 'news/',
   Payment = 'payment/',
   Metadata = 'metadata/',
+  PublicImage = 'publicImage/',
 
-  GetAllCategories = 'getAllCategories',
+  GetAllCustomCategories = 'getAllCustomCategories',
   GetAllProducts = 'getAllProducts',
   GetAllProductsInSale = 'getAllProductsInSale',
   GetAllProductsByCategoryId = 'getAllProductsByCategoryId',
@@ -23,7 +24,10 @@ export enum EndpointItem {
   GetProductsByIds = 'getProductsByIds',
   GetAllNews = 'getAllNews',
   CreateCheckoutSession = 'createCheckoutSession',
-  GetMetadata = 'getMetadata'
+  GetMetadata = 'getMetadata',
+  GetPublicImage = 'getPublicImage',
+  GetSaleCategory = 'getSaleCategory',
+  GetAllCategory = 'getAllCategory'
 }
 
 @Injectable({
@@ -38,10 +42,14 @@ export class EndpointResolveService {
   news: EndpointNode = { parent: this.shop, item: EndpointItem.News };
   payment: EndpointNode = { parent: this.shop, item: EndpointItem.Payment };
   metadata: EndpointNode = { parent: this.shop, item: EndpointItem.Metadata };
+  publicImage: EndpointNode = {
+    parent: this.shop,
+    item: EndpointItem.PublicImage
+  };
 
-  getAllCategories: EndpointNode = {
+  getAllCustomCategories: EndpointNode = {
     parent: this.product,
-    item: EndpointItem.GetAllCategories
+    item: EndpointItem.GetAllCustomCategories
   };
   getAllProducts: EndpointNode = {
     parent: this.product,
@@ -87,9 +95,21 @@ export class EndpointResolveService {
     parent: this.metadata,
     item: EndpointItem.GetMetadata
   };
+  getPublicImage: EndpointNode = {
+    parent: this.publicImage,
+    item: EndpointItem.GetPublicImage
+  };
+  getSaleCategory: EndpointNode = {
+    parent: this.product,
+    item: EndpointItem.GetSaleCategory
+  };
+  getAllCategory: EndpointNode = {
+    parent: this.product,
+    item: EndpointItem.GetAllCategory
+  };
 
   leafList: EndpointNode[] = [
-    this.getAllCategories,
+    this.getAllCustomCategories,
     this.getAllProducts,
     this.getAllProductsByCategoryId,
     this.getProductsByCategoryIdCount,
@@ -100,7 +120,10 @@ export class EndpointResolveService {
     this.getAllProductsInSale,
     this.getAllProductsInSaleCount,
     this.createCheckoutSession,
-    this.getMetadata
+    this.getMetadata,
+    this.getPublicImage,
+    this.getSaleCategory,
+    this.getAllCategory
   ];
 
   apiBaseEndpointUrl = '';

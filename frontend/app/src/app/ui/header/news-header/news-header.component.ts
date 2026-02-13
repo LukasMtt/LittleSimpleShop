@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../../../services/news.service';
-import { News } from '../../../models/news.model';
+import { NewsDTO } from '../../../models/api/news.dto';
 
 @Component({
   selector: 'app-news-header',
@@ -10,7 +10,7 @@ import { News } from '../../../models/news.model';
   styleUrl: './news-header.component.css'
 })
 export class NewsHeaderComponent implements OnInit {
-  newsList: News[] = [];
+  newsList: NewsDTO[] = [];
   currentOffset: number = 0;
 
   constructor(private newsService: NewsService) {}

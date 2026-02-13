@@ -5,7 +5,7 @@ import {
   EndpointItem,
   EndpointResolveService
 } from './endpoint.resolve.service';
-import { News } from '../models/news.model';
+import { NewsDTO } from '../models/api/news.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,8 @@ export class NewsService {
     private endpointResolveService: EndpointResolveService
   ) {}
 
-  getAllNews(): Observable<News[]> {
-    return this.httpClient.get<News[]>(
+  getAllNews(): Observable<NewsDTO[]> {
+    return this.httpClient.get<NewsDTO[]>(
       this.endpointResolveService.buildUrl(EndpointItem.GetAllNews, [])
     );
   }

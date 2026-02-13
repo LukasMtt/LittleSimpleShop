@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Image } from '../../../models/image.model';
 import { MatIconModule } from '@angular/material/icon';
+import { FileFetchService } from '../../../services/file.fetch.service';
+import { DisplayImageInput } from '../../../models/component/display-image.input';
 
 @Component({
   selector: 'app-carousel',
@@ -10,28 +11,52 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './carousel.component.css'
 })
 export class CarouselComponent implements OnChanges {
-  @Input({required: true}) images!: Image[];
-  
-  selectedImage?: Image;
+  @Input({ required: true }) get images(): DisplayImageInput[] | undefined {
+    return this._images;
+  }
+  set images(newValue: DisplayImageInput[] | undefined) {
+    this._images = newValue;
+    this.setImagesDataUrl();
+  }
+
+  selectedImage?: DisplayImageInput;
   currentIndex: number = 0;
 
+  private _images: DisplayImageInput[] | undefined;
+
+  constructor(private fileFetchService: FileFetchService) {}
+
   ngOnChanges() {
-    if(this.images)
+    if (this.images) {
       this.selectedImage = this.images[this.currentIndex];
+    }
   }
 
   nextImage(isBack: boolean) {
     var imagesCount = this.images?.length ?? 0;
-    if (isBack)
+    if (isBack) {
       this.currentIndex = (this.currentIndex + imagesCount - 1) % imagesCount;
-    else
+    } else {
       this.currentIndex = (this.currentIndex + 1) % imagesCount;
+    }
   }
 
-  createImage(image?: Image) {
-    if (image) {
-      return 'data:image/webp;base64,' + image.bytes;
+  public setImagesDataUrl() {
+    if (!this.images || this.images?.length === 0) {
+      return;
     }
-    return '';
+    this.images.forEach((image) => {
+      let httpResponse = this.fileFetchService.getPublicImageResponseBlob(
+        image.id || 0,
+        image.fileId || ''
+      );
+      httpResponse.subscribe((response) => {
+        this.fileFetchService.readFileAsDataUrl(
+          response.body as Blob,
+          response.headers.get('Content-Type') ?? '',
+          image.fileContent!
+        );
+      });
+    });
   }
 }

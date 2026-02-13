@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../models/cart.model';
-import { CartItem } from '../models/cart.item.model';
+import { CartInput } from '../models/component/cart.input';
+import { CartItemInput } from '../models/component/cart-item.input';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from './local.storage.service';
 import { JsonService } from './json.service';
 import { ProductService } from './product.service';
-import { CartStorage } from '../models/cart.storage.model';
+import { CartStorageModel } from '../models/misc/cart-storage-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cart: Cart;
-  private cartObservable$: BehaviorSubject<Cart>;
+  //todo introduce model/class for servvice side or simply rename to ...model again
+  private cart: CartInput;
+  private cartObservable$: BehaviorSubject<CartInput>;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -30,7 +31,7 @@ export class CartService {
     return this.cartObservable$;
   }
 
-  public pushCartItem(item: CartItem) {
+  public pushCartItem(item: CartItemInput) {
     var existingItem = this.cart.items.find(
       (x) => x.product && item.product && x.product.id === item.product.id
     );
@@ -86,7 +87,7 @@ export class CartService {
   }
 
   private createCartStorageString() {
-    var cartStorageObject: CartStorage = new CartStorage();
+    var cartStorageObject: CartStorageModel = new CartStorageModel();
     this.cart.items
       .filter((x) => x && x.count > 0)
       .forEach((cartItem) => {
@@ -106,14 +107,14 @@ export class CartService {
         .getSerializer()
         .deserializeObject(
           this.localStorageService.getStorageItem('cart')!,
-          CartStorage
+          CartStorageModel
         );
     return null;
   }
 
   private getCartFromStorageString() {
     var cartStorageType = this.getCartStorageString();
-    var cartItems: CartItem[] = [];
+    var cartItems: CartItemInput[] = [];
 
     if (cartStorageType) {
       this.productService
@@ -129,7 +130,7 @@ export class CartService {
               cartItems.push({ product: product, count: count });
             }
           });
-          var cart: Cart = { items: [] };
+          var cart: CartInput = { items: [] };
           cart.items = cartItems;
 
           this.cart = cart;

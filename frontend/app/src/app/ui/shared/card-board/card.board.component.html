@@ -1,23 +1,31 @@
-@for(cardItem of cardItemList; track cardItem.id) {
-<app-card
-  [routerLink]="cardItem.cardLink ?? ''"
-  [model]="cardItem"
-  [ngStyle]="getStyleForGridExtension(cardItem)"
->
-  <div class="sub-text-card">
-    @if(templateType == templateTypeEnum.NameOnly) {
-    <div class="item-sub-text-card name-only">
-      {{ cardItem.name }}
+@for (cardModel of cardModelList; track cardModel.id) {
+  <app-card
+    [routerLink]="cardModel.cardLink ?? ''"
+    [cardModel]="cardModel"
+    [style]="{
+      'grid-row-start': cardModel.gridRowStartEnd
+        ? cardModel.gridRowStartEnd[0]
+        : '',
+      'grid-row-end': cardModel.gridRowStartEnd
+        ? cardModel.gridRowStartEnd[1]
+        : ''
+    }"
+  >
+    <div class="sub-text-card">
+      @if (templateType == templateTypeEnum.NameOnly) {
+        <div class="item-sub-text-card name-only">
+          {{ cardModel.name }}
+        </div>
+      }
+      @if (templateType == templateTypeEnum.NameAndPrice) {
+        <div class="item-sub-text-card name-and-price">
+          {{ cardModel.name }}
+        </div>
+        <div class="item-sub-text-card name-and-price">&middot;</div>
+        <div class="item-sub-text-card name-and-price">
+          {{ getPrice(cardModel) | currency }}
+        </div>
+      }
     </div>
-    } @if(templateType == templateTypeEnum.NameAndPrice) {
-    <div class="item-sub-text-card name-and-price">
-      {{ cardItem.name }}
-    </div>
-    <div class="item-sub-text-card name-and-price">&middot;</div>
-    <div class="item-sub-text-card name-and-price">
-      {{ getPrice(cardItem) | currency }}
-    </div>
-    }
-  </div>
-</app-card>
+  </app-card>
 }

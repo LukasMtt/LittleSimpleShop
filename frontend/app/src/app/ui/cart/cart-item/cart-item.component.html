@@ -1,13 +1,13 @@
 <div class="product-preview-image-container-{{ previewPictureSize }}">
   <img
     class="product-preview-image"
-    [src]="createImage()"
+    [src]="cartItemImage?.fileContent?.dataUrl"
     [routerLink]="productLink"
   />
 </div>
 <div class="product-preview-title">
   <div>
-    {{ cartItem.product.name }}
+    {{ cartItem?.product?.name || '' }}
   </div>
   <div>
     {{ getPrice() | currency }}
@@ -22,7 +22,7 @@
 </div>
 <div class="product-preview-right-column">
   <app-tick-counter
-    [counter]="cartItem.count"
+    [counter]="cartItem?.count || 0"
     (counterChange)="updateCartItemCount($event)"
   />
   <mat-icon (click)="deleteCartItem()" class="delete-icon">delete</mat-icon>

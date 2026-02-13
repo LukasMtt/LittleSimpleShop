@@ -1,4 +1,4 @@
-export interface News {
+export interface NewsDTO {
   shortText: string;
   longText: string;
   validFrom: Date;

@@ -1,4 +1,4 @@
-export interface MetadataShop {
+export interface MetadataShopDTO {
   email: string;
   phone: string;
 }

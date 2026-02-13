@@ -3,11 +3,12 @@ import { CardBoardComponent } from '../../shared/card-board/card.board.component
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ProductService } from '../../../services/product.service';
 import { RouteEndpointType } from '../../../app.routes';
-import { Product } from '../../../models/product.model';
 import { Paginable } from '../../shared/paginable';
-import { PaginationState } from '../../../models/pagination.state.model';
+import { PaginationStateModel } from '../../../models/misc/pagination-state.model';
 import { TemplateTypeCardBoardSubText } from '../../../enums/template-type-card-board-sub-text.enum';
 import { CategoryType } from '../../../enums/category-type.enum';
+import { ProductCardInput } from '../../../models/component/product-card.input';
+import { ProductDTO } from '../../../models/api/product.dto';
 
 @Component({
   selector: 'app-product-board',
@@ -20,12 +21,12 @@ export class ProductBoardComponent implements OnInit, Paginable {
   @Input({ required: true }) categoryId!: string;
   @Input({ required: true }) categoryType!: string;
 
+  productList: ProductCardInput[] = [];
+  productCount: number = 0;
   categoryIdNum: number | undefined;
   categoryTypeEnum: CategoryType | undefined;
   routeType = RouteEndpointType.ShowProduct.toString();
-  paginationState = new PaginationState();
-  productList: Product[] = [];
-  productCount: number = 0;
+  paginationState = new PaginationStateModel();
   templateTypeEnum = TemplateTypeCardBoardSubText;
 
   readonly pageSize = 8;
@@ -82,36 +83,52 @@ export class ProductBoardComponent implements OnInit, Paginable {
     return this.productCount;
   }
 
+  private mapToModel(
+    product: ProductDTO,
+    targetRoute?: string
+  ): ProductCardInput {
+    return {
+      id: product.id,
+      name: product.name,
+      image: {
+        id: product.images[0].id,
+        fileId: product.images[0].fileId,
+        productId: product.id
+      },
+      description: product.description,
+      price: product.price,
+      isInSale: product.isInSale,
+      cardLink: targetRoute
+    };
+  }
+
   private loadProductsByCategoryId() {
     this.productService
       .getAllProductsById(this.categoryIdNum!, this.paginationState)
-      .subscribe((productList) => {
-        productList.forEach(
-          (value) => (value.cardLink = this.getTargetRoute(value.id))
+      .subscribe((products) => {
+        this.productList = products.map((product) =>
+          this.mapToModel(product, this.getTargetRoute(product.id))
         );
-        this.productList = productList;
       });
   }
 
   private loadAllProducts() {
     this.productService
       .getAllProducts(this.paginationState)
-      .subscribe((productList) => {
-        productList.forEach(
-          (value) => (value.cardLink = this.getTargetRoute(value.id))
+      .subscribe((products) => {
+        this.productList = products.map((product) =>
+          this.mapToModel(product, this.getTargetRoute(product.id))
         );
-        this.productList = productList;
       });
   }
 
   private loadAllProductsInSale() {
     this.productService
       .getAllProductsInSale(this.paginationState)
-      .subscribe((productList) => {
-        productList.forEach(
-          (value) => (value.cardLink = this.getTargetRoute(value.id))
+      .subscribe((products) => {
+        this.productList = products.map((product) =>
+          this.mapToModel(product, this.getTargetRoute(product.id))
         );
-        this.productList = productList;
       });
   }
 

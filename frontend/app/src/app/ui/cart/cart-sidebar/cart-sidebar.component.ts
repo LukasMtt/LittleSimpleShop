@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { BaseComponent } from '../../shared/base.component';
 import { CartService } from '../../../services/cart.service';
-import { Cart } from '../../../models/cart.model';
+import { CartInput } from '../../../models/component/cart.input';
 import { Subscription } from 'rxjs';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { RouterModule } from '@angular/router';
@@ -27,7 +27,7 @@ export class CartSidebarComponent
 {
   @Input({ required: true }) isHidden!: boolean;
 
-  cart: Cart | undefined;
+  cart: CartInput | undefined;
   cartSubscription$: Subscription;
 
   constructor(

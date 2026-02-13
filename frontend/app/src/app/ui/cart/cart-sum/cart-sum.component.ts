@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Cart } from '../../../models/cart.model';
+import { CartInput } from '../../../models/component/cart.input';
 import { Subscription } from 'rxjs';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
@@ -13,7 +13,7 @@ import { BaseComponent } from '../../shared/base.component';
   styleUrl: './cart-sum.component.css'
 })
 export class CartSumComponent extends BaseComponent {
-  @Input({ required: true }) cart!: Cart | undefined;
+  @Input({ required: true }) cart!: CartInput | undefined;
   cartSubscription$: Subscription;
 
   constructor(public cartService: CartService) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Cart } from '../../../models/cart.model';
+import { CartInput } from '../../../models/component/cart.input';
 import { Subscription } from 'rxjs';
 import { CartService } from '../../../services/cart.service';
 import { CartItemComponent } from '../cart-item/cart-item.component';
@@ -14,7 +14,7 @@ import { BaseComponent } from '../../shared/base.component';
   styleUrl: './cart-show.component.css'
 })
 export class CartShowComponent extends BaseComponent {
-  cart: Cart | undefined;
+  cart: CartInput | undefined;
   cartSubscription$: Subscription;
 
   constructor(public cartService: CartService) {
