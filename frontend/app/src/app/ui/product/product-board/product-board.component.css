@@ -1,9 +1,12 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 80vw;
   margin-left: auto;
   margin-right: auto;
   padding-top: 2rem;
+  padding-bottom: 1rem;
   min-height: var(--custom-min-height);
 }
 
@@ -12,4 +15,8 @@
   margin-left: auto;
   margin-right: auto;
   background-color: var(--primary-color);
+}
+
+::ng-deep .mat-mdc-paginator-container {
+  padding: 0 0 0 0 !important;
 }

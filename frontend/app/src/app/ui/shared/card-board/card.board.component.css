@@ -1,15 +1,15 @@
 :host {
   display: grid;
+  grid-template-columns: 1fr;
   justify-items: center;
   align-items: center;
   width: 100%;
   height: 100%;
   column-gap: 1.5rem;
   row-gap: 1.5rem;
-  margin-bottom: 1rem;
 }
 
-.sub-text-card {
+.sub-section-card {
   display: flex;
   justify-content: center;
   gap: 5%;
@@ -17,27 +17,15 @@
   color: var(--secondary-color);
 }
 
-@media (max-width: 800px) {
-  :host {
-    grid-template-columns: 1fr;
-  }
-
-  .item-sub-text-card {
-    overflow: hidden;
-  }
-
-  .name-only {
-    font-size: 1.2rem;
-  }
-
-  .name-and-price {
-    font-size: 1.2rem;
-  }
+.item-sub-text-card {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  font-size: 1.2rem;
 }
-@media (max-width: 700px) {
-  .name-only {
-    font-size: 1rem;
-  }
+
+.sub-text-large {
+  font-size: 1.5rem;
 }
 
 @media (min-width: 800px) {
@@ -50,11 +38,11 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
-  .name-only {
-    font-size: 1rem;
+  .item-sub-text-card {
+    font-size: 0.8rem;
   }
 
-  .name-and-price {
-    font-size: 0.85rem;
+  .sub-text-large {
+    font-size: 1rem;
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CardBoardComponent } from '../shared/card-board/card.board.component';
 import { ProductService } from '../../services/product.service';
 import { RouteEndpointType } from '../../app.routes';
@@ -11,8 +11,8 @@ import {
   EndpointItem,
   EndpointResolveService
 } from '../../services/endpoint.resolve.service';
-import { CategoryCardInput } from '../../models/component/category-card.input';
 import { CategoryDTO } from '../../models/api/category.dto';
+import { CardInput } from '../../models/component/card.input';
 
 @Component({
   selector: 'app-category-board',
@@ -21,8 +21,8 @@ import { CategoryDTO } from '../../models/api/category.dto';
   standalone: true,
   imports: [CardBoardComponent]
 })
-export class CategoryBoardComponent extends BaseComponent {
-  categoryList: CategoryCardInput[] = [];
+export class CategoryBoardComponent extends BaseComponent implements OnInit {
+  cardInputList: CardInput[] = [];
   routeType = RouteEndpointType.Products.toString();
   templateTypeEnum = TemplateTypeCardBoardSubText;
 
@@ -32,6 +32,9 @@ export class CategoryBoardComponent extends BaseComponent {
     private endpointResolveService: EndpointResolveService
   ) {
     super();
+  }
+
+  ngOnInit(): void {
     let additionalImageObservable$: Observable<CategoryDTO | undefined>[] = [
       this.httpClient.get<CategoryDTO | undefined>(
         this.endpointResolveService.buildUrl(EndpointItem.GetSaleCategory, [])
@@ -41,13 +44,13 @@ export class CategoryBoardComponent extends BaseComponent {
       )
     ];
 
-    productService.getAllCustomCategories().subscribe((data) => {
+    this.productService.getAllCustomCategories().subscribe((data) => {
       forkJoin(additionalImageObservable$).subscribe(
         ([saleCategory, allCategory]) => {
-          this.categoryList = data.map((category) =>
+          this.cardInputList = data.map((category) =>
             this.mapToModel(
               category,
-              undefined,
+              category.name,
               this.getTargetRoute(category.id, CategoryType.Default)
             )
           );
@@ -74,7 +77,7 @@ export class CategoryBoardComponent extends BaseComponent {
             );
           }
 
-          this.categoryList = this.categoryList.concat(
+          this.cardInputList = this.cardInputList.concat(
             additionalSyntheticCategories
           );
         }
@@ -87,15 +90,14 @@ export class CategoryBoardComponent extends BaseComponent {
     name?: string,
     targetRoute?: string,
     gridRowStartEnd?: [string, string]
-  ): CategoryCardInput {
+  ): CardInput {
     return {
-      id: category.id,
-      name: name || category.name,
       image: {
         id: category.images[0].id,
         fileId: category.images[0].fileId,
         categoryId: category.id
       },
+      subText: name ?? '',
       gridRowStartEnd: gridRowStartEnd,
       cardLink: targetRoute
     };

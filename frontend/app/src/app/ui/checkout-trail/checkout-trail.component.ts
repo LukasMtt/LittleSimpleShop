@@ -3,7 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { BreadcrumbCheckoutComponent } from '../shared/breadcrumb-checkout/breadcrumb-checkout.component';
 import { ShipmentService } from '../../services/shipment.service';
 import { FormGroup } from '@angular/forms';
-import { UrlHelper } from '../../helper/url.helper';
+import { UrlHelper } from '../../misc/url.helper';
 
 @Component({
   selector: 'app-checkout-trail',

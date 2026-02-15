@@ -1,0 +1,10 @@
+<ng-content></ng-content>
+<span
+  [class]="{
+    'tooltip-text': true,
+    'tooltip-text-hidden': !tooltipVisible(),
+    'tooltip-text-visible': tooltipVisible()
+  }"
+  [innerHtml]="tooltipText"
+>
+</span>

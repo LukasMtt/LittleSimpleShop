@@ -1,5 +1,5 @@
 import { KeyValue } from '@angular/common';
-import { KeyValueConvertable } from '../../helper/key-value-convertable';
+import { KeyValueConvertable } from '../../misc/key-value-convertable';
 
 export class PaginationStateModel implements KeyValueConvertable {
   pageOffset: number = 0;

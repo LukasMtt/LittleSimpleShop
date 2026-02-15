@@ -1,7 +1,7 @@
-@for (cardModel of cardModelList; track cardModel.id) {
+@for (cardModel of cardInputList; track $index) {
   <app-card
-    [routerLink]="cardModel.cardLink ?? ''"
     [cardModel]="cardModel"
+    [routerLink]="cardModel.cardLink ?? ''"
     [style]="{
       'grid-row-start': cardModel.gridRowStartEnd
         ? cardModel.gridRowStartEnd[0]
@@ -11,21 +11,16 @@
         : ''
     }"
   >
-    <div class="sub-text-card">
-      @if (templateType == templateTypeEnum.NameOnly) {
-        <div class="item-sub-text-card name-only">
-          {{ cardModel.name }}
-        </div>
-      }
-      @if (templateType == templateTypeEnum.NameAndPrice) {
-        <div class="item-sub-text-card name-and-price">
-          {{ cardModel.name }}
-        </div>
-        <div class="item-sub-text-card name-and-price">&middot;</div>
-        <div class="item-sub-text-card name-and-price">
-          {{ getPrice(cardModel) | currency }}
-        </div>
-      }
+    <div class="sub-section-card" aria-labelledby="sub-section-card-info">
+      <app-tooltip [tooltipText]="cardModel.subText || ''">
+        <div
+          [class]="{
+            'item-sub-text-card': true,
+            'sub-text-large': useLargeText
+          }"
+          [innerHtml]="cardModel.subText"
+        ></div>
+      </app-tooltip>
     </div>
   </app-card>
 }

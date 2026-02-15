@@ -7,8 +7,10 @@ import { Paginable } from '../../shared/paginable';
 import { PaginationStateModel } from '../../../models/misc/pagination-state.model';
 import { TemplateTypeCardBoardSubText } from '../../../enums/template-type-card-board-sub-text.enum';
 import { CategoryType } from '../../../enums/category-type.enum';
-import { ProductCardInput } from '../../../models/component/product-card.input';
 import { ProductDTO } from '../../../models/api/product.dto';
+import { CardInput } from '../../../models/component/card.input';
+import { CurrencyPipe } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-board',
@@ -21,18 +23,20 @@ export class ProductBoardComponent implements OnInit, Paginable {
   @Input({ required: true }) categoryId!: string;
   @Input({ required: true }) categoryType!: string;
 
-  productList: ProductCardInput[] = [];
+  cardInputList: CardInput[] = [];
   productCount: number = 0;
   categoryIdNum: number | undefined;
   categoryTypeEnum: CategoryType | undefined;
   routeType = RouteEndpointType.ShowProduct.toString();
   paginationState = new PaginationStateModel();
-  templateTypeEnum = TemplateTypeCardBoardSubText;
 
   readonly pageSize = 8;
   readonly pageOffset = 0;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private currencyPipe: CurrencyPipe
+  ) {}
 
   ngOnInit() {
     this.categoryIdNum = Number(this.categoryId);
@@ -83,21 +87,14 @@ export class ProductBoardComponent implements OnInit, Paginable {
     return this.productCount;
   }
 
-  private mapToModel(
-    product: ProductDTO,
-    targetRoute?: string
-  ): ProductCardInput {
+  private mapToModel(product: ProductDTO, targetRoute?: string): CardInput {
     return {
-      id: product.id,
-      name: product.name,
       image: {
         id: product.images[0].id,
         fileId: product.images[0].fileId,
         productId: product.id
       },
-      description: product.description,
-      price: product.price,
-      isInSale: product.isInSale,
+      subText: `${product.name ?? ''} &middot; ${this.currencyPipe.transform(product.price)}`,
       cardLink: targetRoute
     };
   }
@@ -106,7 +103,7 @@ export class ProductBoardComponent implements OnInit, Paginable {
     this.productService
       .getAllProductsById(this.categoryIdNum!, this.paginationState)
       .subscribe((products) => {
-        this.productList = products.map((product) =>
+        this.cardInputList = products.map((product) =>
           this.mapToModel(product, this.getTargetRoute(product.id))
         );
       });
@@ -116,7 +113,7 @@ export class ProductBoardComponent implements OnInit, Paginable {
     this.productService
       .getAllProducts(this.paginationState)
       .subscribe((products) => {
-        this.productList = products.map((product) =>
+        this.cardInputList = products.map((product) =>
           this.mapToModel(product, this.getTargetRoute(product.id))
         );
       });
@@ -126,7 +123,7 @@ export class ProductBoardComponent implements OnInit, Paginable {
     this.productService
       .getAllProductsInSale(this.paginationState)
       .subscribe((products) => {
-        this.productList = products.map((product) =>
+        this.cardInputList = products.map((product) =>
           this.mapToModel(product, this.getTargetRoute(product.id))
         );
       });
