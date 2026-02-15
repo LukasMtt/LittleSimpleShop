@@ -21,6 +21,7 @@ export class ProductShowComponent implements OnInit {
   product: ProductDTO | undefined;
   mainImage: DisplayImageInput | undefined;
   carouselImages: DisplayImageInput[] = [];
+  midDotString: string = '\u00B7';
 
   constructor(
     private productService: ProductService,

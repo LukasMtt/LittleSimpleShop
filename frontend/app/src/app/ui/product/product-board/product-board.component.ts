@@ -5,12 +5,10 @@ import { ProductService } from '../../../services/product.service';
 import { RouteEndpointType } from '../../../app.routes';
 import { Paginable } from '../../shared/paginable';
 import { PaginationStateModel } from '../../../models/misc/pagination-state.model';
-import { TemplateTypeCardBoardSubText } from '../../../enums/template-type-card-board-sub-text.enum';
 import { CategoryType } from '../../../enums/category-type.enum';
 import { ProductDTO } from '../../../models/api/product.dto';
 import { CardInput } from '../../../models/component/card.input';
 import { CurrencyPipe } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-board',
@@ -94,7 +92,7 @@ export class ProductBoardComponent implements OnInit, Paginable {
         fileId: product.images[0].fileId,
         productId: product.id
       },
-      subText: `${product.name ?? ''} &middot; ${this.currencyPipe.transform(product.price)}`,
+      subText: `${product.name ?? ''} \u00B7 ${this.currencyPipe.transform(product.price)}`,
       cardLink: targetRoute
     };
   }
