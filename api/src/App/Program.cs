@@ -9,6 +9,7 @@ using Shop.Misc;
 using Shop.Misc.Interfaces;
 using Shop.Service;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 class Program
 {
@@ -21,7 +22,7 @@ class Program
 
             RegisterServices(builder.Services);
             MigrateDatabase(builder.Services);
-            
+
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
@@ -32,6 +33,7 @@ class Program
             app.UseAuthorization();
             app.MapControllers();
             app.UseCors("CorsPolicy");
+            app.UseRateLimiter();
 
             app.Run();
         }
@@ -47,6 +49,7 @@ class Program
 
     private static void RegisterServices(IServiceCollection services)
     {
+        //todo must use frontend base url
         services.AddCors(options =>
         {
             options.AddPolicy(name: "CorsPolicy",
@@ -54,12 +57,24 @@ class Program
             );
         });
         services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+        services.AddRateLimiter(options => options.AddPolicy("paymentRateLimiterPolicy",
+            httpContext => RateLimitPartition.GetFixedWindowLimiter(
+                partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                factory: partition => new FixedWindowRateLimiterOptions
+                {
+                    AutoReplenishment = true,
+                    PermitLimit = 3,
+                    QueueLimit = 0,
+                    Window = TimeSpan.FromMinutes(1)
+                })).RejectionStatusCode = StatusCodes.Status429TooManyRequests
+        );
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddSingleton(ConfigureMappings());
         services.AddSerilog();
 
         services.AddDbContext<ShopDbContext>();
+
+        services.AddSingleton(ConfigureMappings());
 
         services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
         services.AddTransient<StripePaymentService>();
@@ -76,7 +91,7 @@ class Program
             {
                 MaxRetryAttempts = 3,
                 BackoffType = DelayBackoffType.Linear,
-                Delay = TimeSpan.FromMilliseconds(20), 
+                Delay = TimeSpan.FromMilliseconds(20),
                 UseJitter = true
             });
         });
@@ -86,7 +101,7 @@ class Program
     {
         var mapperConfig = new MapperConfiguration(mc =>
         {
-             mc.AddProfile(new MappingProfile());
+            mc.AddProfile(new MappingProfile());
         });
         IMapper mapper = mapperConfig.CreateMapper();
         return mapper;
@@ -111,12 +126,13 @@ class Program
     }
 
     //todo maybe refactor cause does not seem too elegant?
-    private static void MigrateDatabase(IServiceCollection services) {
+    private static void MigrateDatabase(IServiceCollection services)
+    {
         var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>()!.GetAppSettingsConfiguration();
         if (appSettingsConfig != null)
             using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
-                using (var scope = serviceProvider.CreateScope())
-                    UpdateDatabase(scope.ServiceProvider);
+            using (var scope = serviceProvider.CreateScope())
+                UpdateDatabase(scope.ServiceProvider);
     }
 
     private static void ConfigureSerilog()

@@ -1,5 +1,6 @@
 using App.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Primitives;
 using Shop.ApiModels;
 using Shop.Service;
@@ -18,6 +19,7 @@ public class PaymentController : ShopBaseController
     }
 
     [HttpPost]
+    [EnableRateLimiting("paymentRateLimiterPolicy")]
     public async Task<ActionResult> CreateCheckoutSession([FromBody] CheckoutCartModel model)
     {
         var result = await _orderService.CreateAndSaveOrder(model);

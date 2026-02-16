@@ -1,6 +1,7 @@
 namespace Shop.ApiModels;
 
-public class NewsModel : BaseApiModel {
+public class NewsModel : BaseApiModel
+{
     public required string ShortText { get; set; }
     public string? LongText { get; set; }
     public DateTime ValidFrom { get; set; }

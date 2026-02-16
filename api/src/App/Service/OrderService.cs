@@ -1,4 +1,5 @@
 using App.Misc;
+
 using Shop.ApiModels;
 using Shop.Data;
 using Shop.Data.DataModels;
@@ -8,7 +9,7 @@ namespace Shop.Service;
 public class OrderService
 {
     private ShopDbContext _context;
-    
+
     public OrderService(ShopDbContext context)
     {
         _context = context;
@@ -22,11 +23,11 @@ public class OrderService
         };
 
         order.OrderProducts = model.CartItems?.Select(item => new OrderProduct
-            {
-                Product = _context.Product.Find(item.ProductId)!,
-                Quantity = item.Count,
-                Order = order
-            }).ToList() ?? new List<OrderProduct>();
+        {
+            Product = _context.Product.Find(item.ProductId)!,
+            Quantity = item.Count,
+            Order = order
+        }).ToList() ?? new List<OrderProduct>();
 
         _context.Order.Add(order);
 

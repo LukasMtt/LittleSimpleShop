@@ -17,7 +17,7 @@ public class PublicImageController : ShopBaseController
     {
         var image = _context.PublicImage
             .FirstOrDefault(x => x.Id == imageId && x.FileId == fileId);
-            
+
         return await GetFileAsync(image);
     }
 
