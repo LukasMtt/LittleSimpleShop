@@ -15,11 +15,10 @@ import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
-  selector: 'app-cart-sidebar',
-  standalone: true,
-  imports: [CartItemComponent, RouterModule, ButtonComponent, ButtonComponent],
-  templateUrl: './cart-sidebar.component.html',
-  styleUrl: './cart-sidebar.component.css'
+    selector: 'app-cart-sidebar',
+    imports: [CartItemComponent, RouterModule, ButtonComponent, ButtonComponent],
+    templateUrl: './cart-sidebar.component.html',
+    styleUrl: './cart-sidebar.component.css'
 })
 export class CartSidebarComponent
   extends BaseComponent

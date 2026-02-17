@@ -12,19 +12,18 @@ import { HeaderSidebarComponent } from './header-sidebar/header-sidebar.componen
 import { NewsHeaderComponent } from './news-header/news-header.component';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    HeaderSidebarComponent,
-    CartSidebarComponent,
-    RouterLink,
-    NewsHeaderComponent
-  ]
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.css',
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        HeaderSidebarComponent,
+        CartSidebarComponent,
+        RouterLink,
+        NewsHeaderComponent
+    ]
 })
 export class HeaderComponent extends BaseComponent implements OnDestroy {
   cart: CartInput | undefined;

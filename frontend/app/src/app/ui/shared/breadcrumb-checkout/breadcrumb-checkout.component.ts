@@ -12,11 +12,10 @@ import { NgClass } from '@angular/common';
 import { ShipmentService } from '../../../services/shipment.service';
 
 @Component({
-  selector: 'app-breadcrumb-checkout',
-  standalone: true,
-  imports: [MatIcon, NgClass],
-  templateUrl: './breadcrumb-checkout.component.html',
-  styleUrl: './breadcrumb-checkout.component.css'
+    selector: 'app-breadcrumb-checkout',
+    imports: [MatIcon, NgClass],
+    templateUrl: './breadcrumb-checkout.component.html',
+    styleUrl: './breadcrumb-checkout.component.css'
 })
 export class BreadcrumbCheckoutComponent
   extends BaseComponent

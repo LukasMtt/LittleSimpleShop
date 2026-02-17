@@ -6,11 +6,10 @@ import { BaseComponent } from '../../shared/base.component';
 import { CountryService } from '../../../services/country.service';
 
 @Component({
-  selector: 'app-shipping',
-  standalone: true,
-  imports: [ReactiveFormsModule, FormSectionComponent],
-  templateUrl: './shipping.component.html',
-  styleUrl: './shipping.component.css'
+    selector: 'app-shipping',
+    imports: [ReactiveFormsModule, FormSectionComponent],
+    templateUrl: './shipping.component.html',
+    styleUrl: './shipping.component.css'
 })
 export class ShippingComponent extends BaseComponent {
   shipmentFormGroup: FormGroup;

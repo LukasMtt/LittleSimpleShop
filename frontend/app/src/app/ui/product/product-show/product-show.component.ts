@@ -8,11 +8,10 @@ import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
 
 @Component({
-  selector: 'app-product-show',
-  standalone: true,
-  imports: [CarouselComponent, CurrencyPipe],
-  templateUrl: './product-show.component.html',
-  styleUrl: './product-show.component.css'
+    selector: 'app-product-show',
+    imports: [CarouselComponent, CurrencyPipe],
+    templateUrl: './product-show.component.html',
+    styleUrl: './product-show.component.css'
 })
 export class ProductShowComponent implements OnInit {
   @Input({ required: true }) productId!: number;

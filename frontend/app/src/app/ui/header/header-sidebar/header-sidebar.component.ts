@@ -11,11 +11,10 @@ import { SidebarItemComponent } from '../../shared/sidebar-item/sidebar-item.com
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-header-sidebar',
-  standalone: true,
-  imports: [SidebarComponent, SidebarItemComponent, RouterLink],
-  templateUrl: './header-sidebar.component.html',
-  styleUrl: './header-sidebar.component.css'
+    selector: 'app-header-sidebar',
+    imports: [SidebarComponent, SidebarItemComponent, RouterLink],
+    templateUrl: './header-sidebar.component.html',
+    styleUrl: './header-sidebar.component.css'
 })
 export class HeaderSidebarComponent extends BaseComponent implements OnChanges {
   @Input({ required: true }) isHidden!: boolean;

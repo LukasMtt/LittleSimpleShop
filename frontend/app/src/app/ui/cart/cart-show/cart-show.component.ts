@@ -7,11 +7,10 @@ import { CartSumComponent } from '../cart-sum/cart-sum.component';
 import { BaseComponent } from '../../shared/base.component';
 
 @Component({
-  selector: 'app-cart-show',
-  standalone: true,
-  imports: [CartItemComponent, CartSumComponent],
-  templateUrl: './cart-show.component.html',
-  styleUrl: './cart-show.component.css'
+    selector: 'app-cart-show',
+    imports: [CartItemComponent, CartSumComponent],
+    templateUrl: './cart-show.component.html',
+    styleUrl: './cart-show.component.css'
 })
 export class CartShowComponent extends BaseComponent {
   cart: CartInput | undefined;

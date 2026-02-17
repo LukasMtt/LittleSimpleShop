@@ -11,11 +11,10 @@ import { CardInput } from '../../../models/component/card.input';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-product-board',
-  standalone: true,
-  imports: [CardBoardComponent, MatPaginator],
-  templateUrl: './product-board.component.html',
-  styleUrl: './product-board.component.css'
+    selector: 'app-product-board',
+    imports: [CardBoardComponent, MatPaginator],
+    templateUrl: './product-board.component.html',
+    styleUrl: './product-board.component.css'
 })
 export class ProductBoardComponent implements OnInit, Paginable {
   @Input({ required: true }) categoryId!: string;

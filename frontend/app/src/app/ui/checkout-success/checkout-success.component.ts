@@ -3,11 +3,10 @@ import { BaseComponent } from '../shared/base.component';
 import { MetadataService } from '../../services/metadata.service';
 
 @Component({
-  selector: 'app-checkout-success',
-  standalone: true,
-  imports: [],
-  templateUrl: './checkout-success.component.html',
-  styleUrl: './checkout-success.component.css'
+    selector: 'app-checkout-success',
+    imports: [],
+    templateUrl: './checkout-success.component.html',
+    styleUrl: './checkout-success.component.css'
 })
 export class CheckoutSuccessComponent extends BaseComponent {
   email: string = '';

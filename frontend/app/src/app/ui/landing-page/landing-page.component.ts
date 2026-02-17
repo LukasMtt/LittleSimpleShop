@@ -3,11 +3,10 @@ import { CategoryBoardComponent } from "../category-board/category-board.compone
 import { NewsletterSubscribeComponent } from "../newsletter-subscribe/newsletter-subscribe.component";
 
 @Component({
-  selector: 'app-landing-page',
-  standalone: true,
-  imports: [CategoryBoardComponent, NewsletterSubscribeComponent],
-  templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.css'
+    selector: 'app-landing-page',
+    imports: [CategoryBoardComponent, NewsletterSubscribeComponent],
+    templateUrl: './landing-page.component.html',
+    styleUrl: './landing-page.component.css'
 })
 export class LandingPageComponent {
 }

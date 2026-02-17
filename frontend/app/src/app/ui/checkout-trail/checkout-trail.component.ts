@@ -6,11 +6,10 @@ import { FormGroup } from '@angular/forms';
 import { UrlHelper } from '../../misc/url.helper';
 
 @Component({
-  selector: 'app-checkout-trail',
-  standalone: true,
-  imports: [RouterModule, BreadcrumbCheckoutComponent],
-  templateUrl: './checkout-trail.component.html',
-  styleUrl: './checkout-trail.component.css'
+    selector: 'app-checkout-trail',
+    imports: [RouterModule, BreadcrumbCheckoutComponent],
+    templateUrl: './checkout-trail.component.html',
+    styleUrl: './checkout-trail.component.css'
 })
 export class CheckoutTrailComponent implements OnInit {
   currentStep: number = 0;

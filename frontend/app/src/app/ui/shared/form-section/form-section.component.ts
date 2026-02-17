@@ -7,11 +7,10 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-form-section',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './form-section.component.html',
-  styleUrl: './form-section.component.css'
+    selector: 'app-form-section',
+    imports: [ReactiveFormsModule],
+    templateUrl: './form-section.component.html',
+    styleUrl: './form-section.component.css'
 })
 export class FormSectionComponent extends BaseComponent {
   @Input() control: FormControl | undefined | null;

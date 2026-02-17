@@ -4,11 +4,10 @@ import { BaseComponent } from '../../shared/base.component';
 import { PaymentStripeService } from '../../../services/payment.stripe.service';
 
 @Component({
-  selector: 'app-payment',
-  standalone: true,
-  imports: [ButtonComponent],
-  templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+    selector: 'app-payment',
+    imports: [ButtonComponent],
+    templateUrl: './payment.component.html',
+    styleUrl: './payment.component.css'
 })
 export class PaymentComponent extends BaseComponent {
   constructor(private paymentStripeService: PaymentStripeService) {

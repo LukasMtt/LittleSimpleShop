@@ -15,11 +15,10 @@ import { CategoryDTO } from '../../models/api/category.dto';
 import { CardInput } from '../../models/component/card.input';
 
 @Component({
-  selector: 'app-category-board',
-  templateUrl: './category-board.component.html',
-  styleUrl: './category-board.component.css',
-  standalone: true,
-  imports: [CardBoardComponent]
+    selector: 'app-category-board',
+    templateUrl: './category-board.component.html',
+    styleUrl: './category-board.component.css',
+    imports: [CardBoardComponent]
 })
 export class CategoryBoardComponent extends BaseComponent implements OnInit {
   cardInputList: CardInput[] = [];

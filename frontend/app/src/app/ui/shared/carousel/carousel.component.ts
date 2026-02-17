@@ -4,11 +4,10 @@ import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
 
 @Component({
-  selector: 'app-carousel',
-  standalone: true,
-  imports: [MatIconModule],
-  templateUrl: './carousel.component.html',
-  styleUrl: './carousel.component.css'
+    selector: 'app-carousel',
+    imports: [MatIconModule],
+    templateUrl: './carousel.component.html',
+    styleUrl: './carousel.component.css'
 })
 export class CarouselComponent implements OnChanges {
   @Input({ required: true }) get images(): DisplayImageInput[] | undefined {

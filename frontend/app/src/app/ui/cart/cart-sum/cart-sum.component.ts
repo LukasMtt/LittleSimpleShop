@@ -6,11 +6,10 @@ import { CurrencyPipe } from '@angular/common';
 import { BaseComponent } from '../../shared/base.component';
 
 @Component({
-  selector: 'app-cart-sum',
-  standalone: true,
-  imports: [CurrencyPipe],
-  templateUrl: './cart-sum.component.html',
-  styleUrl: './cart-sum.component.css'
+    selector: 'app-cart-sum',
+    imports: [CurrencyPipe],
+    templateUrl: './cart-sum.component.html',
+    styleUrl: './cart-sum.component.css'
 })
 export class CartSumComponent extends BaseComponent {
   @Input({ required: true }) cart!: CartInput | undefined;

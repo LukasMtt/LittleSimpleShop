@@ -6,15 +6,14 @@ import { CardInput } from '../../../models/component/card.input';
 import { TooltipComponent } from '../tooltip/tooltip.component';
 
 @Component({
-  selector: 'app-card-board',
-  templateUrl: './card.board.component.html',
-  styleUrl: './card.board.component.css',
-  standalone: true,
-  host: {
-    '[class.grid-design-3-col]': 'columnCount == 3',
-    '[class.grid-design-4-col]': 'columnCount == 4'
-  },
-  imports: [RouterLink, CardComponent, CurrencyPipe, TooltipComponent]
+    selector: 'app-card-board',
+    templateUrl: './card.board.component.html',
+    styleUrl: './card.board.component.css',
+    host: {
+        '[class.grid-design-3-col]': 'columnCount == 3',
+        '[class.grid-design-4-col]': 'columnCount == 4'
+    },
+    imports: [RouterLink, CardComponent, CurrencyPipe, TooltipComponent]
 })
 export class CardBoardComponent {
   @Input({ required: true }) cardInputList!: CardInput[];

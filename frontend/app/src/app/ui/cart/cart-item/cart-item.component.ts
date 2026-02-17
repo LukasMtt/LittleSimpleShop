@@ -12,11 +12,10 @@ import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
 
 @Component({
-  selector: 'app-cart-item',
-  standalone: true,
-  imports: [TickCounterComponent, CurrencyPipe, MatIcon, RouterLink],
-  templateUrl: './cart-item.component.html',
-  styleUrl: './cart-item.component.css'
+    selector: 'app-cart-item',
+    imports: [TickCounterComponent, CurrencyPipe, MatIcon, RouterLink],
+    templateUrl: './cart-item.component.html',
+    styleUrl: './cart-item.component.css'
 })
 export class CartItemComponent extends BaseComponent implements OnInit {
   @Input({ required: true }) get cartItem(): CartItemInput | undefined {
