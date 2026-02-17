@@ -19,7 +19,7 @@ export class NewsHeaderComponent implements OnInit {
     this.newsService.getAllNews().subscribe((data) => {
       this.newsList = data;
       if (this.newsList) {
-        var length = this.newsList.length;
+        const length = this.newsList.length;
         setInterval(() => {
           this.currentOffset = (this.currentOffset + 1) % length;
         }, 7500);

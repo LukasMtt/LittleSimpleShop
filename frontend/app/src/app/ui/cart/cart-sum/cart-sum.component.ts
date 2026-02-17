@@ -28,7 +28,7 @@ export class CartSumComponent extends BaseComponent {
   }
 
   getCartPriceSum() {
-    var baseItems = this.cart?.items.filter((x) => x.count > 0);
+    const baseItems = this.cart?.items.filter((x) => x.count > 0);
     if (baseItems && baseItems.length > 0) {
       return baseItems
         .map((x) => x.product.price * x.count)

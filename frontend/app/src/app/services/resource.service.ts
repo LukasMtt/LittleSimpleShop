@@ -1,17 +1,15 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { lastValueFrom } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ResourceService {
+  private resources: any;
 
-    private resources: any;
-
-    constructor(private httpClient: HttpClient) {
-    }
+  constructor(private httpClient: HttpClient) {}
 
   async loadResources() {
-    var getResources$ = this.httpClient.get('/assets/resources.de.json');
+    const getResources$ = this.httpClient.get('/assets/resources.de.json');
     this.resources = await lastValueFrom(getResources$);
   }
 
@@ -19,7 +17,7 @@ export class ResourceService {
     if (!this.resources) {
       throw Error('Resource file not loaded yet!');
     }
-    var value = this.resources[name];
+    const value = this.resources[name];
     if (!value) {
       return null;
     }

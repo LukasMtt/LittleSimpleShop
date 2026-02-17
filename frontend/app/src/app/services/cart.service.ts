@@ -32,7 +32,7 @@ export class CartService {
   }
 
   public pushCartItem(item: CartItemInput) {
-    var existingItem = this.cart.items.find(
+    const existingItem = this.cart.items.find(
       (x) => x.product && item.product && x.product.id === item.product.id
     );
     if (existingItem) {
@@ -48,7 +48,7 @@ export class CartService {
   //timeout to wait for ui to find item to ensure side bar is not collapsed
   public popCartItemByProductId(productId: number) {
     setTimeout(() => {
-      var item = this.cart.items.find(
+      const item = this.cart.items.find(
         (x) => x.product && x.product.id == productId
       );
       this.cart.items = this.cart.items.filter((x) => x != item);
@@ -61,7 +61,7 @@ export class CartService {
   //timeout to wait for ui to find item to ensure side bar is not collapsed
   public updateCartItemCount(productId: number, count: number) {
     setTimeout(() => {
-      var item = this.cart?.items.find((x) => x.product.id == productId);
+      const item = this.cart?.items.find((x) => x.product.id == productId);
       if (item) {
         item.count = count;
         if (count < 1) {
@@ -87,7 +87,7 @@ export class CartService {
   }
 
   private createCartStorageString() {
-    var cartStorageObject: CartStorageModel = new CartStorageModel();
+    const cartStorageObject: CartStorageModel = new CartStorageModel();
     this.cart.items
       .filter((x) => x && x.count > 0)
       .forEach((cartItem) => {
@@ -113,8 +113,8 @@ export class CartService {
   }
 
   private getCartFromStorageString() {
-    var cartStorageType = this.getCartStorageString();
-    var cartItems: CartItemInput[] = [];
+    const cartStorageType = this.getCartStorageString();
+    const cartItems: CartItemInput[] = [];
 
     if (cartStorageType) {
       this.productService
@@ -123,14 +123,14 @@ export class CartService {
         )
         .subscribe((products) => {
           products.forEach((product) => {
-            var count = cartStorageType?.items.find(
+            const count = cartStorageType?.items.find(
               (x) => x.productId == product.id
             )?.count;
             if (product && count) {
               cartItems.push({ product: product, count: count });
             }
           });
-          var cart: CartInput = { items: [] };
+          const cart: CartInput = { items: [] };
           cart.items = cartItems;
 
           this.cart = cart;

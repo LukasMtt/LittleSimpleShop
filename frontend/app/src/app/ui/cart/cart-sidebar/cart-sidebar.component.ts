@@ -50,7 +50,7 @@ export class CartSidebarComponent
   }
 
   public getCartItemsForDisplay() {
-    var result = this.cart?.items.filter((x) => x.count > 0);
+    const result = this.cart?.items.filter((x) => x.count > 0);
     if (!result?.length || result.length < 3) {
       return result ?? [];
     }

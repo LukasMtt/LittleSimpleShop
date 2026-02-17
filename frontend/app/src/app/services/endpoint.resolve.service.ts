@@ -134,8 +134,8 @@ export class EndpointResolveService {
   }
 
   public buildUrl(leaf: EndpointItem, params: KeyValue<string, string>[]) {
-    var hasParams = params && params.length > 0;
-    var paramSuffix = hasParams ? '?' : '';
+    const hasParams = params && params.length > 0;
+    let paramSuffix = hasParams ? '?' : '';
     params.forEach((pair) => {
       paramSuffix += `${pair.key}=${pair.value}&`;
     });
@@ -152,7 +152,7 @@ export class EndpointResolveService {
   }
 
   private resolvePath(leaf: EndpointItem) {
-    var targetLeafCandidates = this.leafList.filter(
+    const targetLeafCandidates = this.leafList.filter(
       (x) => x.item.toString() == leaf.toString()
     );
 

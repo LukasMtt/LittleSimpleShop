@@ -61,8 +61,8 @@ export class CartItemComponent extends BaseComponent implements OnInit {
   }
 
   public getTotalPrice() {
-    var price = this.cartItem?.product?.price;
-    var count = this.cartItem?.count;
+    const price = this.cartItem?.product?.price;
+    const count = this.cartItem?.count;
     if (count && price) {
       return (count * price).toString();
     }

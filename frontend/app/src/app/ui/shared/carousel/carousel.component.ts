@@ -33,7 +33,7 @@ export class CarouselComponent implements OnChanges {
   }
 
   nextImage(isBack: boolean) {
-    var imagesCount = this.images?.length ?? 0;
+    const imagesCount = this.images?.length ?? 0;
     if (isBack) {
       this.currentIndex = (this.currentIndex + imagesCount - 1) % imagesCount;
     } else {

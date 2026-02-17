@@ -42,7 +42,7 @@ export class FormSectionComponent extends BaseComponent {
       return '';
     }
 
-    var errorMessageList: string[] = [];
+    const errorMessageList: string[] = [];
     for (const errorKey in error) {
       this.validationFailResourcesMap.filter((x) => {
         if (x.key === errorKey) {
