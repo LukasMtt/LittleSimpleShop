@@ -1,11 +1,10 @@
 .tooltip-text {
+  display: block;
   position: absolute;
-  width: fit-content;
   background-color: var(--secondary-color);
   opacity: 0.75;
   color: var(--primary-color);
   text-align: center;
-  font-size: 0.75rem;
   border-radius: 5px;
   padding: 5px;
 }

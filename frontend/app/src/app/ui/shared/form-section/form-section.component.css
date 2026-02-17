@@ -57,3 +57,8 @@
   color: red;
   font-size: 0.55rem;
 }
+
+.ng-invalid:not(form, div).ng-dirty {
+  border-color: red;
+  background-color: rgba(255, 0, 0, 0.068);
+}

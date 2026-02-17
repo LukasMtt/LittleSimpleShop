@@ -26,12 +26,15 @@ main {
 
 html {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body {
+  position: relative;
   min-height: 100vh;
   margin: 0;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 button:hover {
@@ -40,13 +43,6 @@ button:hover {
 
 button:disabled {
   cursor: not-allowed;
-}
-
-/* forms */
-
-.ng-invalid:not(form, div).ng-dirty {
-  border-color: red;
-  background-color: rgba(255, 0, 0, 0.068);
 }
 
 /* fonts */

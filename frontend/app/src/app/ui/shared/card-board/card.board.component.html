@@ -12,16 +12,16 @@
     }"
   >
     <div class="sub-section-card" aria-labelledby="sub-section-card-info">
-      <app-tooltip [tooltipText]="cardModel.subText || ''">
-        <div
-          [class]="{
-            'item-sub-text-card': true,
-            'sub-text-large': useLargeText
-          }"
-        >
-          {{ cardModel.subText }}
-        </div>
-      </app-tooltip>
+      <div
+        [class]="{
+          'item-sub-text-card': true,
+          'sub-text-large': useLargeText
+        }"
+      >
+        <app-tooltip [tooltipText]="cardModel.subText || ''">
+          <span>{{ cardModel.subText }}</span>
+        </app-tooltip>
+      </div>
     </div>
   </app-card>
 }
