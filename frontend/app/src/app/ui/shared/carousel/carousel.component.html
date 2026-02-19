@@ -1,15 +1,23 @@
-@if (images && images.length > 0) {
-  <div class="carousel-container">
-    <mat-icon class="arrow arrow-left" (click)="nextImage(true)"
-      >chevron_left</mat-icon
-    >
+@if (filledImages() && filledImages().length > 0) {
+  <mat-icon class="arrow arrow-left" (click)="nextImage(true)"
+    >chevron_left</mat-icon
+  >
+  @if (toggledImage()) {
     <img
-      [src]="images[currentIndex].fileContent?.dataUrl || ''"
+      [src]="filledImages()[currentIndex()].fileContent?.dataUrl || ''"
       class="selected-image"
       alt="selected image"
+      animate.enter="change-image-animation"
     />
-    <mat-icon class="arrow arrow-right" (click)="nextImage(false)"
-      >chevron_right</mat-icon
-    >
-  </div>
+  } @else {
+    <img
+      [src]="filledImages()[currentIndex()].fileContent?.dataUrl || ''"
+      class="selected-image"
+      alt="selected image"
+      animate.enter="change-image-animation"
+    />
+  }
+  <mat-icon class="arrow arrow-right" (click)="nextImage(false)"
+    >chevron_right</mat-icon
+  >
 }

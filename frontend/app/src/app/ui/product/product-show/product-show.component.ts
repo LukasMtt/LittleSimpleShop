@@ -8,10 +8,10 @@ import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
 
 @Component({
-    selector: 'app-product-show',
-    imports: [CarouselComponent, CurrencyPipe],
-    templateUrl: './product-show.component.html',
-    styleUrl: './product-show.component.css'
+  selector: 'app-product-show',
+  imports: [CarouselComponent, CurrencyPipe],
+  templateUrl: './product-show.component.html',
+  styleUrl: './product-show.component.css'
 })
 export class ProductShowComponent implements OnInit {
   @Input({ required: true }) productId!: number;
@@ -21,6 +21,8 @@ export class ProductShowComponent implements OnInit {
   mainImage: DisplayImageInput | undefined;
   carouselImages: DisplayImageInput[] = [];
   midDotString: string = '\u00B7';
+
+  private carouselImageLength = 3;
 
   constructor(
     private productService: ProductService,
@@ -36,14 +38,16 @@ export class ProductShowComponent implements OnInit {
         this.setImageDataUrl();
         //todo somehow not working yet
         this.carouselImages =
-          this.product?.images.slice(0, 3).map((imageSpec) => {
-            return {
-              id: imageSpec.id,
-              fileId: imageSpec.fileId,
-              productId: imageSpec.productId,
-              fileContent: { dataUrl: '' }
-            };
-          }) ?? [];
+          this.product?.images
+            .slice(0, this.carouselImageLength)
+            .map((imageSpec) => {
+              return {
+                id: imageSpec.id,
+                fileId: imageSpec.fileId,
+                productId: imageSpec.productId,
+                fileContent: { dataUrl: '' }
+              };
+            }) ?? [];
       });
   }
 

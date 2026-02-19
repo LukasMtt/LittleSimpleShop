@@ -3,10 +3,10 @@ import { NewsService } from '../../../services/news.service';
 import { NewsDTO } from '../../../models/api/news.dto';
 
 @Component({
-    selector: 'app-news-header',
-    imports: [],
-    templateUrl: './news-header.component.html',
-    styleUrl: './news-header.component.css'
+  selector: 'app-news-header',
+  imports: [],
+  templateUrl: './news-header.component.html',
+  styleUrl: './news-header.component.css'
 })
 export class NewsHeaderComponent implements OnInit {
   newsList: NewsDTO[] = [];
