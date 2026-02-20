@@ -1,0 +1,16 @@
+<div class="expansion-section-header" (click)="toggleExpansionSection()">
+  <mat-icon
+    [class.collapse-button]="true"
+    [class.collapse-button-open]="expansionSectionOpen()"
+    [class.collapse-button-closed]="!expansionSectionOpen()"
+    >chevron_right</mat-icon
+  >
+  <div class="expansion-section-header-text">{{ headerText() }}</div>
+</div>
+<div
+  [class.expansion-section-content]="true"
+  [class.collapse-section-content-open]="expansionSectionOpen()"
+  [class.collapse-section-content-close]="!expansionSectionOpen()"
+>
+  <ng-content></ng-content>
+</div>

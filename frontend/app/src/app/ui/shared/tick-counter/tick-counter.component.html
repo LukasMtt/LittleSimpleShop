@@ -1,5 +1,13 @@
-<div class="ticker counter-item-wrapper" (click)="tickCounter(1)">+</div>
+@if (counterDirection() === 'row') {
+  <div class="ticker counter-item-wrapper" (click)="tickCounter(-1)">-</div>
+} @else {
+  <div class="ticker counter-item-wrapper" (click)="tickCounter(1)">+</div>
+}
 <div class="counter-number counter-item-wrapper">
   {{ counter }}
 </div>
-<div class="ticker counter-item-wrapper" (click)="tickCounter(-1)">-</div>
+@if (counterDirection() === 'row') {
+  <div class="ticker counter-item-wrapper" (click)="tickCounter(1)">+</div>
+} @else {
+  <div class="ticker counter-item-wrapper" (click)="tickCounter(-1)">-</div>
+}

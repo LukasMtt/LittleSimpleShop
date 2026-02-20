@@ -1,7 +1,6 @@
 :host {
   display: flex;
   width: 100%;
-  flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   border: solid;
@@ -20,7 +19,7 @@
 .counter-item-wrapper {
   width: 100%;
   height: 100%;
-  font-size: 0.7rem;
+  font-size: inherit;
   text-align: center;
   align-content: center;
 }
@@ -28,7 +27,7 @@
 .ticker {
   width: 100%;
   height: 100%;
-  font-size: 0.7rem;
+  font-size: inherit;
 }
 
 .ticker:hover {

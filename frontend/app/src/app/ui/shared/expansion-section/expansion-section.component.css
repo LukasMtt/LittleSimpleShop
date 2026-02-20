@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  border: solid;
+  border-width: 0.5px;
+  border-color: var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px;
+  background-color: var(--ternary-color);
+}
+
+.expansion-section-header {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.collapse-button {
+  height: fit-content;
+  transition: transform 200ms ease-in-out;
+  font-size: 1.25rem;
+}
+
+.collapse-button-open {
+  transform: rotate(90deg);
+}
+
+.collapse-button-closed {
+  transform: rotate(0deg);
+}
+
+.expansion-section-header-text {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.expansion-section-content {
+  font-size: 0.7rem;
+}
+
+.collapse-section-content-open {
+  display: block;
+}
+
+.collapse-section-content-close {
+  display: none;
+}

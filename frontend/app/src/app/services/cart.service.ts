@@ -36,7 +36,7 @@ export class CartService {
       (x) => x.product && item.product && x.product.id === item.product.id
     );
     if (existingItem) {
-      existingItem.count = existingItem.count + 1;
+      existingItem.count = existingItem.count + item.count;
     } else {
       this.cart.items.push(item);
     }
