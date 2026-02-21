@@ -4,20 +4,44 @@
   >
   @if (toggledImage()) {
     <img
-      [src]="filledImages()[currentIndex()].fileContent?.dataUrl || ''"
+      [src]="filledImages()[currentIndex()]?.fileContent?.dataUrl || ''"
       class="selected-image"
       alt="selected image"
       animate.enter="change-image-animation"
+      (click)="openPopUpCarouselImage()"
     />
   } @else {
     <img
-      [src]="filledImages()[currentIndex()].fileContent?.dataUrl || ''"
+      [src]="filledImages()[currentIndex()]?.fileContent?.dataUrl || ''"
       class="selected-image"
       alt="selected image"
       animate.enter="change-image-animation"
+      (click)="openPopUpCarouselImage()"
     />
   }
   <mat-icon class="arrow arrow-right" (click)="nextImage(false)"
     >chevron_right</mat-icon
   >
+}
+@if (enlargedCarouselImage()) {
+  <div
+    class="image-pop-up-background-overlay"
+    animate.enter="pop-up-image-animation"
+    animate.leave="pop-up-close-image-animation"
+  ></div>
+
+  <div
+    class="image-pop-up-container"
+    animate.enter="pop-up-image-animation"
+    animate.leave="pop-up-close-image-animation"
+  >
+    <img
+      [src]="filledImages()[currentIndex()]?.fileContent?.dataUrl || ''"
+      class="pop-up-image"
+      alt="pop up image"
+    />
+    <mat-icon class="close-button" (click)="closePopUpCarouselImage()"
+      >close</mat-icon
+    >
+  </div>
 }

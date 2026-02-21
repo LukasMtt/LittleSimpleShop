@@ -15,6 +15,7 @@ export class CarouselComponent {
   currentIndex = signal<number>(0);
   filledImages = signal<DisplayImageInput[]>([]);
   toggledImage = signal<boolean>(false);
+  enlargedCarouselImage = signal<boolean>(false);
   selectedImage = computed<DisplayImageInput | undefined>(() => {
     let images = this.filledImages();
     if (images) {
@@ -62,5 +63,13 @@ export class CarouselComponent {
         this.filledImages.update((value) => [...value, image]);
       });
     });
+  }
+
+  public openPopUpCarouselImage() {
+    this.enlargedCarouselImage.set(true);
+  }
+
+  public closePopUpCarouselImage() {
+    this.enlargedCarouselImage.set(false);
   }
 }

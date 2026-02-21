@@ -22,15 +22,6 @@
   animation: slide-fade 1s;
 }
 
-@keyframes slide-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 /* arrows */
 
 .arrow {
@@ -57,4 +48,80 @@
 .arrow:hover {
   opacity: 0.5;
   cursor: pointer;
+}
+
+/* image pop up */
+
+.image-pop-up-background-overlay {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-color);
+  opacity: 0.9;
+  z-index: 11111;
+  left: 0;
+  top: 0;
+}
+
+.image-pop-up-container {
+  display: block;
+  position: absolute;
+  width: 85%;
+  height: 80%;
+  z-index: 111111;
+  left: calc((100% - 85%) / 2);
+  top: calc((100% - 80%) / 2);
+}
+
+.pop-up-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 7px;
+  border: solid;
+  border-color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.close-button {
+  display: block;
+  position: absolute;
+  width: fit-content;
+  height: fit-content;
+  z-index: 11;
+  right: 1%;
+  top: 1%;
+  background-color: var(--primary-color);
+  border-radius: 100%;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.pop-up-image-animation {
+  animation: slide-fade 1s;
+}
+
+.pop-up-close-image-animation {
+  animation: slide-fade-back 0.5s;
+}
+
+/* key frame */
+
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-fade-back {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

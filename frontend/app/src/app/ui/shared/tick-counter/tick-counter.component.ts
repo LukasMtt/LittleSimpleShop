@@ -13,12 +13,14 @@ import { MatIconModule } from '@angular/material/icon';
 export class TickCounterComponent {
   @Input({ required: true }) counter!: number;
   counterDirection = input<'row' | 'column'>('row');
+  minCounter = input<number>(0);
+
   @Output() counterChange = new EventEmitter<number>();
 
   tickCounter(amount: number): void {
     this.counter += amount;
-    if (this.counter < 0) {
-      this.counter = 0;
+    if (this.counter < this.minCounter()) {
+      this.counter = this.minCounter();
     }
     this.counterChange.emit(this.counter);
   }
