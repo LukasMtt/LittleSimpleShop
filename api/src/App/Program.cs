@@ -11,8 +11,8 @@ using Serilog;
 using Shop.Data;
 using Shop.Data.Migrations;
 using Shop.Misc;
-using Shop.Misc.Interfaces;
 using Shop.Service;
+
 
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
@@ -26,8 +26,11 @@ class Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            RegisterServices(builder.Services);
-            MigrateDatabase(builder.Services);
+            builder.Services.Configure<AppOptions>(builder.Configuration);
+            var options = builder.Configuration.Get<AppOptions>();
+
+            RegisterServices(builder.Services, options);
+            MigrateDatabase(options);
 
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
@@ -55,13 +58,12 @@ class Program
         }
     }
 
-    private static void RegisterServices(IServiceCollection services)
+    private static void RegisterServices(IServiceCollection services, AppOptions? appOptions)
     {
-        //todo must use frontend base url
         services.AddCors(options =>
         {
             options.AddPolicy(name: "CorsPolicy",
-                builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+                builder => builder.WithOrigins(appOptions?.FrontendBaseUrl ?? throw new InvalidOperationException("FrontendBaseUrl is not configured.")).AllowAnyMethod().AllowAnyHeader()
             );
         });
         services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -84,14 +86,13 @@ class Program
 
         services.AddSingleton(ConfigureMappings());
 
-        services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
         services.AddTransient<StripePaymentService>();
         services.AddTransient<OrderService>();
         services.AddTransient<ShippingService>();
 
         services.AddHttpClient<IFileStorageService, SeaweedFsService>(client =>
         {
-            client.BaseAddress = new Uri(services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>()!.GetAppSettingsConfiguration()["SeaweedFs:Url"]!);
+            client.BaseAddress = new Uri(appOptions?.SeaweedFs?.Url ?? throw new InvalidOperationException("SeaweedFsBaseUrl is not configured."));
         })
         .AddResilienceHandler("default", builder =>
         {
@@ -116,13 +117,13 @@ class Program
         return mapper;
     }
 
-    private static ServiceProvider CreateFluentMigratorServices(IConfigurationRoot appSettingsConfiguration)
+    private static ServiceProvider CreateFluentMigratorServices(AppOptions appOptions)
     {
         return new ServiceCollection()
             .AddFluentMigratorCore()
             .ConfigureRunner(rb => rb
                 .AddSqlServer()
-                .WithGlobalConnectionString(appSettingsConfiguration["ConnectionString"])
+                .WithGlobalConnectionString(appOptions.ConnectionString)
                 .ScanIn(typeof(AddProductTable).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole())
             .BuildServiceProvider(false);
@@ -134,15 +135,18 @@ class Program
         runner.MigrateUp();
     }
 
-    //todo maybe refactor cause does not seem too elegant?
-    private static void MigrateDatabase(IServiceCollection services)
+    private static void MigrateDatabase(AppOptions? appOptions)
     {
-        var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>()!.GetAppSettingsConfiguration();
-        if (appSettingsConfig != null)
+        if (appOptions != null)
         {
-            using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
-            using (var scope = serviceProvider.CreateScope())
-                UpdateDatabase(scope.ServiceProvider);
+            using (var serviceProvider = CreateFluentMigratorServices(appOptions))
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    UpdateDatabase(scope.ServiceProvider);
+
+                }
+            }
         }
     }
 

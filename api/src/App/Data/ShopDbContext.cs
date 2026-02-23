@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 using Shop.Data.DataModels;
-using Shop.Misc.Interfaces;
+using Shop.Misc;
 
 namespace Shop.Data;
 
@@ -15,16 +16,16 @@ public class ShopDbContext : DbContext
     public DbSet<OrderProduct> OrderProduct { get; set; }
     public DbSet<Metadata> Metadata { get; set; }
 
-    private IAppSettingsConfigurationService _appSettingsConfigurationService;
+    private IOptions<AppOptions> _options;
 
-    public ShopDbContext(IAppSettingsConfigurationService appSettingsConfigurationService) : base()
+    public ShopDbContext(IOptions<AppOptions> options) : base()
     {
-        _appSettingsConfigurationService = appSettingsConfigurationService;
+        _options = options;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_appSettingsConfigurationService.GetAppSettingsConfiguration()["ConnectionString"]);
+        optionsBuilder.UseSqlServer(_options.Value.ConnectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

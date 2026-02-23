@@ -1,8 +1,12 @@
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+
 using Serilog;
+
 using Shop.ApiModels;
 using Shop.Data;
-using Shop.Misc.Interfaces;
+using Shop.Misc;
+
 using Stripe;
 using Stripe.Checkout;
 
@@ -10,23 +14,23 @@ namespace Shop.Service;
 
 public class StripePaymentService
 {
-    private IAppSettingsConfigurationService _appSettingsConfigurationService;
+    private IOptions<AppOptions> _appOptions;
     private ShopDbContext _context;
     private string _currency;
     private readonly List<string> _allowedPaymentMethods = new List<string> { "card", "paypal", "alipay" };
 
-    public StripePaymentService(IAppSettingsConfigurationService appSettingsConfigurationService, ShopDbContext context)
+    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context)
     {
-        _appSettingsConfigurationService = appSettingsConfigurationService;
+        _appOptions = appOptions;
         _context = context;
-        _currency = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripeCurrency"]!;
+        _currency = _appOptions.Value.StripeCurrency!;
 
-        StripeConfiguration.ApiKey = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripePrivateKey"];
+        StripeConfiguration.ApiKey = _appOptions.Value.StripePrivateKey;
     }
 
     public async Task<Session> CreateCheckoutSession(CheckoutCartModel model, long orderId)
     {
-        var frontendBaseUrl = _appSettingsConfigurationService.GetAppSettingsConfiguration()["FrontendBaseUrl"];
+        var frontendBaseUrl = _appOptions.Value.FrontendBaseUrl;
 
         var options = new SessionCreateOptions
         {
@@ -47,7 +51,7 @@ public class StripePaymentService
 
     public bool HandleStripeWebhookEvent(string json, StringValues signatureHeader)
     {
-        var webhookSecret = _appSettingsConfigurationService.GetAppSettingsConfiguration()["StripeWebhookSecret"];
+        var webhookSecret = _appOptions.Value.StripeWebhookSecret;
         try
         {
             var stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, webhookSecret);
