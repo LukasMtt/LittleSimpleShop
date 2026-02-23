@@ -1,9 +1,12 @@
 using App.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Primitives;
+
 using Shop.ApiModels;
 using Shop.Service;
+
 using Stripe.Checkout;
 
 [ApiController]
@@ -27,7 +30,7 @@ public class PaymentController : ShopBaseController
         {
             return Problem("Failed to create order before checkout.", statusCode: 500);
         }
-        Session session = await _stripePaymentService.CreateCheckoutSession(model, (long)result.ResultData!);
+        Session session = await _stripePaymentService.CreateCheckoutSession(model, result.ResultData ?? 0);
         return Ok(new { id = session.Id });
     }
 

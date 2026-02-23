@@ -1,6 +1,8 @@
 using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using Shop.ApiModels;
 using Shop.Data;
 
@@ -97,6 +99,14 @@ public class ProductController : ShopBaseController
             .Include(x => x.Images)
             .Select(x => _mapper.Map<ProductModel>(x))
             .FirstOrDefault();
+    }
+
+    [HttpGet]
+    public bool IsProductInStock(long productId)
+    {
+        return _context.Product
+            .Where(x => x.Id == productId && x.AmountInStock > 0)
+            .Any();
     }
 
     [HttpGet]

@@ -1,7 +1,10 @@
 namespace Shop.ApiModels;
 
-public class MetadataShopModel
+public class MetadataModel
 {
-    public string? Email { get; set; }
-    public string? Phone { get; set; }
+    public string? ShopEmail { get; set; }
+    public string? ShopPhone { get; set; }
+    public decimal? FreeShippingThreshold { get; set; }
+    public int? ShippingReturnThreshold { get; set; }
+    public string? ShippingAndReturnPolicyDescription { get; set; }
 }

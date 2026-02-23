@@ -15,7 +15,7 @@ public class OrderService
         _context = context;
     }
 
-    public async Task<ServiceResult> CreateAndSaveOrder(CheckoutCartModel model)
+    public async Task<ServiceResult<long?>> CreateAndSaveOrder(CheckoutCartModel model)
     {
         var order = new Order
         {
@@ -32,7 +32,7 @@ public class OrderService
         _context.Order.Add(order);
 
         return await _context.SaveChangesAsync() > 0
-            ? new ServiceResult { IsSuccess = true, ResultData = order.Id }
-            : new ServiceResult { IsSuccess = false, ErrorMessage = "Failed to create order." };
+            ? new ServiceResult<long?> { IsSuccess = true, ResultData = order.Id }
+            : new ServiceResult<long?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
     }
 }

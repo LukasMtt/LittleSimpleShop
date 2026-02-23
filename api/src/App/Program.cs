@@ -1,13 +1,19 @@
 using AutoMapper;
+
 using FluentMigrator.Runner;
+
 using Microsoft.Extensions.Http.Resilience;
+
 using Polly;
+
 using Serilog;
+
 using Shop.Data;
 using Shop.Data.Migrations;
 using Shop.Misc;
 using Shop.Misc.Interfaces;
 using Shop.Service;
+
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 
@@ -79,6 +85,7 @@ class Program
         services.AddTransient<IAppSettingsConfigurationService, AppSettingsConfigurationService>();
         services.AddTransient<StripePaymentService>();
         services.AddTransient<OrderService>();
+        services.AddTransient<ShippingService>();
 
         services.AddHttpClient<IFileStorageService, SeaweedFsService>(client =>
         {

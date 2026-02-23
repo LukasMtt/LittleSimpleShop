@@ -28,3 +28,42 @@ public class RenameImageTable : Migration
     {
     }
 }
+
+[Migration(0000202)]
+public class ExtendProductTableByNewColumns : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("Product")
+            .AddColumn("AmountInStock").AsInt32().WithDefaultValue(0).NotNullable()
+            .AddColumn("HighlightDescriptionsJson").AsString().Nullable()
+            .AddColumn("DetailDescription").AsString().Nullable()
+            .AddColumn("SafetyUsageDescription").AsString().Nullable();
+
+        Rename.Column("Description").OnTable("Product").To("ShortDescription");
+    }
+
+    public override void Down()
+    {
+    }
+}
+
+[Migration(0000203)]
+public class CreateMetaDataTable : Migration
+{
+    public override void Up()
+    {
+        Create.Table("MetaData")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("ShopEmail").AsString().NotNullable()
+            .WithColumn("ShopPhone").AsString().Nullable()
+            .WithColumn("FreeShippingThreshold").AsDecimal().NotNullable().WithDefaultValue(50)
+            .WithColumn("BaseCurrency").AsString().NotNullable().WithDefaultValue("EURO")
+            .WithColumn("ShippingReturnThreshold").AsInt32().NotNullable().WithDefaultValue(14)
+            .WithColumn("ShippingAndReturnPolicyDescription").AsString().NotNullable();
+    }
+
+    public override void Down()
+    {
+    }
+}

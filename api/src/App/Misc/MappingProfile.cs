@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using Shop.ApiModels;
 using Shop.Data.DataModels;
 
@@ -10,5 +11,6 @@ public class MappingProfile : Profile
         CreateMap<Category, CategoryModel>().ReverseMap();
         CreateMap<PublicImage, PublicImageModel>().ReverseMap();
         CreateMap<News, NewsModel>().ReverseMap();
+        CreateMap<Metadata, MetadataModel>().ReverseMap();
     }
 }

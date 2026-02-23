@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using Shop.Data.DataModels;
 using Shop.Misc.Interfaces;
 
@@ -12,6 +13,7 @@ public class ShopDbContext : DbContext
     public DbSet<News> News { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<OrderProduct> OrderProduct { get; set; }
+    public DbSet<Metadata> Metadata { get; set; }
 
     private IAppSettingsConfigurationService _appSettingsConfigurationService;
 

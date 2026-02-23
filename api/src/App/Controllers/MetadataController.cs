@@ -1,22 +1,28 @@
+using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Shop.ApiModels;
+using Shop.Data;
 
 namespace App.Controllers;
 
 [ApiController]
 public class MetadataController : ShopBaseController
 {
-    public MetadataController(IFileStorageService fileStorageService) : base(fileStorageService)
+    private readonly ShopDbContext _dbContext;
+    private IMapper _mapper;
+
+    public MetadataController(IFileStorageService fileStorageService, ShopDbContext dbContext, IMapper mapper) : base(fileStorageService)
     {
+        _dbContext = dbContext;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public MetadataShopModel GetMetadata()
+    public MetadataModel? GetMetadata()
     {
-        return new MetadataShopModel
-        {
-            Email = "my.imaginery.shop@contact.com",
-            Phone = "0123 1234567"
-        };
+        var metadata = _dbContext.Metadata.FirstOrDefault();
+        return metadata != null ? _mapper.Map<MetadataModel>(metadata) : null;
     }
 }
