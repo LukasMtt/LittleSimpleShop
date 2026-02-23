@@ -10,5 +10,5 @@ public class Metadata : Entity
     public required decimal FreeShippingThreshold { get; set; }
     public required string BaseCurrency { get; set; }
     public required int ShippingReturnThreshold { get; set; }
-    public required string ShippingAndReturnPolicyDescription { get; set; }
+    public string? ShippingAndReturnPolicyDescription { get; set; }
 }

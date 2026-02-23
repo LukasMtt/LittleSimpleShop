@@ -1,37 +1,33 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ],
-            "name": "Launch Extension",
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
-            ],
-            "preLaunchTask": "npm",
-            "request": "launch",
-            "type": "extensionHost"
-        },
-        {
-            "name": "C#: App [Default Configuration]",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}\\App.csproj"
-        },
-        {
-            "name": "C#: App [http]",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}\\App.csproj",
-            "launchConfigurationId": "TargetFramework=;http"
-        },
-        {
-            "name": "C#: App [https]",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}\\App.csproj",
-            "launchConfigurationId": "TargetFramework=;https"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "name": "Launch Extension",
+      "outFiles": ["${workspaceFolder}/out/**/*.js"],
+      "preLaunchTask": "npm",
+      "request": "launch",
+      "type": "extensionHost"
+    },
+    {
+      "name": "C#: App [Default Configuration]",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}\\App.csproj"
+    },
+    {
+      "name": "C#: App [http]",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}\\App.csproj",
+      "launchConfigurationId": "TargetFramework=;http"
+    },
+    {
+      "name": "C#: App [https]",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}\\App.csproj",
+      "launchConfigurationId": "TargetFramework=;https"
+    }
+  ]
 }

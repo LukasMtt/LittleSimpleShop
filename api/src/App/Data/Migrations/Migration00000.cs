@@ -44,7 +44,7 @@ public class AddImageTable : Migration
         Create.Table("Image")
             .WithColumn("Id").AsInt64().PrimaryKey().Identity()
             .WithColumn("Bytes").AsBinary(10000000).Nullable()
-            .WithColumn("Description").AsString()
+            .WithColumn("Description").AsString(int.MaxValue).Nullable()
             .WithColumn("FileExtension").AsString()
             .WithColumn("Size").AsDecimal()
             .WithColumn("CategoryId").AsInt64().Nullable()

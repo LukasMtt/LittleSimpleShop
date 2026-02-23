@@ -1,5 +1,7 @@
 using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Shop.ApiModels;
 using Shop.Data;
 

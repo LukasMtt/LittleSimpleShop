@@ -36,9 +36,9 @@ public class ExtendProductTableByNewColumns : Migration
     {
         Alter.Table("Product")
             .AddColumn("AmountInStock").AsInt32().WithDefaultValue(0).NotNullable()
-            .AddColumn("HighlightDescriptionsJson").AsString().Nullable()
-            .AddColumn("DetailDescription").AsString().Nullable()
-            .AddColumn("SafetyUsageDescription").AsString().Nullable();
+            .AddColumn("HighlightDescriptionsJson").AsString(int.MaxValue).Nullable()
+            .AddColumn("DetailDescription").AsString(int.MaxValue).Nullable()
+            .AddColumn("SafetyUsageDescription").AsString(int.MaxValue).Nullable();
 
         Rename.Column("Description").OnTable("Product").To("ShortDescription");
     }
@@ -60,7 +60,7 @@ public class CreateMetaDataTable : Migration
             .WithColumn("FreeShippingThreshold").AsDecimal().NotNullable().WithDefaultValue(50)
             .WithColumn("BaseCurrency").AsString().NotNullable().WithDefaultValue("EURO")
             .WithColumn("ShippingReturnThreshold").AsInt32().NotNullable().WithDefaultValue(14)
-            .WithColumn("ShippingAndReturnPolicyDescription").AsString().NotNullable();
+            .WithColumn("ShippingAndReturnPolicyDescription").AsString(int.MaxValue).Nullable();
     }
 
     public override void Down()

@@ -36,6 +36,7 @@ class Program
                 app.UseSwaggerUI();
             }
             app.UseHttpsRedirection();
+            app.UseExceptionHandler("/error");
             app.UseAuthorization();
             app.MapControllers();
             app.UseCors("CorsPolicy");
@@ -45,7 +46,8 @@ class Program
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Unhandled exception");
+            Log.Error(ex, "Unhandled exception during application startup.");
+            Environment.Exit(1);
         }
         finally
         {
@@ -137,9 +139,11 @@ class Program
     {
         var appSettingsConfig = services.BuildServiceProvider().GetService<IAppSettingsConfigurationService>()!.GetAppSettingsConfiguration();
         if (appSettingsConfig != null)
+        {
             using (var serviceProvider = CreateFluentMigratorServices(appSettingsConfig))
             using (var scope = serviceProvider.CreateScope())
                 UpdateDatabase(scope.ServiceProvider);
+        }
     }
 
     private static void ConfigureSerilog()
