@@ -1,45 +1,110 @@
 <div class="col-1">
-  <div class="product-description">
+  <div class="product-description-top-col-1">
     <div class="product-description-header">
-      <div class="sub-item product-name">
-        {{ product?.name?.toUpperCase() }}
-      </div>
-      <div class="sub-item">{{ midDotString }}</div>
-      <div class="sub-item">
-        {{ getPrice(product) | currency }}
-      </div>
+      {{ productName() | uppercase }} {{ midDotString }}
+      {{ productPrice() | currency }}
     </div>
-    <div class="badges">
-      <span>free shipping - </span>
-      <span>in stock - </span>
-      <span>lieferbar - estimated delivery</span>
+    <div class="product-description-badges">
+      <app-text-badge class="badge">{{
+        freeShippingString()
+          | replaceString: '{X}' : freeShippingThresholdString()
+      }}</app-text-badge>
+      <app-text-badge
+        class="badge"
+        [style.background-color]="productInStockBadgeBackgroundColor()"
+        >{{ productInStockString() }}</app-text-badge
+      >
+      <app-text-badge class="badge">{{
+        shippingDeliveryEstimationString()
+      }}</app-text-badge>
     </div>
-    <div class="main-highlihts">
-      <ul>
-        <li>Bla</li>
-        <li>Bli</li>
-        <li>Blub</li>
-      </ul>
-    </div>
-    <div class="product-description-text">
-      {{ product?.description }}
-    </div>
+  </div>
+  <div class="product-description-highlights">
+    <ul class="product-description-highlights-list">
+      @for (item of productHighlights(); track $index) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </div>
+  <div class="product-description-text">
+    {{ productDescription() }}
+  </div>
+  <div class="product-expansion-section-container">
+    <app-expansion-section [headerText]="productDescriptionExtendedHeader()">
+      {{ productDescriptionExtended() }}
+    </app-expansion-section>
+    <app-expansion-section [headerText]="shippingAndReturnPolicyHeader()">
+      {{ shippingAndReturnPolicy() }}
+    </app-expansion-section>
+    <app-expansion-section [headerText]="safetyUsageDescriptionHeader()">
+      {{ safetyUsageDescription() }}
+    </app-expansion-section>
   </div>
 </div>
 
 <div class="col-2">
-  <div class="main-product-image">
+  <div class="product-description-top-col-2">
+    <div class="product-description-header">
+      {{ productName() | uppercase }} {{ midDotString }}
+      {{ productPrice() | currency }}
+    </div>
+    <div class="product-description-badges">
+      <app-text-badge class="badge">{{
+        freeShippingString()
+          | replaceString: '{X}' : freeShippingThresholdString()
+      }}</app-text-badge>
+      <app-text-badge
+        class="badge"
+        [style.background-color]="productInStockBadgeBackgroundColor()"
+        >{{ productInStockString() }}</app-text-badge
+      >
+      <app-text-badge class="badge">{{
+        shippingDeliveryEstimationString()
+      }}</app-text-badge>
+    </div>
+  </div>
+  <div class="product-carousel-container">
     <app-carousel
-      [imagesInput]="carouselImages"
+      [imagesInput]="carouselImages()"
       class="product-carousel"
     ></app-carousel>
   </div>
 
-  <div class="button-group">
-    <button class="shop-button" (click)="addProductToCart()">
-      Add to Cart
-    </button>
-    <button class="shop-button">Go to cart</button>
+  <div class="product-sub-carousel-container">
+    <div class="button-group">
+      <div class="product-to-cart-and-tick-up-button">
+        <app-button
+          [type]="'submit'"
+          [disabled]="!isProductInStock()"
+          [label]="this.res('ADD_TO_CART')"
+          [border]="'solid'"
+          class="product-button"
+          (click)="addProductToCart()"
+        >
+        </app-button>
+        <app-tick-counter
+          [counter]="productCount()"
+          [minCounter]="1"
+          (counterChange)="updateProductCount($event)"
+          class="product-counter"
+        />
+      </div>
+      <app-button
+        [type]="'submit'"
+        [label]="this.res('GO_TO_CART')"
+        [border]="'solid'"
+        class="product-button"
+        [routerLink]="'/checkout-trail'"
+      >
+      </app-button>
+    </div>
+    <div class="additional-button-info-container">
+      @for (phrase of subPriceMetaInfos(); track $index) {
+        <span class="additional-button-info"> {{ phrase }}</span>
+        @if ($index < subPriceMetaInfosLength() - 1) {
+          <span class="additional-button-info"> {{ midDotString }}</span>
+        }
+      }
+    </div>
   </div>
-  <div>secure checkout - 30 day returns</div>
 </div>

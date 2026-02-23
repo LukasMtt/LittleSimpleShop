@@ -20,6 +20,11 @@ button:hover {
   opacity: 0.5;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
 .button-icon {
   transform: scale(0.55);
 }

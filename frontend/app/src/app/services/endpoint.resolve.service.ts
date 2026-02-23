@@ -12,6 +12,7 @@ export enum EndpointItem {
   Payment = 'payment/',
   Metadata = 'metadata/',
   PublicImage = 'publicImage/',
+  Shipping = 'shipping/',
 
   GetAllCustomCategories = 'getAllCustomCategories',
   GetAllProducts = 'getAllProducts',
@@ -27,7 +28,8 @@ export enum EndpointItem {
   GetMetadata = 'getMetadata',
   GetPublicImage = 'getPublicImage',
   GetSaleCategory = 'getSaleCategory',
-  GetAllCategory = 'getAllCategory'
+  GetAllCategory = 'getAllCategory',
+  GetShippingTimeEstimation = 'getShippingTimeEstimation'
 }
 
 @Injectable({
@@ -45,6 +47,10 @@ export class EndpointResolveService {
   publicImage: EndpointNode = {
     parent: this.shop,
     item: EndpointItem.PublicImage
+  };
+  shipping: EndpointNode = {
+    parent: this.shop,
+    item: EndpointItem.Shipping
   };
 
   getAllCustomCategories: EndpointNode = {
@@ -107,6 +113,10 @@ export class EndpointResolveService {
     parent: this.product,
     item: EndpointItem.GetAllCategory
   };
+  getShippingTimeEstimation: EndpointNode = {
+    parent: this.shipping,
+    item: EndpointItem.GetShippingTimeEstimation
+  };
 
   leafList: EndpointNode[] = [
     this.getAllCustomCategories,
@@ -123,7 +133,8 @@ export class EndpointResolveService {
     this.getMetadata,
     this.getPublicImage,
     this.getSaleCategory,
-    this.getAllCategory
+    this.getAllCategory,
+    this.getShippingTimeEstimation
   ];
 
   apiBaseEndpointUrl = '';

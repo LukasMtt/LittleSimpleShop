@@ -1,4 +1,7 @@
 export interface MetadataShopDTO {
-  email: string;
-  phone: string;
+  shopEmail: string | undefined;
+  shopPhone: string | undefined;
+  freeShippingThreshold: number | undefined;
+  shippingReturnThreshold: number | undefined;
+  shippingAndReturnPolicyDescription: string | undefined;
 }

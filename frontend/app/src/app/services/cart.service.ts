@@ -32,6 +32,7 @@ export class CartService {
   }
 
   public pushCartItem(item: CartItemInput) {
+    //todo: hier kommt KEIN image aktuell rein - anders handeln oder wie? -> nur ein image?
     const existingItem = this.cart.items.find(
       (x) => x.product && item.product && x.product.id === item.product.id
     );

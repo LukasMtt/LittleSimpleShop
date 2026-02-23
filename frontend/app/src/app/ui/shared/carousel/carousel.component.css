@@ -16,6 +16,7 @@
   border-color: var(--ternary-color);
   border-radius: 5px;
   border-width: 2px;
+  cursor: pointer;
 }
 
 .change-image-animation {
@@ -59,7 +60,7 @@
   height: 100%;
   background-color: var(--primary-color);
   opacity: 0.9;
-  z-index: 11111;
+  z-index: 100;
   left: 0;
   top: 0;
 }
@@ -69,7 +70,7 @@
   position: absolute;
   width: 85%;
   height: 80%;
-  z-index: 111111;
+  z-index: 101;
   left: calc((100% - 85%) / 2);
   top: calc((100% - 80%) / 2);
 }
@@ -80,8 +81,7 @@
   object-fit: cover;
   border-radius: 7px;
   border: solid;
-  border-color: var(--secondary-color);
-  cursor: pointer;
+  border-color: var(--ternary-color);
 }
 
 .close-button {
@@ -96,6 +96,10 @@
   border-radius: 100%;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.close-button:hover {
+  opacity: 0.5;
 }
 
 .pop-up-image-animation {

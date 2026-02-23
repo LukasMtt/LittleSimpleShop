@@ -4,5 +4,5 @@ export interface CartItemProductInput {
   id: number;
   name: string;
   images: DisplayImageInput[];
-  price: number;
+  price: number | undefined;
 }

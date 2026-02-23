@@ -3,10 +3,10 @@ import { BaseComponent } from '../shared/base.component';
 import { MetadataService } from '../../services/metadata.service';
 
 @Component({
-    selector: 'app-checkout-success',
-    imports: [],
-    templateUrl: './checkout-success.component.html',
-    styleUrl: './checkout-success.component.css'
+  selector: 'app-checkout-success',
+  imports: [],
+  templateUrl: './checkout-success.component.html',
+  styleUrl: './checkout-success.component.css'
 })
 export class CheckoutSuccessComponent extends BaseComponent {
   email: string = '';
@@ -16,8 +16,8 @@ export class CheckoutSuccessComponent extends BaseComponent {
     super();
 
     this.metaDataservice.getMetadata().subscribe((metadata) => {
-      this.email = metadata.email;
-      this.phone = metadata.phone;
+      this.email = metadata.shopEmail ?? '';
+      this.phone = metadata.shopPhone ?? '';
     });
   }
 }

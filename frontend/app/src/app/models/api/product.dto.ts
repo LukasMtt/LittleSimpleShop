@@ -5,8 +5,12 @@ export interface ProductDTO {
   id: number;
   name: string;
   images: PublicImageDTO[];
-  description: string;
+  shortDescription: string;
+  highlightDescriptions: string[];
+  detailDescription: string;
+  safetyUsageDescription: string;
   category: CategoryDTO;
   price: number;
   isInSale: boolean;
+  isInStock: boolean;
 }
