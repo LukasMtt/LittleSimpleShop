@@ -9,12 +9,10 @@ header {
   z-index: 99;
 }
 
-/* news header */
-
 .header-toolbar {
   display: grid;
   grid-template-columns: 1fr 11fr 2fr 11fr 1fr;
-  height: 8vh;
+  height: fit-content;
   opacity: 0.95;
   background: var(--secondary-color);
 }
@@ -51,17 +49,9 @@ header {
   width: 35%;
 }
 
-/* cart */
-
-@media (max-width: 1000px) {
-  .shopping-basket-sidebar-button {
-    display: none;
-  }
-}
-
-@media (min-width: 1000px) {
-  .shopping-basket-button-link {
-    display: none;
+@media (max-width: 900px) {
+  .header-cart-sidebar {
+    width: 75%;
   }
 }
 

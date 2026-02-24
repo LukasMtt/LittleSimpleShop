@@ -1,4 +1,8 @@
-import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer
+} from '@angular/core';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -15,22 +19,22 @@ import { GermanMatPaginatorIntl } from './misc/mat-paginator-intl';
 import { CurrencyPipe } from '@angular/common';
 
 const appConfigServiceProvider = provideAppInitializer(() => {
-        const initializerFn = ((appConfigService: AppConfigService) => {
+  const initializerFn = ((appConfigService: AppConfigService) => {
     return () => {
       return appConfigService.loadAppConfig();
     };
   })(inject(AppConfigService));
-        return initializerFn();
-      });
+  return initializerFn();
+});
 
 const resourceServiceProvider = provideAppInitializer(() => {
-        const initializerFn = ((resourceService: ResourceService) => {
+  const initializerFn = ((resourceService: ResourceService) => {
     return () => {
       return resourceService.loadResources();
     };
   })(inject(ResourceService));
-        return initializerFn();
-      });
+  return initializerFn();
+});
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,7 +43,6 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withRouterConfig({ onSameUrlNavigation: 'reload' })
     ),
-    provideAnimationsAsync(),
     provideHttpClient(),
     appConfigServiceProvider,
     resourceServiceProvider,

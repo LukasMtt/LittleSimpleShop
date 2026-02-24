@@ -9,21 +9,15 @@
       this.res('SITE_TITLE')
     }}</span>
     <span></span>
-    <a [routerLink]="'checkout-trail'" class="shopping-basket-button-link">
-      <button mat-icon-button>
-        <mat-icon class="medium-button">shopping_basket</mat-icon>
-        <span class="counter-badge">{{ getCartSize() }}</span>
-      </button>
-    </a>
     <button
       mat-icon-button
       (click)="onCartButtonClick()"
       class="shopping-basket-sidebar-button"
     >
       <mat-icon class="medium-button">shopping_basket</mat-icon>
-      <span class="counter-badge">{{ getCartSize() }}</span>
+      <span class="counter-badge">{{ cart().items.length }}</span>
     </button>
   </mat-toolbar>
-  <app-header-sidebar class="header-menu-sidebar" [isHidden]="!showSideMenu" />
-  <app-cart-sidebar class="header-cart-sidebar" [isHidden]="!showCartMenu" />
+  <app-header-sidebar class="header-menu-sidebar" [(isHidden)]="hideMainMenu" />
+  <app-cart-sidebar class="header-cart-sidebar" [(isHidden)]="hideCartMenu" />
 </header>
