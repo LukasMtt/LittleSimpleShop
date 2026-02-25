@@ -4,14 +4,13 @@
   align-items: center;
   justify-content: flex-end;
   border: solid;
-  border-color: white;
+  border-color: var(--primary-color);
   border-width: 0.5px;
+  border-radius: 5px;
 }
 
 .counter-number {
   width: 100%;
-  border-style: solid none solid none;
-  border-color: white;
   border-width: 0.5px;
   justify-content: center;
 }

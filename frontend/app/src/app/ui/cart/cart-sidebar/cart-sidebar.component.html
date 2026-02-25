@@ -1,13 +1,28 @@
-@for (cartItem of getCartItemsForDisplay(); track cartItem) {
-<app-cart-item [cartItem]="cartItem"></app-cart-item>
-<hr class="cart-item-divider" />
+@for (id of cartItemsToDisplay(); track id) {
+  <app-cart-sidebar-item
+    [cartItemProductId]="id"
+    class="cart-sidebar-item"
+  ></app-cart-sidebar-item>
+  <hr class="divider" />
 }
 
-<app-button
-  type="submit"
-  class="go-to-cart-button"
-  matIcon="shopping_cart"
-  [label]="this.res('TO_FULL_CART')"
-  [routerLink]="'checkout-trail'"
-  (click)="onClickCartRoute()"
-></app-button>
+<div class="bottom-section-container">
+  <app-button
+    type="submit"
+    class="go-to-cart-button"
+    matIcon="shopping_cart"
+    [label]="this.res('TO_FULL_CART')"
+    [routerLink]="'checkout-trail'"
+    (click)="onClickCartRoute()"
+  ></app-button>
+  @if (cartItemsToDisplay().length < cart().items.length) {
+    <div class="additional-info-container">
+      <div class="cart-item-full-count-hint">
+        {{
+          cartItemFullCountHintText()
+            | replaceString: '{X}' : cart().items.length.toString()
+        }}
+      </div>
+    </div>
+  }
+</div>

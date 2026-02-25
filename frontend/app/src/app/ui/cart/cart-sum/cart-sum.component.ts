@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CartInput } from '../../../models/component/cart.input';
-import { Subscription } from 'rxjs';
+import { CartModel } from '../../../models/component/cart.model';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
 import { BaseComponent } from '../../shared/base.component';
@@ -12,18 +11,10 @@ import { BaseComponent } from '../../shared/base.component';
   styleUrl: './cart-sum.component.css'
 })
 export class CartSumComponent extends BaseComponent {
-  @Input({ required: true }) cart!: CartInput | undefined;
-  cartSubscription$: Subscription;
+  @Input({ required: true }) cart!: CartModel | undefined;
 
   constructor(public cartService: CartService) {
     super();
-    this.cartSubscription$ = cartService
-      .getCartObservable()
-      .subscribe((x) => (this.cart = x));
-  }
-
-  ngOnDestroy(): void {
-    this.cartSubscription$.unsubscribe();
   }
 
   getCartPriceSum() {

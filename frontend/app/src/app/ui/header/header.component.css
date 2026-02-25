@@ -51,7 +51,7 @@ header {
 
 @media (max-width: 900px) {
   .header-cart-sidebar {
-    width: 75%;
+    width: 65%;
   }
 }
 

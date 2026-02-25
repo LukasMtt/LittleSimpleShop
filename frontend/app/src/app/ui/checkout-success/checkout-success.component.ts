@@ -12,6 +12,7 @@ export class CheckoutSuccessComponent extends BaseComponent {
   email: string = '';
   phone: string = '';
 
+  //todo: localstorage des carts löschen/resetten falls noch benutzt!!!!
   constructor(private metaDataservice: MetadataService) {
     super();
 

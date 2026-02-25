@@ -1,8 +1,8 @@
 import { DisplayImageInput } from './display-image.input';
 
-export interface CartItemProductInput {
+export interface CartItemProductModel {
   id: number;
   name: string;
-  images: DisplayImageInput[];
+  image: DisplayImageInput;
   price: number | undefined;
 }

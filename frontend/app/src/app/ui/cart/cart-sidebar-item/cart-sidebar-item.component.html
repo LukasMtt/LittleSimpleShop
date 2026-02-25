@@ -1,0 +1,23 @@
+<div class="product-preview-image-container">
+  <img
+    class="product-preview-image"
+    [src]="cartItemImage?.fileContent?.dataUrl"
+    [routerLink]="productLink()"
+  />
+</div>
+<div class="product-preview-info-container">
+  <div>
+    {{ cartItem()?.product?.name || '' }}
+  </div>
+  <div>
+    {{ totalPrice() | currency }}
+  </div>
+</div>
+<app-tick-counter
+  [counter]="cartItem()?.count || 0"
+  (counterChange)="updateCartItemCount($event)"
+  class="product-tick-counter"
+/>
+<div class="product-delete-container">
+  <mat-icon (click)="deleteCartItem()" class="delete-icon">delete</mat-icon>
+</div>

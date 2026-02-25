@@ -26,7 +26,7 @@ export class PaymentStripeService {
 
   public async checkout() {
     const cartModel = {
-      cartItems: this.cartService.getCartObservable().value.items.map((x) => ({
+      cartItems: this.cartService.cartReadonly().items.map((x) => ({
         productId: x.product?.id ?? 0,
         count: x.count
       }))

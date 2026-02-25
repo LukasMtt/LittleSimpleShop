@@ -43,6 +43,7 @@ export class ProductShowComponent extends BaseComponent {
   safetyUsageDescriptionHeader = signal<string>('');
   productCount = signal<number>(1);
   isProductInStock = signal<boolean>(false);
+  productMainImage = signal<DisplayImageInput>({ id: 0 });
   productHighlights = signal<string[]>([]);
   carouselImages = signal<DisplayImageInput[]>([]);
   subPriceMetaInfos = signal<string[]>([]);
@@ -74,7 +75,6 @@ export class ProductShowComponent extends BaseComponent {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private fileFetchService: FileFetchService,
     metaDataService: MetadataService,
     shippingService: ShippingService,
     currencyPipe: CurrencyPipe
@@ -116,17 +116,21 @@ export class ProductShowComponent extends BaseComponent {
     effect(() => {
       this.productService
         .getProductById(this.productId() ?? 0)
-        .subscribe((data) => {
-          this.productName.set(data.name);
-          this.productPrice.set(data.price);
-          this.productDescription.set(data.shortDescription);
-          this.isProductInStock.set(data.isInStock);
-          this.productHighlights.set(data.highlightDescriptions);
-          this.productDescriptionExtended.set(data.detailDescription);
-          this.safetyUsageDescription.set(data.safetyUsageDescription);
-          if (data && data.images && data.images.length > 0) {
+        .subscribe((product) => {
+          this.productName.set(product.name);
+          this.productPrice.set(product.price);
+          this.productDescription.set(product.shortDescription);
+          this.isProductInStock.set(product.isInStock);
+          this.productHighlights.set(product.highlightDescriptions);
+          this.productDescriptionExtended.set(product.detailDescription);
+          this.safetyUsageDescription.set(product.safetyUsageDescription);
+          if (product && product.images && product.images.length > 0) {
+            this.productMainImage.set({
+              ...product.images[0],
+              fileContent: { dataUrl: '' }
+            });
             this.carouselImages.set(
-              data.images
+              product.images
                 .slice(0, this.carouselImageMaxLength)
                 .map((imageSpec) => {
                   return {
@@ -148,7 +152,7 @@ export class ProductShowComponent extends BaseComponent {
         product: {
           id: this.productId(),
           name: this.productName(),
-          images: [],
+          image: this.productMainImage(),
           price: this.productPrice()
         },
         count: this.productCount()

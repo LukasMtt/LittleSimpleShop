@@ -48,5 +48,6 @@
   "SHIPPING_TIME_ESTIMATION_STRING": "Lieferung innerhalb von {X} bis {Y} Werktagen",
   "PRODUCT_DESCRIPTION_EXTENDED_HEADER": "Detaillierte Produktbeschreibung",
   "SHIPPING_AND_RETURN_POLICY_HEADER": "Versand und Rückgabe",
-  "SAFETY_AND_USAGE_DESCRIPTION_HEADER": "Sicherheits- und Nutzungshinweise"
+  "SAFETY_AND_USAGE_DESCRIPTION_HEADER": "Sicherheits- und Nutzungshinweise",
+  "CARTITEM_FULL_COUNT_HINT": "Insgesamt {X} Artikel."
 }

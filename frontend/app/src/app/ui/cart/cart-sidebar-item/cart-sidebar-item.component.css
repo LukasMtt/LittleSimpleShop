@@ -1,0 +1,78 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  gap: 4%;
+}
+
+/* preview image  */
+
+.product-preview-image-container {
+  flex: 4;
+}
+
+.product-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border: solid;
+  border-color: var(--ternary-color);
+  border-radius: 5px;
+  border-width: 1px;
+}
+
+.product-preview-image:hover {
+  opacity: 0.66;
+}
+
+/* info */
+
+.product-preview-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex: 4;
+  font-size: 0.55rem;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* counter */
+
+.product-tick-counter {
+  display: flex;
+  flex: 2;
+  height: fit-content;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2%;
+  align-self: flex-end;
+  font-size: 0.7rem;
+}
+
+/* delete */
+
+.product-delete-container {
+  flex: 2;
+  display: flex;
+  align-self: flex-end;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.delete-icon {
+  font-size: 1.33rem;
+  align-self: flex-end;
+}
+
+.delete-icon:hover {
+  cursor: pointer;
+  color: orange;
+  opacity: 0.5;
+}

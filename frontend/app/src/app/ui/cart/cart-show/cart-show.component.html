@@ -1,11 +1,11 @@
-@for (cartItem of getCartItemsForDisplay(); track cartItem) {
-<div class="cart-show-item">
-  <app-cart-item
-    [cartItem]="cartItem"
-    previewPictureSize="medium"
-  ></app-cart-item>
-</div>
+@for (id of getCartItemProductIdsForDisplay(); track id) {
+  <div class="cart-show-item">
+    <app-cart-sidebar-item
+      [cartItemProductId]="id"
+      previewPictureSize="medium"
+    ></app-cart-sidebar-item>
+  </div>
 
-<hr class="cart-show-divider" />
+  <hr class="cart-show-divider" />
 }
-<app-cart-sum [cart]="cart"></app-cart-sum>
+<app-cart-sum [cart]="cart()"></app-cart-sum>
