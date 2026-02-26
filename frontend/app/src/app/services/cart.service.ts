@@ -29,7 +29,7 @@ export class CartService {
       (x) => x.product && item.product && x.product.id === item.product.id
     );
     if (existingItem) {
-      existingItem.count = existingItem.count + item.count;
+      existingItem.amount = existingItem.amount + item.amount;
     } else {
       cartItems.push(item);
     }
@@ -49,7 +49,7 @@ export class CartService {
     let cartItems = this.cart().items;
     const item = cartItems.find((x) => x.product && x.product.id == productId);
     if (item) {
-      item.count = count;
+      item.amount = count;
       if (count < 1) {
         cartItems = cartItems.filter((x) => x != item);
       }
@@ -63,6 +63,22 @@ export class CartService {
     this.setCartStorageString();
   }
 
+  public getCartPriceSum() {
+    const invalidBaseItems = this.cart()?.items.filter(
+      (x) => x.product.price === undefined || x.product.price <= 0
+    );
+    if (invalidBaseItems && invalidBaseItems.length > 0) {
+      return 'invalid sum';
+    }
+    const baseItems = this.cart()?.items.filter((x) => x.amount > 0);
+    if (baseItems && baseItems.length > 0) {
+      return baseItems
+        .map((x) => x.product.price! * x.amount)
+        .reduce((x, y) => (x += y));
+    }
+    return 0;
+  }
+
   private setCartStorageString() {
     this.localStorageService.setStorageItem(
       'cart',
@@ -73,11 +89,11 @@ export class CartService {
   private createCartStorageString() {
     const cartStorageObject: CartStorageModel = new CartStorageModel();
     this.cart()
-      .items.filter((x) => x && x.count > 0)
+      .items.filter((x) => x && x.amount > 0)
       .forEach((cartItem) => {
         cartStorageObject.items.push({
           productId: cartItem.product?.id ?? 0,
-          count: cartItem.count
+          count: cartItem.amount
         });
       });
     return JSON.stringify(
@@ -113,7 +129,7 @@ export class CartService {
                     fileContent: { dataUrl: '' }
                   }
                 },
-                count: amount
+                amount: amount
               });
             }
           });

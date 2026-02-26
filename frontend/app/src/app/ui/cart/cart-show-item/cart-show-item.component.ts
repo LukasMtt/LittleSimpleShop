@@ -1,4 +1,4 @@
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { TickCounterComponent } from '../../shared/tick-counter/tick-counter.component';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
@@ -9,12 +9,12 @@ import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
 
 @Component({
-  selector: 'app-cart-sidebar-item',
+  selector: 'app-cart-show-item',
   imports: [TickCounterComponent, CurrencyPipe, MatIcon, RouterLink],
-  templateUrl: './cart-sidebar-item.component.html',
-  styleUrl: './cart-sidebar-item.component.css'
+  templateUrl: './cart-show-item.component.html',
+  styleUrl: './cart-show-item.component.css'
 })
-export class CartSidebarItemComponent extends BaseComponent {
+export class CartShowItemComponent extends BaseComponent {
   cartItemProductId = input.required<number>();
 
   cart = computed(() => {
@@ -42,6 +42,8 @@ export class CartSidebarItemComponent extends BaseComponent {
     }
     return '';
   });
+  cartItemPerPieceText = signal<string>('');
+  cartItemForAllPiecesText = signal<string>('');
 
   cartItemImage: DisplayImageInput | undefined;
 
@@ -50,6 +52,8 @@ export class CartSidebarItemComponent extends BaseComponent {
     private fileFetchService: FileFetchService
   ) {
     super();
+    this.cartItemPerPieceText.set(this.res('CARTITEM_PER_PIECE'));
+    this.cartItemForAllPiecesText.set(this.res('CARTITEM_ALL_PIECES'));
     effect(() => {
       this.cartItemImage = this.cartItem()?.product.image;
       this.setCartItemImage();

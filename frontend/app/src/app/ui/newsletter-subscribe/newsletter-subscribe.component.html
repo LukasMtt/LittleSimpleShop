@@ -12,17 +12,22 @@
       [labelResource]="'FORM_ROW_LABEL_EMAIL'"
       [type]="'email'"
       [id]="'email'"
+      [validationFailResourcesMap]="[
+        { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' },
+        { key: 'email', value: 'VALIDATION_NON_VALID_EMAIL' }
+      ]"
       class="subscribe-form-section"
-    ></app-form-section>
-    <app-button
-      [type]="'submit'"
-      [disabled]="false"
-      [matIcon]="'check'"
-      [label]="this.res('NEWSLETTER_SUBSCRIBE_BUTTON_TEXT')"
-      [border]="'solid'"
-      [hideLabelOnMobile]="true"
-      class="subscribe-button"
     >
-    </app-button>
+      <app-button
+        [type]="'submit'"
+        [disabled]="false"
+        [matIcon]="'check'"
+        [label]="this.res('NEWSLETTER_SUBSCRIBE_BUTTON_TEXT')"
+        [border]="'solid'"
+        [hideLabelOnMobile]="true"
+        class="subscribe-button"
+      >
+      </app-button
+    ></app-form-section>
   </form>
 </div>

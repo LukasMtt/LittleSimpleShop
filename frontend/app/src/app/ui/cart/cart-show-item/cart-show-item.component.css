@@ -36,10 +36,20 @@
   justify-content: space-between;
   flex-wrap: wrap;
   flex: 4;
-  font-size: 0.55rem;
+  font-size: 0.66rem;
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (min-width: 700px) {
+  .product-preview-info-container {
+    font-size: 0.9rem;
+  }
+}
+
+.product-name-container {
+  color: var(--secondary-color);
 }
 
 /* counter */
@@ -54,6 +64,7 @@
   gap: 2%;
   align-self: flex-end;
   font-size: 0.7rem;
+  border-color: var(--secondary-color);
 }
 
 /* delete */
@@ -74,6 +85,5 @@
 
 .delete-icon:hover {
   cursor: pointer;
-  color: orange;
   opacity: 0.5;
 }

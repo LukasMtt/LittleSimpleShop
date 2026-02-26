@@ -33,6 +33,7 @@
   flex: 1;
   align-self: flex-end;
   height: 1.75rem;
+  flex: 2;
 }
 
 .subscribe-form-section {

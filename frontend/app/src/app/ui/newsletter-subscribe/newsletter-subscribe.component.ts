@@ -10,15 +10,10 @@ import { ButtonComponent } from '../shared/button/button.component';
 import { FormSectionComponent } from '../shared/form-section/form-section.component';
 
 @Component({
-    selector: 'app-newsletter-subscribe',
-    imports: [
-        ReactiveFormsModule,
-        ButtonComponent,
-        FormSectionComponent,
-        FormSectionComponent
-    ],
-    templateUrl: './newsletter-subscribe.component.html',
-    styleUrl: './newsletter-subscribe.component.css'
+  selector: 'app-newsletter-subscribe',
+  imports: [ReactiveFormsModule, ButtonComponent, FormSectionComponent],
+  templateUrl: './newsletter-subscribe.component.html',
+  styleUrl: './newsletter-subscribe.component.css'
 })
 export class NewsletterSubscribeComponent extends BaseComponent {
   newsletterSubscribeFormGroup = new FormGroup({

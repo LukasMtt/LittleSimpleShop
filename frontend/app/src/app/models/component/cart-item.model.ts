@@ -2,5 +2,5 @@ import { CartItemProductModel as CartItemProductModel } from './cart-item-produc
 
 export interface CartItemModel {
   product: CartItemProductModel;
-  count: number;
+  amount: number;
 }

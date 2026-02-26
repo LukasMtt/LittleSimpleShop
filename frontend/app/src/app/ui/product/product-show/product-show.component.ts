@@ -3,7 +3,6 @@ import { ProductService } from '../../../services/product.service';
 import { CarouselComponent } from '../../shared/carousel/carousel.component';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe, UpperCasePipe } from '@angular/common';
-import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { BaseComponent } from '../../shared/base.component';
@@ -155,7 +154,7 @@ export class ProductShowComponent extends BaseComponent {
           image: this.productMainImage(),
           price: this.productPrice()
         },
-        count: this.productCount()
+        amount: this.productCount()
       });
       this.productCount.set(1);
     } else console.log('Adding product to cart failed. No product accessible.');

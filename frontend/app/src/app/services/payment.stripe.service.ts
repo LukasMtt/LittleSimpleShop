@@ -28,7 +28,7 @@ export class PaymentStripeService {
     const cartModel = {
       cartItems: this.cartService.cartReadonly().items.map((x) => ({
         productId: x.product?.id ?? 0,
-        count: x.count
+        count: x.amount
       }))
     };
     const session: any = await lastValueFrom(

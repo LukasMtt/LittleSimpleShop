@@ -1,12 +1,26 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
-import { CartSidebarItemComponent } from '../cart-sidebar-item/cart-sidebar-item.component';
-import { CartSumComponent } from '../cart-sum/cart-sum.component';
 import { BaseComponent } from '../../shared/base.component';
+import { CartShowItemComponent } from '../cart-show-item/cart-show-item.component';
+import { TextBadgeComponent } from '../../shared/text-badge/text-badge.component';
+import { MetadataService } from '../../../services/metadata.service';
+import { CurrencyPipe } from '@angular/common';
+import { ShippingService } from '../../../services/shipping.service';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { FormSectionComponent } from '../../shared/form-section/form-section.component';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { discountCodeValidator } from '../../../validators/discount-code.validator';
 
 @Component({
   selector: 'app-cart-show',
-  imports: [CartSidebarItemComponent, CartSumComponent],
+  imports: [
+    CartShowItemComponent,
+    TextBadgeComponent,
+    CurrencyPipe,
+    ButtonComponent,
+    ReactiveFormsModule,
+    FormSectionComponent
+  ],
   templateUrl: './cart-show.component.html',
   styleUrl: './cart-show.component.css'
 })
@@ -14,14 +28,67 @@ export class CartShowComponent extends BaseComponent {
   cart = computed(() => {
     return this.cartService.cartReadonly();
   });
+  cartItemProductIdsToDisplay = computed(() => {
+    return this.cart()
+      ?.items?.filter((x) => x.amount > 0 && x.product)
+      .map((x) => x.product.id);
+  });
+  cartPriceTotal = computed(() => {
+    if (this.cart() !== undefined) {
+      return this.cartService.getCartPriceSum();
+    }
+    return 'invalid sum';
+  });
+  bottomBadgesTextList = signal<string[]>([]);
 
-  constructor(public cartService: CartService) {
+  discountCodeFormGroup = new FormGroup({
+    code: new FormControl('', [])
+  });
+
+  constructor(
+    public cartService: CartService,
+    metaDataService: MetadataService,
+    shippingService: ShippingService,
+    currencyPipe: CurrencyPipe
+  ) {
     super();
+    const textList: string[] = [];
+    metaDataService.getMetadata().subscribe((metadata) => {
+      textList.push(
+        this.res('FREE_SHIPPING_FROM').replace(
+          '{X}',
+          currencyPipe.transform(metadata.freeShippingThreshold) ?? ''
+        )
+      );
+      textList.push(
+        this.res('ORDER_RETURN_TIMESPAN').replace(
+          '{X}',
+          metadata.shippingReturnThreshold
+        )
+      );
+    });
+    shippingService.getShippingTimeEstimation().subscribe((estimation) => {
+      textList.push(
+        this.res('SHIPPING_TIME_ESTIMATION_STRING')
+          .replace('{X}', estimation.minDays)
+          .replace('{Y}', estimation.maxDays)
+      );
+    });
+    this.bottomBadgesTextList.set(textList);
   }
 
-  getCartItemProductIdsForDisplay() {
-    return this.cart()
-      ?.items?.filter((x) => x.count > 0 && x.product)
-      .map((x) => x.product.id);
+  public onSubmit() {
+    let dynamicDiscountCodeValidator = discountCodeValidator();
+    this.discountCodeFormGroup.controls.code.addValidators(
+      dynamicDiscountCodeValidator
+    );
+    this.discountCodeFormGroup.controls.code.updateValueAndValidity();
+
+    this.discountCodeFormGroup.controls.code.markAsTouched();
+    this.discountCodeFormGroup.controls.code.markAsDirty();
+
+    this.discountCodeFormGroup.controls.code.removeValidators(
+      dynamicDiscountCodeValidator
+    );
   }
 }

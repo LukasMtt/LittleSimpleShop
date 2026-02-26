@@ -7,11 +7,14 @@
 </div>
 <div class="product-preview-info-container">
   <div>
-    {{ cartItem()?.product?.name || '' }}
+    <span class="product-name-container"
+      >{{ cartItem()?.product?.name || '' }}
+    </span>
+    <br />
+    {{ cartItem()?.product?.price | currency }} {{ cartItemPerPieceText() }}
   </div>
-  <div>
-    {{ totalPrice() | currency }}
-  </div>
+  <div></div>
+  <div>{{ totalPrice() | currency }} {{ cartItemForAllPiecesText() }}</div>
 </div>
 <app-tick-counter
   [counter]="cartItem()?.amount || 0"

@@ -1,11 +1,45 @@
-@for (id of getCartItemProductIdsForDisplay(); track id) {
-  <div class="cart-show-item">
-    <app-cart-sidebar-item
-      [cartItemProductId]="id"
-      previewPictureSize="medium"
-    ></app-cart-sidebar-item>
+@for (id of cartItemProductIdsToDisplay(); track id) {
+  <div>
+    <app-cart-show-item [cartItemProductId]="id"></app-cart-show-item>
   </div>
 
   <hr class="cart-show-divider" />
 }
-<app-cart-sum [cart]="cart()"></app-cart-sum>
+<div class="cart-bottom-badges">
+  @for (text of bottomBadgesTextList(); track $index) {
+    <app-text-badge class="badge">{{ text }}</app-text-badge>
+  }
+</div>
+<div>
+  <form [formGroup]="discountCodeFormGroup" (ngSubmit)="onSubmit()">
+    <app-form-section
+      [control]="discountCodeFormGroup.controls.code"
+      [labelResource]="'FORM_ROW_LABEL_DISCOUNT_CODE'"
+      [type]="'text'"
+      [id]="'discount-code-form-section'"
+      class="discount-code-form-section"
+      [validationFailResourcesMap]="[
+        { key: 'discountCode', value: 'VALIDATION_DISCOUNT_CODE_NOT_FOUND' }
+      ]"
+    >
+      <app-button
+        [type]="'submit'"
+        [disabled]="false"
+        [matIcon]="'check'"
+        [label]="this.res('APPLY_DISCOUNT_CODE_BUTTON_TEXT')"
+        [border]="'solid'"
+        [hideLabelOnMobile]="true"
+        class="apply-code-button"
+      >
+      </app-button
+    ></app-form-section>
+  </form>
+</div>
+<div class="cart-sum-container">
+  <div>
+    {{ this.res('CART_SUM') }}
+  </div>
+  <div>
+    {{ cartPriceTotal() | currency }}
+  </div>
+</div>
