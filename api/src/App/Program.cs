@@ -1,3 +1,5 @@
+using App.Middlewares;
+
 using AutoMapper;
 
 using FluentMigrator.Runner;
@@ -28,21 +30,23 @@ class Program
 
             builder.Services.Configure<AppOptions>(builder.Configuration);
             var options = builder.Configuration.Get<AppOptions>();
+            var isDevEnv = builder.Environment.IsDevelopment();
 
-            RegisterServices(builder.Services, options);
+            RegisterServices(builder.Services, options, isDevEnv);
             MigrateDatabase(options);
 
             var app = builder.Build();
-            if (app.Environment.IsDevelopment())
+            if (isDevEnv)
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseExceptionHandler("/error");
             app.UseAuthorization();
+            app.UseAntiforgeryToken();
             app.MapControllers();
-            app.UseCors("CorsPolicy");
             app.UseRateLimiter();
 
             app.Run();
@@ -58,13 +62,29 @@ class Program
         }
     }
 
-    private static void RegisterServices(IServiceCollection services, AppOptions? appOptions)
+    private static void RegisterServices(IServiceCollection services, AppOptions? appOptions, bool isDevEnv)
     {
         services.AddCors(options =>
         {
             options.AddPolicy(name: "CorsPolicy",
-                builder => builder.WithOrigins(appOptions?.FrontendBaseUrl ?? throw new InvalidOperationException("FrontendBaseUrl is not configured.")).AllowAnyMethod().AllowAnyHeader()
+                builder => builder.WithOrigins(appOptions?.FrontendBaseUrl ?? throw new InvalidOperationException("FrontendBaseUrl is not configured.")).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             );
+        });
+        services.AddAntiforgery(options =>
+        {
+            options.HeaderName = "X-Xsrf-Header";
+            options.Cookie.Name = "XSRF-TOKEN";
+            options.Cookie.Path = "/";
+            options.Cookie.HttpOnly = false;
+            if (isDevEnv)
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+            }
+            else
+            {
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            }
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
         services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddRateLimiter(options => options.AddPolicy("paymentRateLimiterPolicy",
