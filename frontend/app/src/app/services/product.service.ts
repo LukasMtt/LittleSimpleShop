@@ -30,7 +30,7 @@ export class ProductService {
         this.httpClient
           .get<
             ProductDTO[]
-          >(this.endpointResolveService.buildUrl(EndpointItem.GetAllProducts, paginationState.convertToKeyValueList()))
+          >(this.endpointResolveService.buildUrl(EndpointItem.GetAllProducts, paginationState.getPropertyKeyValueList()))
           .pipe(shareReplay(1))
       );
     }
@@ -43,7 +43,7 @@ export class ProductService {
     return this.httpClient.get<ProductDTO[]>(
       this.endpointResolveService.buildUrl(
         EndpointItem.GetAllProductsInSale,
-        paginationState.convertToKeyValueList()
+        paginationState.getPropertyKeyValueList()
       )
     );
   }
@@ -56,7 +56,7 @@ export class ProductService {
       this.endpointResolveService.buildUrl(
         EndpointItem.GetAllProductsByCategoryId,
         [{ key: 'categoryId', value: `${productCategoryId}` }].concat(
-          paginationState.convertToKeyValueList()
+          paginationState.getPropertyKeyValueList()
         )
       )
     );
