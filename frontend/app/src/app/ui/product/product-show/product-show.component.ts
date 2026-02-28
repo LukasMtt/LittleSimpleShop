@@ -148,6 +148,7 @@ export class ProductShowComponent extends BaseComponent {
   public addProductToCart() {
     if (this.productId() && this.productName() && this.productPrice()) {
       this.cartService.pushCartItem({
+        productId: this.productId(),
         product: {
           id: this.productId(),
           name: this.productName(),

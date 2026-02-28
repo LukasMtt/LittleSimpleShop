@@ -1,151 +1,185 @@
 import { Injectable, signal } from '@angular/core';
 import { CartModel } from '../models/component/cart.model';
 import { CartItemModel } from '../models/component/cart-item.model';
-import { LocalStorageService } from './local.storage.service';
-import { JsonService } from './json.service';
 import { ProductService } from './product.service';
-import { CartStorageModel } from '../models/misc/cart-storage-model';
+import {
+  EndpointItem,
+  EndpointResolveService
+} from './endpoint.resolve.service';
+import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cart = signal<CartModel>({ items: [] });
+  private cart = signal<CartModel>({ cartItems: [] });
 
-  //überall wo das benutzt wird, wird auch der fileContent gesetzt?
   cartReadonly = this.cart.asReadonly();
 
   constructor(
-    private localStorageService: LocalStorageService,
-    private jsonService: JsonService,
-    private productService: ProductService
+    private productService: ProductService,
+    private endpointResolveService: EndpointResolveService,
+    private httpClient: HttpClient,
+    private cookieService: CookieService
   ) {
-    this.setCartModelFromStorageString();
+    const cartToken = this.cookieService.get('CartToken');
+    if (cartToken) {
+      this.httpClient
+        .get<
+          CartModel | undefined
+        >(this.endpointResolveService.buildUrl(EndpointItem.GetCart, []), { withCredentials: true })
+        .subscribe((cart) => {
+          if (cart) {
+            this.productService
+              .getProductsByIds(
+                cart.cartItems.map((x) => x.productId).filter((x) => x)
+              )
+              .subscribe((products) => {
+                const cartItems: CartItemModel[] = [];
+                products.forEach((product) => {
+                  const amount = cart.cartItems.find(
+                    (x) => x.productId == product.id
+                  )?.amount;
+                  if (product && amount) {
+                    const mainProductImage = product.images[0];
+                    cartItems.push({
+                      productId: product.id,
+                      product: {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: {
+                          id: mainProductImage.id,
+                          fileId: mainProductImage.fileId,
+                          productId: mainProductImage.productId,
+                          fileContent: { dataUrl: '' }
+                        }
+                      },
+                      amount: amount
+                    });
+                  }
+                });
+                this.cart.set({ cartItems: cartItems });
+              });
+          }
+        });
+    } else {
+      this.httpClient
+        .post<boolean>(
+          this.endpointResolveService.buildUrl(EndpointItem.CreateCart, []),
+          {},
+          { withCredentials: true }
+        )
+        .subscribe((successful) => {
+          if (successful) {
+            this.cart.set({ cartItems: [] });
+          }
+        });
+    }
   }
 
   public pushCartItem(item: CartItemModel) {
-    const cartItems = this.cart().items;
+    const cartItems = this.cart().cartItems;
     const existingItem = cartItems.find(
       (x) => x.product && item.product && x.product.id === item.product.id
     );
     if (existingItem) {
-      existingItem.amount = existingItem.amount + item.amount;
+      return this.updateCartItemAmount(
+        existingItem.product.id,
+        existingItem.amount + item.amount
+      );
     } else {
       cartItems.push(item);
     }
-    this.cart.set({ items: cartItems });
-    this.setCartStorageString();
+    this.httpClient
+      .post<number>(
+        this.endpointResolveService.buildUrl(EndpointItem.PushCartItem, []),
+        item,
+        { withCredentials: true }
+      )
+      .subscribe((count) => {
+        if (count && count > 0) {
+          this.cart.set({ cartItems: cartItems });
+        }
+      });
   }
 
   public popCartItemByProductId(productId: number) {
-    let cartItems = this.cart().items;
+    let cartItems = this.cart().cartItems;
     const item = cartItems.find((x) => x.product && x.product.id == productId);
     cartItems = cartItems.filter((x) => x != item);
-    this.cart.set({ items: cartItems });
-    this.setCartStorageString();
+    this.httpClient
+      .post<number>(
+        this.endpointResolveService.buildUrl(
+          EndpointItem.PopCartItemByProductId,
+          [{ key: 'productId', value: `${productId}` }]
+        ),
+        {},
+        { withCredentials: true }
+      )
+      .subscribe((count) => {
+        if (count && count > 0) {
+          this.cart.set({ cartItems: cartItems });
+        }
+      });
   }
 
-  public updateCartItemCount(productId: number, count: number) {
-    let cartItems = this.cart().items;
+  public updateCartItemAmount(productId: number, amount: number) {
+    let cartItems = this.cart().cartItems;
     const item = cartItems.find((x) => x.product && x.product.id == productId);
     if (item) {
-      item.amount = count;
-      if (count < 1) {
+      item.amount = amount;
+      if (amount < 1) {
         cartItems = cartItems.filter((x) => x != item);
       }
-      this.cart.set({ items: cartItems });
-      this.setCartStorageString();
+      this.httpClient
+        .post<number>(
+          this.endpointResolveService.buildUrl(
+            EndpointItem.UpdateCartItemAmountByProductId,
+            [
+              { key: 'productId', value: `${productId}` },
+              { key: 'amount', value: `${amount}` }
+            ]
+          ),
+          {},
+          { withCredentials: true }
+        )
+        .subscribe((count) => {
+          if (count && count > 0) {
+            this.cart.set({ cartItems: cartItems });
+          }
+        });
     }
   }
 
   public resetCart() {
-    this.cart.set({ items: [] });
-    this.setCartStorageString();
+    this.httpClient
+      .delete<number>(
+        this.endpointResolveService.buildUrl(EndpointItem.DeleteCart, []),
+        { withCredentials: true }
+      )
+      .subscribe((successful) => {
+        if (successful) {
+          this.cart.set({ cartItems: [] });
+          this.cookieService.delete('CartToken');
+        }
+      });
   }
 
   public getCartPriceSum() {
-    const invalidBaseItems = this.cart()?.items.filter(
+    const invalidBaseItems = this.cart()?.cartItems.filter(
       (x) => x.product.price === undefined || x.product.price <= 0
     );
     if (invalidBaseItems && invalidBaseItems.length > 0) {
       return 'invalid sum';
     }
-    const baseItems = this.cart()?.items.filter((x) => x.amount > 0);
+    const baseItems = this.cart()?.cartItems.filter((x) => x.amount > 0);
     if (baseItems && baseItems.length > 0) {
       return baseItems
         .map((x) => x.product.price! * x.amount)
         .reduce((x, y) => (x += y));
     }
     return 0;
-  }
-
-  private setCartStorageString() {
-    this.localStorageService.setStorageItem(
-      'cart',
-      this.createCartStorageString()
-    );
-  }
-
-  private createCartStorageString() {
-    const cartStorageObject: CartStorageModel = new CartStorageModel();
-    this.cart()
-      .items.filter((x) => x && x.amount > 0)
-      .forEach((cartItem) => {
-        cartStorageObject.items.push({
-          productId: cartItem.product?.id ?? 0,
-          count: cartItem.amount
-        });
-      });
-    return JSON.stringify(
-      this.jsonService.getSerializer().serialize(cartStorageObject)
-    );
-  }
-
-  private setCartModelFromStorageString() {
-    const cartStorageModel = this.getCartStorageModel();
-    const cartItems: CartItemModel[] = [];
-
-    if (cartStorageModel) {
-      this.productService
-        .getProductsByIds(
-          cartStorageModel.items.map((x) => x.productId).filter((x) => x)
-        )
-        .subscribe((products) => {
-          products.forEach((product) => {
-            const amount = cartStorageModel?.items.find(
-              (x) => x.productId == product.id
-            )?.count;
-            if (product && amount) {
-              const mainProductImage = product.images[0];
-              cartItems.push({
-                product: {
-                  id: product.id,
-                  name: product.name,
-                  price: product.price,
-                  image: {
-                    id: mainProductImage.id,
-                    fileId: mainProductImage.fileId,
-                    productId: mainProductImage.productId,
-                    fileContent: { dataUrl: '' }
-                  }
-                },
-                amount: amount
-              });
-            }
-          });
-          this.cart.set({ items: cartItems });
-        });
-    }
-  }
-
-  private getCartStorageModel() {
-    if (this.localStorageService.getStorageItem('cart'))
-      return this.jsonService
-        .getSerializer()
-        .deserializeObject(
-          this.localStorageService.getStorageItem('cart')!,
-          CartStorageModel
-        );
-    return null;
   }
 }

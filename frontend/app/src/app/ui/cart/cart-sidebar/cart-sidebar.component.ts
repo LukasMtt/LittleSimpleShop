@@ -36,7 +36,7 @@ export class CartSidebarComponent extends BaseComponent implements OnInit {
   });
   cartItemsToDisplay = computed(() => {
     const result = this.cart()
-      ?.items?.filter((x) => x.amount > 0 && x.product)
+      ?.cartItems?.filter((x) => x.amount > 0 && x.product)
       .map((x) => x.product.id);
     if (result) {
       return result.slice(0, this.maxCountCartPreview());

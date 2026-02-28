@@ -13,6 +13,7 @@ export enum EndpointItem {
   Metadata = 'metadata/',
   PublicImage = 'publicImage/',
   Shipping = 'shipping/',
+  Cart = 'cart/',
 
   GetAllCustomCategories = 'getAllCustomCategories',
   GetAllProducts = 'getAllProducts',
@@ -29,7 +30,13 @@ export enum EndpointItem {
   GetPublicImage = 'getPublicImage',
   GetSaleCategory = 'getSaleCategory',
   GetAllCategory = 'getAllCategory',
-  GetShippingTimeEstimation = 'getShippingTimeEstimation'
+  GetShippingTimeEstimation = 'getShippingTimeEstimation',
+  GetCart = 'getCart',
+  CreateCart = 'createCart',
+  PushCartItem = 'pushCartItem',
+  PopCartItemByProductId = 'popCartItemByProductId',
+  UpdateCartItemAmountByProductId = 'updateCartItemAmountByProductId',
+  DeleteCart = 'deleteCart'
 }
 
 @Injectable({
@@ -52,6 +59,7 @@ export class EndpointResolveService {
     parent: this.shop,
     item: EndpointItem.Shipping
   };
+  cart: EndpointNode = { parent: this.shop, item: EndpointItem.Cart };
 
   getAllCustomCategories: EndpointNode = {
     parent: this.product,
@@ -117,6 +125,30 @@ export class EndpointResolveService {
     parent: this.shipping,
     item: EndpointItem.GetShippingTimeEstimation
   };
+  getCart: EndpointNode = {
+    parent: this.cart,
+    item: EndpointItem.GetCart
+  };
+  createCart: EndpointNode = {
+    parent: this.cart,
+    item: EndpointItem.CreateCart
+  };
+  pushCartItem: EndpointNode = {
+    parent: this.cart,
+    item: EndpointItem.PushCartItem
+  };
+  popCartItemByProductId: EndpointNode = {
+    parent: this.cart,
+    item: EndpointItem.PopCartItemByProductId
+  };
+  updateCartItemAmountByProductId: EndpointNode = {
+    parent: this.cart,
+    item: EndpointItem.UpdateCartItemAmountByProductId
+  };
+  deleteCart: EndpointNode = {
+    parent: this.cart,
+    item: EndpointItem.DeleteCart
+  };
 
   leafList: EndpointNode[] = [
     this.getAllCustomCategories,
@@ -134,7 +166,13 @@ export class EndpointResolveService {
     this.getPublicImage,
     this.getSaleCategory,
     this.getAllCategory,
-    this.getShippingTimeEstimation
+    this.getShippingTimeEstimation,
+    this.getCart,
+    this.createCart,
+    this.pushCartItem,
+    this.popCartItemByProductId,
+    this.updateCartItemAmountByProductId,
+    this.deleteCart
   ];
 
   apiBaseEndpointUrl = '';

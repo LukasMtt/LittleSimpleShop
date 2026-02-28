@@ -30,7 +30,7 @@ export class CartShowComponent extends BaseComponent {
   });
   cartItemProductIdsToDisplay = computed(() => {
     return this.cart()
-      ?.items?.filter((x) => x.amount > 0 && x.product)
+      ?.cartItems?.filter((x) => x.amount > 0 && x.product)
       .map((x) => x.product.id);
   });
   cartPriceTotal = computed(() => {

@@ -21,7 +21,7 @@ export class CartSidebarItemComponent extends BaseComponent {
     return this.cartService.cartReadonly();
   });
   cartItem = computed(() => {
-    const item = this.cart().items.find((x) => {
+    const item = this.cart().cartItems.find((x) => {
       return x.product.id == this.cartItemProductId();
     });
     if (item) {
@@ -58,7 +58,7 @@ export class CartSidebarItemComponent extends BaseComponent {
 
   public updateCartItemCount(count: number) {
     if (this.cartItem()?.product) {
-      this.cartService.updateCartItemCount(this.cartItem()!.product.id, count);
+      this.cartService.updateCartItemAmount(this.cartItem()!.product.id, count);
     }
   }
 

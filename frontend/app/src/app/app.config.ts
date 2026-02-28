@@ -21,6 +21,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { GermanMatPaginatorIntl } from './misc/mat-paginator-intl';
 import { CurrencyPipe } from '@angular/common';
 import { csrfInterceptor } from './interceptors/csrf.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 const appConfigServiceAndAntiforgeryTokenProvider = provideAppInitializer(
   () => {
@@ -32,10 +33,12 @@ const appConfigServiceAndAntiforgeryTokenProvider = provideAppInitializer(
         await appConfigService.loadAppConfig();
         const apiBaseEndpointUrl =
           appConfigService.getConfigProperty('apiBaseEndpointUrl');
-        return httpClient.get<any>(
-          `${apiBaseEndpointUrl}/shop/Antiforgery/GetAntiforgeryToken`,
-          { withCredentials: true }
-        );
+        return httpClient
+          .get<any>(
+            `${apiBaseEndpointUrl}/shop/Antiforgery/GetAntiforgeryToken`,
+            { withCredentials: true }
+          )
+          .subscribe();
       };
     })(inject(AppConfigService), inject(HttpClient));
     return initializerFn();
@@ -69,6 +72,7 @@ export const appConfig: ApplicationConfig = {
     appConfigServiceAndAntiforgeryTokenProvider,
     resourceServiceProvider,
     [{ provide: MatPaginatorIntl, useClass: GermanMatPaginatorIntl }],
-    CurrencyPipe
+    CurrencyPipe,
+    CookieService
   ]
 };
