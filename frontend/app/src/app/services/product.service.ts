@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductDTO } from '../models/api/product.dto';
-import { CategoryDTO } from '../models/api/category.dto';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import {
   EndpointItem,
   EndpointResolveService
@@ -18,24 +17,24 @@ export class ProductService {
     private endpointResolveService: EndpointResolveService
   ) {}
 
-  getAllCustomCategories(): Observable<CategoryDTO[]> {
-    return this.httpClient.get<CategoryDTO[]>(
-      this.endpointResolveService.buildUrl(
-        EndpointItem.GetAllCustomCategories,
-        []
-      )
-    );
-  }
+  // consider migrating to more in-cache operations whenever possible - we can probably get rid of a lot of api calls
+  private allProductsCache: Map<string, Observable<ProductDTO[]>> = new Map();
 
   getAllProducts(
     paginationState: PaginationStateModel
   ): Observable<ProductDTO[]> {
-    return this.httpClient.get<ProductDTO[]>(
-      this.endpointResolveService.buildUrl(
-        EndpointItem.GetAllProducts,
-        paginationState.convertToKeyValueList()
-      )
-    );
+    const cacheKey = `${paginationState.pageOffset}-${paginationState.pageSize}`;
+    if (!this.allProductsCache.has(cacheKey)) {
+      this.allProductsCache.set(
+        cacheKey,
+        this.httpClient
+          .get<
+            ProductDTO[]
+          >(this.endpointResolveService.buildUrl(EndpointItem.GetAllProducts, paginationState.convertToKeyValueList()))
+          .pipe(shareReplay(1))
+      );
+    }
+    return this.allProductsCache.get(cacheKey)!;
   }
 
   getAllProductsInSale(

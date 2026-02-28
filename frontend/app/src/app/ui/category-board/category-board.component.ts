@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CardBoardComponent } from '../shared/card-board/card.board.component';
-import { ProductService } from '../../services/product.service';
 import { RouteEndpointType } from '../../app.routes';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
@@ -13,12 +12,13 @@ import {
 } from '../../services/endpoint.resolve.service';
 import { CategoryDTO } from '../../models/api/category.dto';
 import { CardInput } from '../../models/component/card.input';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
-    selector: 'app-category-board',
-    templateUrl: './category-board.component.html',
-    styleUrl: './category-board.component.css',
-    imports: [CardBoardComponent]
+  selector: 'app-category-board',
+  templateUrl: './category-board.component.html',
+  styleUrl: './category-board.component.css',
+  imports: [CardBoardComponent]
 })
 export class CategoryBoardComponent extends BaseComponent implements OnInit {
   cardInputList: CardInput[] = [];
@@ -26,7 +26,7 @@ export class CategoryBoardComponent extends BaseComponent implements OnInit {
   templateTypeEnum = TemplateTypeCardBoardSubText;
 
   constructor(
-    public productService: ProductService,
+    private categoryService: CategoryService,
     private httpClient: HttpClient,
     private endpointResolveService: EndpointResolveService
   ) {
@@ -43,7 +43,7 @@ export class CategoryBoardComponent extends BaseComponent implements OnInit {
       )
     ];
 
-    this.productService.getAllCustomCategories().subscribe((data) => {
+    this.categoryService.getAllCustomCategories().subscribe((data) => {
       forkJoin(additionalImageObservable$).subscribe(
         ([saleCategory, allCategory]) => {
           this.cardInputList = data.map((category) =>
