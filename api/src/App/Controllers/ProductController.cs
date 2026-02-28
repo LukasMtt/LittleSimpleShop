@@ -21,39 +21,6 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public List<CategoryModel> GetAllCustomCategories()
-    {
-        return _context.Category
-            .Where(x => x.CategoryType == CategoryType.Custom)
-            .Include(x => x.ProductList)
-            .Include(x => x.Images)
-            .Select(x => _mapper.Map<CategoryModel>(x))
-            .ToList()
-            .OrderBy(x => x.Id)
-            .ToList();
-    }
-
-    [HttpGet]
-    public CategoryModel? GetSaleCategory()
-    {
-        return _context.Category
-            .Where(x => x.CategoryType == CategoryType.Sale)
-            .Include(x => x.Images)
-            .Select(x => _mapper.Map<CategoryModel>(x))
-            .FirstOrDefault();
-    }
-
-    [HttpGet]
-    public CategoryModel? GetAllCategory()
-    {
-        return _context.Category
-            .Where(x => x.CategoryType == CategoryType.All)
-            .Include(x => x.Images)
-            .Select(x => _mapper.Map<CategoryModel>(x))
-            .FirstOrDefault();
-    }
-
-    [HttpGet]
     public List<ProductModel> GetAllProducts(int pageOffset, int pageSize)
     {
         return _context.Product

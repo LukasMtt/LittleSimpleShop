@@ -8,6 +8,7 @@ export enum EndpointItem {
 
   Shop = 'shop/',
   Product = 'product/',
+  Category = 'category/',
   News = 'news/',
   Payment = 'payment/',
   Metadata = 'metadata/',
@@ -48,6 +49,7 @@ export class EndpointResolveService {
   shop: EndpointNode = { parent: this.root, item: EndpointItem.Shop };
 
   product: EndpointNode = { parent: this.shop, item: EndpointItem.Product };
+  category: EndpointNode = { parent: this.shop, item: EndpointItem.Category };
   news: EndpointNode = { parent: this.shop, item: EndpointItem.News };
   payment: EndpointNode = { parent: this.shop, item: EndpointItem.Payment };
   metadata: EndpointNode = { parent: this.shop, item: EndpointItem.Metadata };
@@ -62,7 +64,7 @@ export class EndpointResolveService {
   cart: EndpointNode = { parent: this.shop, item: EndpointItem.Cart };
 
   getAllCustomCategories: EndpointNode = {
-    parent: this.product,
+    parent: this.category,
     item: EndpointItem.GetAllCustomCategories
   };
   getAllProducts: EndpointNode = {
@@ -114,11 +116,11 @@ export class EndpointResolveService {
     item: EndpointItem.GetPublicImage
   };
   getSaleCategory: EndpointNode = {
-    parent: this.product,
+    parent: this.category,
     item: EndpointItem.GetSaleCategory
   };
   getAllCategory: EndpointNode = {
-    parent: this.product,
+    parent: this.category,
     item: EndpointItem.GetAllCategory
   };
   getShippingTimeEstimation: EndpointNode = {
