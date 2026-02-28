@@ -15,7 +15,7 @@ public class OrderService
         _context = context;
     }
 
-    public async Task<ServiceResult<long?>> CreateAndSaveOrder(CheckoutCartModel model)
+    public async Task<ServiceResult<long?>> CreateAndSaveOrder(CartModel model)
     {
         var order = new Order
         {
@@ -25,7 +25,7 @@ public class OrderService
         order.OrderProducts = model.CartItems?.Select(item => new OrderProduct
         {
             Product = _context.Product.Find(item.ProductId)!,
-            Quantity = item.Count,
+            Quantity = item.Amount,
             Order = order
         }).ToList() ?? new List<OrderProduct>();
 

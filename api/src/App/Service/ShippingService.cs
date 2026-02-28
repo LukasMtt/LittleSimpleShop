@@ -16,10 +16,11 @@ public class ShippingService
     /* only dummy data, not suitable for real production use case! */
     public async Task<ServiceResult<(int MinDays, int MaxDays)>> GetShippingTimeSpanEstimation(ShippingProvider shippingProvider, double latitude, double longitude)
     {
-        return new ServiceResult<(int MinDays, int MaxDays)>
+        var result = new ServiceResult<(int MinDays, int MaxDays)>
         {
             IsSuccess = true,
             ResultData = (MinDays: 3, MaxDays: 5)
         };
+        return await Task.FromResult(result);
     }
 }

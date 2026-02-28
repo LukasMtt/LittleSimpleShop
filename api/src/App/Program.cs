@@ -109,6 +109,7 @@ class Program
         services.AddTransient<StripePaymentService>();
         services.AddTransient<OrderService>();
         services.AddTransient<ShippingService>();
+        services.AddTransient<CartService>();
 
         services.AddHttpClient<IFileStorageService, SeaweedFsService>(client =>
         {

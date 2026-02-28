@@ -23,7 +23,7 @@ public class PaymentController : ShopBaseController
 
     [HttpPost]
     [EnableRateLimiting("paymentRateLimiterPolicy")]
-    public async Task<ActionResult> CreateCheckoutSession([FromBody] CheckoutCartModel model)
+    public async Task<ActionResult> CreateCheckoutSession([FromBody] CartModel model)
     {
         var result = await _orderService.CreateAndSaveOrder(model);
         if (!result.IsSuccess)

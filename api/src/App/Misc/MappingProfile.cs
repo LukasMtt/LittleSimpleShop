@@ -12,5 +12,7 @@ public class MappingProfile : Profile
         CreateMap<PublicImage, PublicImageModel>().ReverseMap();
         CreateMap<News, NewsModel>().ReverseMap();
         CreateMap<Metadata, MetadataModel>().ReverseMap();
+        CreateMap<CartItem, CartItemModel>().ReverseMap();
+        CreateMap<Cart, CartModel>().ReverseMap();
     }
 }

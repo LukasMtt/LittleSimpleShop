@@ -15,6 +15,7 @@ public class ShopDbContext : DbContext
     public DbSet<Order> Order { get; set; }
     public DbSet<OrderProduct> OrderProduct { get; set; }
     public DbSet<Metadata> Metadata { get; set; }
+    public DbSet<Cart> Cart { get; set; }
 
     private IOptions<AppOptions> _options;
 

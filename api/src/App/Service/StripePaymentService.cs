@@ -28,7 +28,7 @@ public class StripePaymentService
         StripeConfiguration.ApiKey = _appOptions.Value.StripePrivateKey;
     }
 
-    public async Task<Session> CreateCheckoutSession(CheckoutCartModel model, long orderId)
+    public async Task<Session> CreateCheckoutSession(CartModel model, long orderId)
     {
         var frontendBaseUrl = _appOptions.Value.FrontendBaseUrl;
 
@@ -79,7 +79,7 @@ public class StripePaymentService
         //todo create document
     }
 
-    private List<SessionLineItemOptions> ConvertCheckoutCartItems(CheckoutCartModel model)
+    private List<SessionLineItemOptions> ConvertCheckoutCartItems(CartModel model)
     {
         var lineItems = new List<SessionLineItemOptions>();
         foreach (var item in model.CartItems)
@@ -98,7 +98,7 @@ public class StripePaymentService
                             Name = product.Name,
                         },
                     },
-                    Quantity = item.Count,
+                    Quantity = item.Amount,
                 });
             }
         }

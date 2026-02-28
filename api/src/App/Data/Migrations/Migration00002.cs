@@ -67,3 +67,27 @@ public class CreateMetaDataTable : Migration
     {
     }
 }
+
+[Migration(0000204)]
+public class CreateCartAndCartItemTable : Migration
+{
+    public override void Up()
+    {
+        Create.Table("Cart")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("CartToken").AsString().NotNullable();
+
+        Create.Table("CartItem")
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+            .WithColumn("ProductId").AsInt64().Nullable()
+            .WithColumn("Amount").AsInt32().NotNullable().WithDefaultValue(0)
+            .WithColumn("CartId").AsInt64().Nullable();
+
+        Create.ForeignKey().FromTable("CartItem").ForeignColumn("ProductId").ToTable("Product").PrimaryColumn("Id");
+        Create.ForeignKey().FromTable("CartItem").ForeignColumn("CartId").ToTable("Cart").PrimaryColumn("Id");
+    }
+
+    public override void Down()
+    {
+    }
+}
