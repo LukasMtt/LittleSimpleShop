@@ -10,6 +10,7 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { FormSectionComponent } from '../../shared/form-section/form-section.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { discountCodeValidator } from '../../../validators/discount-code.validator';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-cart-show',
@@ -52,8 +53,12 @@ export class CartShowComponent extends BaseComponent {
     currencyPipe: CurrencyPipe
   ) {
     super();
-    const textList: string[] = [];
-    metaDataService.getMetadata().subscribe((metadata) => {
+
+    forkJoin([
+      metaDataService.getMetadata(),
+      shippingService.getShippingTimeEstimation()
+    ]).subscribe(([metadata, estimation]) => {
+      const textList: string[] = [];
       textList.push(
         this.res('FREE_SHIPPING_FROM').replace(
           '{X}',
@@ -66,15 +71,13 @@ export class CartShowComponent extends BaseComponent {
           metadata.shippingReturnThreshold
         )
       );
-    });
-    shippingService.getShippingTimeEstimation().subscribe((estimation) => {
       textList.push(
         this.res('SHIPPING_TIME_ESTIMATION_STRING')
           .replace('{X}', estimation.minDays)
           .replace('{Y}', estimation.maxDays)
       );
+      this.bottomBadgesTextList.set(textList);
     });
-    this.bottomBadgesTextList.set(textList);
   }
 
   public onSubmit() {

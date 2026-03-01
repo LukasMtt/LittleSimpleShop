@@ -26,6 +26,28 @@ export class ShipmentService {
     return this.shipmentFormGroup;
   }
 
+  public getAddressFormGroupFromShipmentFormGroup(): FormGroup {
+    return this.shipmentFormGroup.get('address') as FormGroup;
+  }
+
+  public getFormControlFromShipmentFormGroup(key: string): FormControl | null {
+    if (!this.shipmentFormGroup.contains(key)) {
+      return null;
+    }
+    return this.shipmentFormGroup.get(key) as FormControl;
+  }
+
+  public getFormControlFromAddressShipmentFormGroup(
+    key: string
+  ): FormControl | null {
+    if (!this.getAddressFormGroupFromShipmentFormGroup().contains(key)) {
+      return null;
+    }
+    return this.getAddressFormGroupFromShipmentFormGroup().get(
+      key
+    ) as FormControl;
+  }
+
   public setFormControlsToDirty() {
     Object.keys(this.shipmentFormGroup.controls).forEach((key) => {
       this.shipmentFormGroup.get(key)?.markAsDirty();

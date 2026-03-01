@@ -31,8 +31,8 @@
   "FORM_ROW_OPTIONAL": "optional",
   "SHIPMENT_SUBCAPTION_PERSONAL_INFORMATION": "Persönliche Angaben",
   "SHIPMENT_SUBCAPTION_ADDRESS_INFORMATION": "Addressinformationen",
-  "BUTTON_PAY_NOW_WITH_STRIPE": "Jetzt mit Stripe bezahlen",
-  "PAYMENT_INSTRUCTION_TEXT": "Sie werden für die Zahlung zum Bezahldienst Stripe weitergeleitet und müssen die Zahlung dort vornehmen. Anschließend werden Sie wieder zurück zu unserem Shop geleitet.",
+  "BUTTON_PAY_NOW_WITH_STRIPE": "Zahlungspflichtig bestellen",
+  "PAYMENT_INSTRUCTION_TEXT": "Sie werden zum zertifizierten Zahlungsdienstleister Stripe weitergeleitet, um Ihre Zahlung sicher abzuschließen. Nach erfolgreicher Zahlung werden Sie zurück zu dieser Seite geleitet, wo Sie die Bestätigung Ihrer Bestellung erhalten.",
   "CHECKOUT_SUCCESS_TEXT": "Vielen Dank für Ihren Einkauf! Ihre Bestellung wurde erfolgreich angenommen. Sie erhalten in Kürze eine Bestätigungs-E-Mail mit den Details Ihrer Bestellung. Bei Problemen oder Fragen zur Bestellung, zum Bestellvorgang oder zu unseren Produkten, zögern Sie bitte nicht, uns zu kontaktieren. Wir sind gerne für Sie da!",
   "CONTACT_EMAIL": "E-Mail",
   "CONTACT_PHONE": "Telefon",
@@ -54,5 +54,6 @@
   "CARTITEM_ALL_PIECES": "für alle",
   "APPLY_DISCOUNT_CODE_BUTTON_TEXT": "Code anwenden",
   "FORM_ROW_LABEL_DISCOUNT_CODE": "Rabatt-/Promo-Code",
-  "VALIDATION_DISCOUNT_CODE_NOT_FOUND": "Rabatt-/Promo-Code nicht gültig"
+  "VALIDATION_DISCOUNT_CODE_NOT_FOUND": "Rabatt-/Promo-Code nicht gültig",
+  "PAYMENT_AND_SHIPPING_INFORMATION_CUSTOMER": "Zahlungs- und Versandinformationen"
 }

@@ -1,10 +1,101 @@
-<div>
-  <span class="payment-instruction-text">
-    {{ this.res('PAYMENT_INSTRUCTION_TEXT') }}
-  </span>
+<div class="col1">
+  @for (item of cart()?.cartItems ?? []; track item.productId) {
+    <div class="cart-item">
+      <div class="cart-item-name-and-quantity">
+        <span class="cart-item-name">{{ item.product.name }}</span> ×
+        {{ item.amount }}
+      </div>
+      <div class="cart-item-price">
+        {{ (item.product.price ?? 0) * item.amount | currency }}
+      </div>
+    </div>
+  }
+  <hr class="divider" />
+  <!-- consider adding info on the promo code/discount when implemented -->
+  <div class="cart-sum">
+    {{ totalPriceCart() | currency }}
+  </div>
+  <br />
+  <div class="address-summary">
+    <div class="address-summary-header">
+      {{ this.res('PAYMENT_AND_SHIPPING_INFORMATION_CUSTOMER') }}
+    </div>
+    <div class="address-summary-item">
+      {{
+        this.shipmentService.getFormControlFromShipmentFormGroup('firstName')
+          ?.value
+      }}
+      {{
+        this.shipmentService.getFormControlFromShipmentFormGroup('lastName')
+          ?.value
+      }}
+    </div>
+    @if (
+      this.shipmentService.getFormControlFromShipmentFormGroup('companyName')
+        ?.value
+    ) {
+      <div class="address-summary-item">
+        {{
+          this.shipmentService.getFormControlFromShipmentFormGroup(
+            'companyName'
+          )?.value
+        }}
+      </div>
+    }
+    <div class="address-summary-item">
+      {{
+        this.shipmentService.getFormControlFromShipmentFormGroup('email')?.value
+      }}
+      {{
+        this.shipmentService.getFormControlFromShipmentFormGroup('phone')?.value
+      }}
+    </div>
+    <div class="address-summary-item">
+      {{
+        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
+          'street'
+        )?.value
+      }}
+      {{
+        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
+          'number'
+        )?.value
+      }}
+      {{
+        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
+          'addition'
+        )?.value
+      }}
+    </div>
+    <div class="address-summary-item">
+      {{
+        this.shipmentService.getFormControlFromShipmentFormGroup('zip')?.value
+      }}
+      {{
+        this.shipmentService.getFormControlFromAddressShipmentFormGroup('city')
+          ?.value
+      }}
+      {{
+        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
+          'country'
+        )?.value
+      }}
+    </div>
+  </div>
 </div>
-<app-button
-  [label]="this.res('BUTTON_PAY_NOW_WITH_STRIPE')"
-  (click)="checkout()"
-  class="payment-button"
-/>
+
+<div class="col2">
+  <div class="payment-instruction-text">
+    {{ this.res('PAYMENT_INSTRUCTION_TEXT') }}
+  </div>
+  <div class="payment-badges">
+    @for (text of paymentBadgesTextList(); track $index) {
+      <app-text-badge class="badge">{{ text }}</app-text-badge>
+    }
+  </div>
+  <app-button
+    [label]="this.res('BUTTON_PAY_NOW_WITH_STRIPE')"
+    (click)="checkout()"
+    class="payment-button"
+  />
+</div>
