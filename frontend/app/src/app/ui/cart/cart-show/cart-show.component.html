@@ -11,9 +11,12 @@
   }
 </div>
 <div>
-  <form [formGroup]="discountCodeFormGroup" (ngSubmit)="onSubmit()">
+  <form
+    [formGroup]="checkoutService.getDiscountCodeFormGroup()"
+    (ngSubmit)="onSubmit()"
+  >
     <app-form-section
-      [control]="discountCodeFormGroup.controls.code"
+      [control]="discountCodeCodeFormControl"
       [labelResource]="'FORM_ROW_LABEL_DISCOUNT_CODE'"
       [type]="'text'"
       [id]="'discount-code-form-section'"

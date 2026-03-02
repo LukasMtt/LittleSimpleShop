@@ -1,0 +1,9 @@
+@if (showSnackbar()) {
+  <div
+    class="snackbar-container"
+    animate.enter="snackbar-enter-animation"
+    animate.leave="snackbar-leave-animation"
+  >
+    {{ textSnackbar() }}
+  </div>
+}

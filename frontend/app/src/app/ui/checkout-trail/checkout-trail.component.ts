@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BreadcrumbCheckoutComponent } from '../shared/breadcrumb-checkout/breadcrumb-checkout.component';
-import { ShipmentService } from '../../services/shipment.service';
+import { CheckoutService } from '../../services/checkout.service';
 import { FormGroup } from '@angular/forms';
 import { UrlHelper } from '../../misc/url.helper';
 
 @Component({
-    selector: 'app-checkout-trail',
-    imports: [RouterModule, BreadcrumbCheckoutComponent],
-    templateUrl: './checkout-trail.component.html',
-    styleUrl: './checkout-trail.component.css'
+  selector: 'app-checkout-trail',
+  imports: [RouterModule, BreadcrumbCheckoutComponent],
+  templateUrl: './checkout-trail.component.html',
+  styleUrl: './checkout-trail.component.css'
 })
 export class CheckoutTrailComponent implements OnInit {
   currentStep: number = 0;
@@ -31,15 +31,15 @@ export class CheckoutTrailComponent implements OnInit {
       stepDisplayValue: 'BREADCRUMB_PAYMENT',
       subRoute: 'payment',
       position: 2,
-      makeStepAccessible: this.shipmentService.getShipmentFormGroup().valid
+      makeStepAccessible: this.checkoutService.getShipmentFormGroup().valid
     }
   ];
 
   constructor(
     private router: Router,
-    private shipmentService: ShipmentService
+    private checkoutService: CheckoutService
   ) {
-    this.shipmentFormGroup = this.shipmentService.getShipmentFormGroup();
+    this.shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
     this.shipmentFormGroup.valueChanges.subscribe(() => {
       let shippingStep = this.steps.find((x) => x.subRoute === 'payment');
       if (shippingStep) {

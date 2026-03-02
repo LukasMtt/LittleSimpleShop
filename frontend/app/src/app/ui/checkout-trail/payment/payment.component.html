@@ -99,3 +99,7 @@
     class="payment-button"
   />
 </div>
+<app-snackbar
+  [triggerSnackbar]="triggerSnackbar()"
+  [textSnackbar]="this.res('CHECKOUT_DATA_NOT_VALID_WARNING')"
+></app-snackbar>

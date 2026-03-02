@@ -7,7 +7,7 @@ import {
   EndpointItem,
   EndpointResolveService
 } from './endpoint.resolve.service';
-import { CartService } from './cart.service';
+import { CheckoutService } from './checkout.service';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentStripeService {
@@ -15,21 +15,37 @@ export class PaymentStripeService {
 
   constructor(
     private httpClient: HttpClient,
-    appConfigService: AppConfigService,
     private endpointResolveService: EndpointResolveService,
-    private cartService: CartService
+    private checkoutService: CheckoutService,
+    appConfigService: AppConfigService
   ) {
     this.stripePromise = loadStripe(
       appConfigService.getConfigProperty('stripePublicKey')
     );
   }
 
+  //todo hier ansetzen: code rein und natürlich adresse, dazu backend model anpassen
   public async checkout() {
-    const cartModel = {
-      cartItems: this.cartService.cartReadonly().cartItems.map((x) => ({
-        productId: x.product?.id ?? 0,
-        count: x.amount
-      }))
+    const discountCodeFormGroup =
+      this.checkoutService.getDiscountCodeFormGroup();
+    const shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
+    const checkoutModel = {
+      firstName: shipmentFormGroup.get('firstName')?.value,
+      lastName: shipmentFormGroup.get('lastName')?.value,
+      companyName: shipmentFormGroup.get('companyName')?.value,
+      email: shipmentFormGroup.get('email')?.value,
+      isNewsletterActivated: shipmentFormGroup.get('isNewsletterActivated')
+        ?.value,
+      phone: shipmentFormGroup.get('phone')?.value,
+      discountCode: discountCodeFormGroup.get('code')?.value,
+      address: {
+        street: shipmentFormGroup.get('address.street')?.value,
+        number: shipmentFormGroup.get('address.number')?.value,
+        addition: shipmentFormGroup.get('address.addition')?.value,
+        city: shipmentFormGroup.get('address.city')?.value,
+        country: shipmentFormGroup.get('address.country')?.value,
+        zip: shipmentFormGroup.get('address.zip')?.value
+      }
     };
     const session: any = await lastValueFrom(
       this.httpClient.post(
@@ -37,7 +53,7 @@ export class PaymentStripeService {
           EndpointItem.CreateCheckoutSession,
           []
         ),
-        cartModel
+        checkoutModel
       )
     );
 

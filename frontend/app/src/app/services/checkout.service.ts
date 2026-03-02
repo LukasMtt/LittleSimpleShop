@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
-export class ShipmentService {
+export class CheckoutService {
   private shipmentFormGroup = new FormGroup({
     firstName: new FormControl<string>('', Validators.required),
     lastName: new FormControl<string>('', Validators.required),
@@ -21,9 +21,20 @@ export class ShipmentService {
       zip: new FormControl<string>('', Validators.required)
     })
   });
+  private discountCodeFormGroup = new FormGroup({
+    code: new FormControl('', [])
+  });
 
   public getShipmentFormGroup(): FormGroup {
     return this.shipmentFormGroup;
+  }
+
+  public getDiscountCodeFormGroup(): FormGroup {
+    return this.discountCodeFormGroup;
+  }
+
+  public getDiscountCodeCodeFormControl(): FormControl {
+    return this.discountCodeFormGroup.get('code') as FormControl;
   }
 
   public getAddressFormGroupFromShipmentFormGroup(): FormGroup {

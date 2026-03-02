@@ -8,9 +8,10 @@ import { CurrencyPipe } from '@angular/common';
 import { ShippingService } from '../../../services/shipping.service';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { FormSectionComponent } from '../../shared/form-section/form-section.component';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { discountCodeValidator } from '../../../validators/discount-code.validator';
 import { forkJoin } from 'rxjs';
+import { CheckoutService } from '../../../services/checkout.service';
 
 @Component({
   selector: 'app-cart-show',
@@ -42,17 +43,18 @@ export class CartShowComponent extends BaseComponent {
   });
   bottomBadgesTextList = signal<string[]>([]);
 
-  discountCodeFormGroup = new FormGroup({
-    code: new FormControl('', [])
-  });
+  public discountCodeCodeFormControl: FormControl;
 
   constructor(
     public cartService: CartService,
+    public checkoutService: CheckoutService,
     metaDataService: MetadataService,
     shippingService: ShippingService,
     currencyPipe: CurrencyPipe
   ) {
     super();
+    this.discountCodeCodeFormControl =
+      this.checkoutService.getDiscountCodeCodeFormControl();
 
     forkJoin([
       metaDataService.getMetadata(),
@@ -82,15 +84,15 @@ export class CartShowComponent extends BaseComponent {
 
   public onSubmit() {
     let dynamicDiscountCodeValidator = discountCodeValidator();
-    this.discountCodeFormGroup.controls.code.addValidators(
+    this.discountCodeCodeFormControl.addValidators(
       dynamicDiscountCodeValidator
     );
-    this.discountCodeFormGroup.controls.code.updateValueAndValidity();
+    this.discountCodeCodeFormControl.updateValueAndValidity();
 
-    this.discountCodeFormGroup.controls.code.markAsTouched();
-    this.discountCodeFormGroup.controls.code.markAsDirty();
+    this.discountCodeCodeFormControl.markAsTouched();
+    this.discountCodeCodeFormControl.markAsDirty();
 
-    this.discountCodeFormGroup.controls.code.removeValidators(
+    this.discountCodeCodeFormControl.removeValidators(
       dynamicDiscountCodeValidator
     );
   }

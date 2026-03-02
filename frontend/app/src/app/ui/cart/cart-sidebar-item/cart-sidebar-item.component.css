@@ -74,6 +74,6 @@
 
 .delete-icon:hover {
   cursor: pointer;
-  color: orange;
+  color: var(--warning-color);
   opacity: 0.5;
 }

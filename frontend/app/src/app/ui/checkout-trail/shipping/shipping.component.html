@@ -6,7 +6,7 @@
   <div class="row">
     <app-form-section
       [control]="
-        shipmentService.getFormControlFromShipmentFormGroup('firstName')
+        checkoutService.getFormControlFromShipmentFormGroup('firstName')
       "
       [labelResource]="'FORM_ROW_LABEL_FIRST_NAME'"
       [validationFailResourcesMap]="[
@@ -20,7 +20,7 @@
 
     <app-form-section
       [control]="
-        shipmentService.getFormControlFromShipmentFormGroup('lastName')
+        checkoutService.getFormControlFromShipmentFormGroup('lastName')
       "
       [labelResource]="'FORM_ROW_LABEL_LAST_NAME'"
       [validationFailResourcesMap]="[
@@ -35,7 +35,7 @@
 
   <app-form-section
     [control]="
-      shipmentService.getFormControlFromShipmentFormGroup('companyName')
+      checkoutService.getFormControlFromShipmentFormGroup('companyName')
     "
     [labelResource]="'FORM_ROW_LABEL_COMPANY_NAME'"
     [type]="'text'"
@@ -44,7 +44,7 @@
   ></app-form-section>
 
   <app-form-section
-    [control]="shipmentService.getFormControlFromShipmentFormGroup('email')"
+    [control]="checkoutService.getFormControlFromShipmentFormGroup('email')"
     [labelResource]="'FORM_ROW_LABEL_EMAIL'"
     [validationFailResourcesMap]="[
       { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' },
@@ -57,7 +57,7 @@
 
   <app-form-section
     [control]="
-      shipmentService.getFormControlFromShipmentFormGroup(
+      checkoutService.getFormControlFromShipmentFormGroup(
         'isNewsletterActivated'
       )
     "
@@ -68,7 +68,7 @@
   ></app-form-section>
 
   <app-form-section
-    [control]="shipmentService.getFormControlFromShipmentFormGroup('phone')"
+    [control]="checkoutService.getFormControlFromShipmentFormGroup('phone')"
     [labelResource]="'FORM_ROW_LABEL_PHONE'"
     [type]="'text'"
     [id]="'phone'"
@@ -84,7 +84,7 @@
   <div class="row">
     <app-form-section
       [control]="
-        shipmentService.getFormControlFromAddressShipmentFormGroup('street')
+        checkoutService.getFormControlFromAddressShipmentFormGroup('street')
       "
       [labelResource]="'FORM_ROW_LABEL_STREET'"
       [validationFailResourcesMap]="[
@@ -98,7 +98,7 @@
 
     <app-form-section
       [control]="
-        shipmentService.getFormControlFromAddressShipmentFormGroup('number')
+        checkoutService.getFormControlFromAddressShipmentFormGroup('number')
       "
       [labelResource]="'FORM_ROW_LABEL_NUMBER'"
       [validationFailResourcesMap]="[
@@ -113,7 +113,7 @@
 
   <app-form-section
     [control]="
-      shipmentService.getFormControlFromAddressShipmentFormGroup('addition')
+      checkoutService.getFormControlFromAddressShipmentFormGroup('addition')
     "
     [labelResource]="'FORM_ROW_LABEL_ADDITION'"
     [type]="'text'"
@@ -124,7 +124,7 @@
   <div class="row">
     <app-form-section
       [control]="
-        shipmentService.getFormControlFromAddressShipmentFormGroup('zip')
+        checkoutService.getFormControlFromAddressShipmentFormGroup('zip')
       "
       [labelResource]="'FORM_ROW_LABEL_ZIP'"
       [validationFailResourcesMap]="[
@@ -138,7 +138,7 @@
 
     <app-form-section
       [control]="
-        shipmentService.getFormControlFromAddressShipmentFormGroup('city')
+        checkoutService.getFormControlFromAddressShipmentFormGroup('city')
       "
       [labelResource]="'FORM_ROW_LABEL_CITY'"
       [validationFailResourcesMap]="[
@@ -153,7 +153,7 @@
 
   <app-form-section
     [control]="
-      shipmentService.getFormControlFromAddressShipmentFormGroup('country')
+      checkoutService.getFormControlFromAddressShipmentFormGroup('country')
     "
     [labelResource]="'FORM_ROW_LABEL_COUNTRY'"
     [validationFailResourcesMap]="[

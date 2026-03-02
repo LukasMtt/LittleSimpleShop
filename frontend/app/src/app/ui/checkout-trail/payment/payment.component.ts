@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { BaseComponent } from '../../shared/base.component';
 import { PaymentStripeService } from '../../../services/payment.stripe.service';
-import { ShipmentService } from '../../../services/shipment.service';
+import { CheckoutService } from '../../../services/checkout.service';
 import { FormGroup } from '@angular/forms';
 import { CartService } from '../../../services/cart.service';
 import { CartModel } from '../../../models/component/cart.model';
@@ -11,10 +11,16 @@ import { TextBadgeComponent } from '../../shared/text-badge/text-badge.component
 import { MetadataService } from '../../../services/metadata.service';
 import { ShippingService } from '../../../services/shipping.service';
 import { forkJoin } from 'rxjs';
+import { SnackbarComponent } from '../../shared/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-payment',
-  imports: [ButtonComponent, CurrencyPipe, TextBadgeComponent],
+  imports: [
+    ButtonComponent,
+    CurrencyPipe,
+    TextBadgeComponent,
+    SnackbarComponent
+  ],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.css'
 })
@@ -28,11 +34,12 @@ export class PaymentComponent extends BaseComponent {
     return 'invalid sum';
   });
   paymentBadgesTextList = signal<string[]>([]);
+  triggerSnackbar = signal<boolean | undefined>(undefined);
 
   private shipmentFormGroup: FormGroup;
 
   constructor(
-    public shipmentService: ShipmentService,
+    public shipmentService: CheckoutService,
     private paymentStripeService: PaymentStripeService,
     private cartService: CartService,
     metaDataService: MetadataService,
@@ -65,9 +72,17 @@ export class PaymentComponent extends BaseComponent {
 
   public checkout() {
     if (!this.shipmentFormGroup.valid) {
-      console.log('Shipment form is not valid.');
+      this.toggleTriggerSnackbar();
       return;
     }
     this.paymentStripeService.checkout();
+  }
+
+  private toggleTriggerSnackbar() {
+    if (this.triggerSnackbar() !== undefined) {
+      this.triggerSnackbar.update((value) => !value);
+    } else {
+      this.triggerSnackbar.set(true);
+    }
   }
 }
