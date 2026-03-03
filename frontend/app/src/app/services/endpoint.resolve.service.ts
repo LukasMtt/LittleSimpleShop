@@ -37,7 +37,7 @@ export enum EndpointItem {
   PushCartItem = 'pushCartItem',
   PopCartItemByProductId = 'popCartItemByProductId',
   UpdateCartItemAmountByProductId = 'updateCartItemAmountByProductId',
-  DeleteCart = 'deleteCart'
+  AchieveCart = 'achieveCart'
 }
 
 @Injectable({
@@ -147,9 +147,9 @@ export class EndpointResolveService {
     parent: this.cart,
     item: EndpointItem.UpdateCartItemAmountByProductId
   };
-  deleteCart: EndpointNode = {
+  achieveCart: EndpointNode = {
     parent: this.cart,
-    item: EndpointItem.DeleteCart
+    item: EndpointItem.AchieveCart
   };
 
   leafList: EndpointNode[] = [
@@ -174,7 +174,7 @@ export class EndpointResolveService {
     this.pushCartItem,
     this.popCartItemByProductId,
     this.updateCartItemAmountByProductId,
-    this.deleteCart
+    this.achieveCart
   ];
 
   apiBaseEndpointUrl = '';

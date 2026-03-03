@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe } from '@stripe/stripe-js';
 import { AppConfigService } from './app.config.service';
-import { lastValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   EndpointItem,
   EndpointResolveService
@@ -24,8 +24,7 @@ export class PaymentStripeService {
     );
   }
 
-  //todo hier ansetzen: code rein und natürlich adresse, dazu backend model anpassen
-  public async checkout() {
+  public getCheckoutSessionObservable(): Observable<any> {
     const discountCodeFormGroup =
       this.checkoutService.getDiscountCodeFormGroup();
     const shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
@@ -47,20 +46,20 @@ export class PaymentStripeService {
         zip: shipmentFormGroup.get('address.zip')?.value
       }
     };
-    const session: any = await lastValueFrom(
-      this.httpClient.post(
-        this.endpointResolveService.buildUrl(
-          EndpointItem.CreateCheckoutSession,
-          []
-        ),
-        checkoutModel
-      )
+    return this.httpClient.post<string>(
+      this.endpointResolveService.buildUrl(
+        EndpointItem.CreateCheckoutSession,
+        []
+      ),
+      checkoutModel
     );
+  }
 
+  public async checkout(sessionId: string) {
     const stripe = await this.stripePromise;
     if (stripe) {
       const { error } = await stripe.redirectToCheckout({
-        sessionId: session.id
+        sessionId: sessionId
       });
       if (error) {
         console.error('Stripe checkout error:', error.message);

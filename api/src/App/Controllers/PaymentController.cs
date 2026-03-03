@@ -17,14 +17,12 @@ public class PaymentController : ShopBaseController
     private StripePaymentService _stripePaymentService;
     private OrderService _orderService;
     private ShopDbContext _context;
-    private CartService _cartService;
 
-    public PaymentController(StripePaymentService stripePaymentService, OrderService orderService, ShopDbContext context, CartService cartService, IFileStorageService fileStorageService) : base(fileStorageService)
+    public PaymentController(StripePaymentService stripePaymentService, OrderService orderService, ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService)
     {
         _stripePaymentService = stripePaymentService;
         _orderService = orderService;
         _context = context;
-        _cartService = cartService;
     }
 
     [HttpPost]

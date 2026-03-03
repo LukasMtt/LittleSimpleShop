@@ -35,6 +35,7 @@ export class PaymentComponent extends BaseComponent {
   });
   paymentBadgesTextList = signal<string[]>([]);
   triggerSnackbar = signal<boolean | undefined>(undefined);
+  textSnackbar = signal<string>('');
 
   private shipmentFormGroup: FormGroup;
 
@@ -72,10 +73,19 @@ export class PaymentComponent extends BaseComponent {
 
   public checkout() {
     if (!this.shipmentFormGroup.valid) {
+      this.textSnackbar.set(this.res('CHECKOUT_DATA_NOT_VALID_WARNING'));
       this.toggleTriggerSnackbar();
       return;
     }
-    this.paymentStripeService.checkout();
+    this.paymentStripeService.getCheckoutSessionObservable().subscribe({
+      next: (obj) => {
+        this.paymentStripeService.checkout(obj.id);
+      },
+      error: (err) => {
+        this.textSnackbar.set(this.res('CHECKOUT_PROCESS_FAILED_WARNING'));
+        this.toggleTriggerSnackbar();
+      }
+    });
   }
 
   private toggleTriggerSnackbar() {

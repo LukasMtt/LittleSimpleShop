@@ -56,5 +56,6 @@
   "FORM_ROW_LABEL_DISCOUNT_CODE": "Rabatt-/Promo-Code",
   "VALIDATION_DISCOUNT_CODE_NOT_FOUND": "Rabatt-/Promo-Code nicht gültig",
   "PAYMENT_AND_SHIPPING_INFORMATION_CUSTOMER": "Zahlungs- und Versandinformationen",
-  "CHECKOUT_DATA_NOT_VALID_WARNING": "Die angegebenen Daten sind ungültig oder fehlen. Bitte überprüfen Sie Address- und sonstige Angaben."
+  "CHECKOUT_DATA_NOT_VALID_WARNING": "Die angegebenen Daten sind ungültig oder fehlen. Bitte überprüfen Sie Address- und Versandangaben.",
+  "CHECKOUT_PROCESS_FAILED_WARNING": "Der Bezahlprozess ist fehlgeschlagen. Prüfen Sie die Inhalte des Warenkorbs und Ihre Versandangaben."
 }

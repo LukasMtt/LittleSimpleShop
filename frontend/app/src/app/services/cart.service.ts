@@ -155,12 +155,12 @@ export class CartService {
 
   public resetCart() {
     this.httpClient
-      .delete<number>(
-        this.endpointResolveService.buildUrl(EndpointItem.DeleteCart, []),
+      .get<number>(
+        this.endpointResolveService.buildUrl(EndpointItem.AchieveCart, []),
         { withCredentials: true }
       )
-      .subscribe((successful) => {
-        if (successful) {
+      .subscribe((count) => {
+        if (count && count > 0) {
           this.cart.set({ cartItems: [] });
           this.cookieService.delete('CartToken');
         }

@@ -157,4 +157,23 @@ public class CartController : ShopBaseController
         existingCartItem.Amount = amount;
         return _context.SaveChanges();
     }
+
+    [HttpGet]
+    public int AchieveCart()
+    {
+        var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
+        if (string.IsNullOrEmpty(cartToken))
+        {
+            Serilog.Log.Information("No cart token found in cookies.");
+            return 0;
+        }
+
+        var cart = _context.Cart.FirstOrDefault(c => c.CartToken == cartToken);
+        if (cart == null)
+        {
+            return 0;
+        }
+        cart.State = CartLifecycleState.Archived;
+        return _context.SaveChanges();
+    }
 }
