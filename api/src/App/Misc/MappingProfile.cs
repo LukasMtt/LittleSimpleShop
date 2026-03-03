@@ -14,5 +14,7 @@ public class MappingProfile : Profile
         CreateMap<Metadata, MetadataModel>().ReverseMap();
         CreateMap<CartItem, CartItemModel>().ReverseMap();
         CreateMap<Cart, CartModel>().ReverseMap();
+        CreateMap<CheckoutModel, ShipmentTarget>().ReverseMap();
+        CreateMap<CheckoutAddressModel, ShipmentAddress>().ReverseMap();
     }
 }

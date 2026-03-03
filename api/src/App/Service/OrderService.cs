@@ -1,5 +1,9 @@
 using App.Misc;
 
+using AutoMapper;
+
+using EntityFramework.Exceptions.Common;
+
 using Shop.ApiModels;
 using Shop.Data;
 using Shop.Data.DataModels;
@@ -9,30 +13,72 @@ namespace Shop.Service;
 public class OrderService
 {
     private ShopDbContext _context;
+    private IMapper _mapper;
 
-    public OrderService(ShopDbContext context)
+    public OrderService(ShopDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public async Task<ServiceResult<long?>> CreateAndSaveOrder(CartModel model)
+    public async Task<ServiceResult<Order?>> CreateAndSaveOrder(CheckoutModel model, Cart cart)
     {
-        var order = new Order
+        try
         {
-            OrderDate = DateTime.UtcNow
-        };
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            var shipmentTarget = _mapper.Map<ShipmentTarget>(model);
 
-        order.OrderProducts = model.CartItems?.Select(item => new OrderProduct
+            var order = new Order
+            {
+                OrderDate = DateTime.UtcNow,
+                DiscountCode = model.DiscountCode,
+                OrderToken = CreateOrderToken(),
+                Cart = cart,
+                ShipmentTarget = shipmentTarget,
+                State = OrderState.Initializing
+            };
+
+            foreach (var cartItem in cart.CartItems)
+            {
+                var product = _context.Product.Find(cartItem.ProductId);
+                if (product == null)
+                {
+                    Serilog.Log.Warning("Failed to create order due to non existent product");
+                    return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+                }
+                product.AmountInStock = product.AmountInStock - cartItem.Amount;
+                order.OrderProducts.Add(new OrderProduct
+                {
+                    Product = product,
+                    Quantity = cartItem.Amount,
+                    Order = order
+                });
+            }
+
+            _context.Order.Add(order);
+
+            await transaction.CommitAsync();
+            return await _context.SaveChangesAsync() > 0
+                ? new ServiceResult<Order?> { IsSuccess = true, ResultData = order }
+                : new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+        }
+        // ugly, better implementation needed
+        catch (ReferenceConstraintException referenceConstraintException) when (referenceConstraintException?.InnerException?.Message.Contains("CHECK") ?? false)
         {
-            Product = _context.Product.Find(item.ProductId)!,
-            Quantity = item.Amount,
-            Order = order
-        }).ToList() ?? new List<OrderProduct>();
+            Serilog.Log.Error("Product could not be added to order since the amount in stock dropped to zero.");
+            return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+        }
+        catch (Exception)
+        {
+            Serilog.Log.Error("Could not instantiate order");
+            return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+        }
 
-        _context.Order.Add(order);
+    }
 
-        return await _context.SaveChangesAsync() > 0
-            ? new ServiceResult<long?> { IsSuccess = true, ResultData = order.Id }
-            : new ServiceResult<long?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+    public string CreateOrderToken()
+    {
+        var timePortion = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
+        return $"{Guid.NewGuid()}-{timePortion}";
     }
 }

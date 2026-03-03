@@ -18,8 +18,6 @@ public class CartController : ShopBaseController
     private CartService _cartService;
     private IWebHostEnvironment _webHostEnvironment;
 
-    private const string CartTokenCookieName = "CartToken";
-
     public CartController(IMapper mapper, ShopDbContext context, IFileStorageService fileStorageService, CartService cartService, IWebHostEnvironment webHostEnvironment) : base(fileStorageService)
     {
         _mapper = mapper;
@@ -54,7 +52,8 @@ public class CartController : ShopBaseController
         cartToken = _cartService.CreateCartToken();
         var cart = new Cart
         {
-            CartToken = cartToken
+            CartToken = cartToken,
+            State = CartLifecycleState.Active
         };
 
         _context.Cart.Add(cart);
@@ -157,25 +156,5 @@ public class CartController : ShopBaseController
 
         existingCartItem.Amount = amount;
         return _context.SaveChanges();
-    }
-
-    [HttpDelete]
-    public bool DeleteCart()
-    {
-        var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
-        if (string.IsNullOrEmpty(cartToken))
-        {
-            Serilog.Log.Information("No cart token found in cookies.");
-            return false;
-        }
-
-        var cart = _context.Cart.FirstOrDefault(c => c.CartToken == cartToken);
-        if (cart == null)
-        {
-            return false;
-        }
-
-        _context.Cart.Remove(cart);
-        return _context.SaveChanges() > 0;
     }
 }

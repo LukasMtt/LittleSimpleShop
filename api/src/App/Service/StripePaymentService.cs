@@ -3,8 +3,8 @@ using Microsoft.Extensions.Primitives;
 
 using Serilog;
 
-using Shop.ApiModels;
 using Shop.Data;
+using Shop.Data.DataModels;
 using Shop.Misc;
 
 using Stripe;
@@ -12,6 +12,7 @@ using Stripe.Checkout;
 
 namespace Shop.Service;
 
+// full power of stripe not used yet (states and various payment methods details) - implement for prod use cases and harden process with more in-depth knowledge of payment flow in stripe
 public class StripePaymentService
 {
     private IOptions<AppOptions> _appOptions;
@@ -28,17 +29,19 @@ public class StripePaymentService
         StripeConfiguration.ApiKey = _appOptions.Value.StripePrivateKey;
     }
 
-    public async Task<Session> CreateCheckoutSession(CartModel model, long orderId)
+    public async Task<Session> CreateCheckoutSession(Cart cart, Order order)
     {
         var frontendBaseUrl = _appOptions.Value.FrontendBaseUrl;
 
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = _allowedPaymentMethods,
-            LineItems = ConvertCheckoutCartItems(model),
+            LineItems = ConvertCheckoutCartItems(cart),
+            // entry point to map a discount code to stripe payment process - has to be created within stripe to map the code to value
+            // Discounts = new List<SessionDiscountOptions>(),
             Metadata = new Dictionary<string, string>
             {
-                { "InternalOrderId",  orderId.ToString() }
+                { "OrderToken",  order?.OrderToken ?? "" }
             },
             Mode = "payment",
             SuccessUrl = FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl!),
@@ -60,7 +63,7 @@ public class StripePaymentService
                 case EventTypes.CheckoutSessionCompleted:
                     var session = stripeEvent.Data.Object as Session;
                     Log.Information("Checkout session completed: {0}", session!.Id);
-                    HandleCheckoutSessionCompletedEvent(session);
+                    HandleCheckoutSessionCompleted(session);
                     break;
             }
             return true;
@@ -72,17 +75,23 @@ public class StripePaymentService
         }
     }
 
-    private void HandleCheckoutSessionCompletedEvent(Session session)
+    private void HandleCheckoutSessionCompleted(Session session)
     {
+        // if (!await _cartService.ArchiveCart(cart))
+        // {
+        //     return Problem("Checkout did not succeed.", statusCode: 500);
+        // }
         //todo send mail with: link to sub site that tracks your order etc
-        //todo update order status 
+        //todo update order status to "preparing" zu Beginn
         //todo create document
+        //todo hier vlt schon einen Schritt weiter mit order status zu "processing"
     }
 
-    private List<SessionLineItemOptions> ConvertCheckoutCartItems(CartModel model)
+    private List<SessionLineItemOptions> ConvertCheckoutCartItems(Cart cart)
     {
         var lineItems = new List<SessionLineItemOptions>();
-        foreach (var item in model.CartItems)
+
+        foreach (var item in cart.CartItems)
         {
             var product = _context.Product.FirstOrDefault(x => x.Id == item.ProductId);
             if (product != null)

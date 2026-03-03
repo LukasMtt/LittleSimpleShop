@@ -1,3 +1,5 @@
+using EntityFramework.Exceptions.SqlServer;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -16,6 +18,7 @@ public class ShopDbContext : DbContext
     public DbSet<OrderProduct> OrderProduct { get; set; }
     public DbSet<Metadata> Metadata { get; set; }
     public DbSet<Cart> Cart { get; set; }
+    public DbSet<CartItem> CartItem { get; set; }
 
     private IOptions<AppOptions> _options;
 
@@ -27,11 +30,13 @@ public class ShopDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(_options.Value.ConnectionString);
+        optionsBuilder.UseExceptionProcessor();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Product>().HasQueryFilter(p => p.LifecycleState != ProductLifecycleState.Archived);
+        modelBuilder.Entity<Cart>().HasQueryFilter(p => p.State != CartLifecycleState.Archived);
     }
 }

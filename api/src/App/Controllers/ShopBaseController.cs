@@ -8,6 +8,8 @@ public abstract class ShopBaseController : ControllerBase
 {
     private readonly IFileStorageService _fileStorageService;
 
+    protected readonly string CartTokenCookieName = "CartToken";
+
     public ShopBaseController(IFileStorageService fileStorageService)
     {
         _fileStorageService = fileStorageService;
