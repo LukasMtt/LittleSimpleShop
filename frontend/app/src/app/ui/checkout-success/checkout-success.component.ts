@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { BaseComponent } from '../shared/base.component';
 import { MetadataService } from '../../services/metadata.service';
 import { CartService } from '../../services/cart.service';
@@ -22,7 +22,12 @@ export class CheckoutSuccessComponent extends BaseComponent {
     cartService: CartService
   ) {
     super();
-    cartService.resetCart();
+
+    effect(() => {
+      if (cartService.cartInitialized()) {
+        cartService.resetCart();
+      }
+    });
     this.activatedRoute.params.subscribe((params) => {
       this.orderToken.set(params['orderToken']);
     });

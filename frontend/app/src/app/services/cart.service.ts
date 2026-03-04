@@ -16,6 +16,7 @@ export class CartService {
   private cart = signal<CartModel>({ cartItems: [] });
 
   cartReadonly = this.cart.asReadonly();
+  cartInitialized = signal<boolean>(false);
 
   constructor(
     private productService: ProductService,
@@ -25,58 +26,68 @@ export class CartService {
   ) {
     const cartToken = this.cookieService.get('CartToken');
     if (cartToken) {
-      this.httpClient
-        .get<
-          CartModel | undefined
-        >(this.endpointResolveService.buildUrl(EndpointItem.GetCart, []), { withCredentials: true })
-        .subscribe((cart) => {
-          if (cart) {
-            this.productService
-              .getProductsByIds(
-                cart.cartItems.map((x) => x.productId).filter((x) => x)
-              )
-              .subscribe((products) => {
-                const cartItems: CartItemModel[] = [];
-                products.forEach((product) => {
-                  const amount = cart.cartItems.find(
-                    (x) => x.productId == product.id
-                  )?.amount;
-                  if (product && amount) {
-                    const mainProductImage = product.images[0];
-                    cartItems.push({
-                      productId: product.id,
-                      product: {
-                        id: product.id,
-                        name: product.name,
-                        price: product.price,
-                        image: {
-                          id: mainProductImage.id,
-                          fileId: mainProductImage.fileId,
-                          productId: mainProductImage.productId,
-                          fileContent: { dataUrl: '' }
-                        }
-                      },
-                      amount: amount
-                    });
-                  }
-                });
-                this.cart.set({ cartItems: cartItems });
-              });
-          }
-        });
+      this.getAndSetCart();
     } else {
-      this.httpClient
-        .post<boolean>(
-          this.endpointResolveService.buildUrl(EndpointItem.CreateCart, []),
-          {},
-          { withCredentials: true }
-        )
-        .subscribe((successful) => {
-          if (successful) {
-            this.cart.set({ cartItems: [] });
-          }
-        });
+      this.createAndSetCart();
     }
+  }
+
+  public getAndSetCart() {
+    this.httpClient
+      .get<
+        CartModel | undefined
+      >(this.endpointResolveService.buildUrl(EndpointItem.GetCart, []), { withCredentials: true })
+      .subscribe((cart) => {
+        if (cart) {
+          this.productService
+            .getProductsByIds(
+              cart.cartItems.map((x) => x.productId).filter((x) => x)
+            )
+            .subscribe((products) => {
+              const cartItems: CartItemModel[] = [];
+              products.forEach((product) => {
+                const amount = cart.cartItems.find(
+                  (x) => x.productId == product.id
+                )?.amount;
+                if (product && amount) {
+                  const mainProductImage = product.images[0];
+                  cartItems.push({
+                    productId: product.id,
+                    product: {
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      image: {
+                        id: mainProductImage.id,
+                        fileId: mainProductImage.fileId,
+                        productId: mainProductImage.productId,
+                        fileContent: { dataUrl: '' }
+                      }
+                    },
+                    amount: amount
+                  });
+                }
+              });
+              this.cart.set({ cartItems: cartItems });
+              this.cartInitialized.set(true);
+            });
+        }
+      });
+  }
+
+  public createAndSetCart() {
+    this.httpClient
+      .post<boolean>(
+        this.endpointResolveService.buildUrl(EndpointItem.CreateCart, []),
+        {},
+        { withCredentials: true }
+      )
+      .subscribe((successful) => {
+        if (successful) {
+          this.cart.set({ cartItems: [] });
+          this.cartInitialized.set(true);
+        }
+      });
   }
 
   public pushCartItem(item: CartItemModel) {
@@ -162,7 +173,8 @@ export class CartService {
       .subscribe((count) => {
         if (count && count > 0) {
           this.cart.set({ cartItems: [] });
-          this.cookieService.delete('CartToken');
+          this.cookieService.delete('CartToken', '/');
+          this.createAndSetCart();
         }
       });
   }
