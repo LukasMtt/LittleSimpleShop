@@ -15,6 +15,7 @@ export enum EndpointItem {
   PublicImage = 'publicImage/',
   Shipping = 'shipping/',
   Cart = 'cart/',
+  Order = 'order/',
 
   GetAllCustomCategories = 'getAllCustomCategories',
   GetAllProducts = 'getAllProducts',
@@ -37,7 +38,8 @@ export enum EndpointItem {
   PushCartItem = 'pushCartItem',
   PopCartItemByProductId = 'popCartItemByProductId',
   UpdateCartItemAmountByProductId = 'updateCartItemAmountByProductId',
-  AchieveCart = 'achieveCart'
+  AchieveCart = 'achieveCart',
+  GetOrderInformation = 'getOrderInformation'
 }
 
 @Injectable({
@@ -62,6 +64,7 @@ export class EndpointResolveService {
     item: EndpointItem.Shipping
   };
   cart: EndpointNode = { parent: this.shop, item: EndpointItem.Cart };
+  order: EndpointNode = { parent: this.shop, item: EndpointItem.Order };
 
   getAllCustomCategories: EndpointNode = {
     parent: this.category,
@@ -151,6 +154,10 @@ export class EndpointResolveService {
     parent: this.cart,
     item: EndpointItem.AchieveCart
   };
+  getOrderInformation: EndpointNode = {
+    parent: this.order,
+    item: EndpointItem.GetOrderInformation
+  };
 
   leafList: EndpointNode[] = [
     this.getAllCustomCategories,
@@ -174,7 +181,8 @@ export class EndpointResolveService {
     this.pushCartItem,
     this.popCartItemByProductId,
     this.updateCartItemAmountByProductId,
-    this.achieveCart
+    this.achieveCart,
+    this.getOrderInformation
   ];
 
   apiBaseEndpointUrl = '';

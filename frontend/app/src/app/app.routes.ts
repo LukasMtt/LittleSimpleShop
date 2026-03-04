@@ -11,6 +11,7 @@ import { CheckoutTrailComponent } from './ui/checkout-trail/checkout-trail.compo
 import { ShippingComponent } from './ui/checkout-trail/shipping/shipping.component';
 import { PaymentComponent } from './ui/checkout-trail/payment/payment.component';
 import { CheckoutSuccessComponent } from './ui/checkout-success/checkout-success.component';
+import { CheckOrderStateComponent } from './ui/check-order-state/check-order-state.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -29,7 +30,14 @@ export const routes: Routes = [
       { path: 'payment', component: PaymentComponent, outlet: 'checkout' }
     ]
   },
-  { path: 'checkout-success', component: CheckoutSuccessComponent },
+  {
+    path: 'checkout-success/:orderToken',
+    component: CheckoutSuccessComponent
+  },
+  {
+    path: 'check-order-state/:orderToken',
+    component: CheckOrderStateComponent
+  },
 
   {
     path: 'products/:categoryId/:categoryType',

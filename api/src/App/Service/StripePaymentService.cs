@@ -44,7 +44,7 @@ public class StripePaymentService
                 { "OrderToken",  order?.OrderToken ?? "" }
             },
             Mode = "payment",
-            SuccessUrl = FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl!),
+            SuccessUrl = $"{FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl!)}/{order?.OrderToken ?? ""}",
             CancelUrl = FrontendHelper.GetPaymentCancelUrl(frontendBaseUrl!),
         };
 

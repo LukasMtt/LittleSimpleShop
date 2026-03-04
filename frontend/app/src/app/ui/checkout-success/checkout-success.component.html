@@ -1,7 +1,5 @@
-<div>
-  <span class="checkout-success-text">
-    {{ this.res('CHECKOUT_SUCCESS_TEXT') }}
-  </span>
+<div class="checkout-success-text">
+  {{ this.res('CHECKOUT_SUCCESS_TEXT') }}
 </div>
 <div>
   <span class="checkout-success-contact bold-label">
@@ -17,4 +15,18 @@
   <span class="checkout-success-contact">
     {{ this.phone }}
   </span>
+</div>
+<div class="button-group">
+  <app-button
+    type="submit"
+    class="checkout-success-button"
+    [label]="this.res('FOLLOW_ORDER_STATE')"
+    [routerLink]="`/check-order-state/${orderToken()}`"
+  ></app-button>
+  <app-button
+    type="submit"
+    class="checkout-success-button"
+    [label]="this.res('GO_BACK_TO_SHOP_MAIN_PAGE')"
+    [routerLink]="''"
+  ></app-button>
 </div>

@@ -4,19 +4,32 @@
   gap: 1rem;
   margin-left: 1rem;
   margin-right: 1rem;
+  min-height: var(--custom-min-height);
+  padding-top: 1rem;
 }
 
 .checkout-success-text {
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   color: var(--secondary-color);
-  line-height: 0.15rem;
 }
 
 .checkout-success-contact {
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   color: var(--secondary-color);
 }
 
 .bold-label {
   font-weight: bold;
+}
+
+.checkout-success-button {
+  width: fit-content;
+  height: fit-content;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
 }

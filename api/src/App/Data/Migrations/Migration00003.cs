@@ -72,3 +72,18 @@ public class AddCartAndOrderProperties : Migration
     {
     }
 }
+
+[Migration(0000303)]
+public class AddOrderShippingRelatedProperties : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("Order")
+            .AddColumn("ShippingProviderOrderId").AsString().Nullable()
+            .AddColumn("ShippingProvider").AsInt32().Nullable();
+    }
+
+    public override void Down()
+    {
+    }
+}
