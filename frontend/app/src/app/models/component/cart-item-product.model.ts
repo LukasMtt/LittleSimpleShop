@@ -3,6 +3,6 @@ import { DisplayImageInput } from './display-image.input';
 export interface CartItemProductModel {
   id: number;
   name: string;
-  image: DisplayImageInput;
+  image: DisplayImageInput | undefined;
   price: number | undefined;
 }

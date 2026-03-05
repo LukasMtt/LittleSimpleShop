@@ -5,6 +5,7 @@ import {
   EndpointItem,
   EndpointResolveService
 } from './endpoint.resolve.service';
+import { OrderSummaryDTO } from '../models/api/order-summary.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,25 @@ export class OrderService {
     private endpointResolveService: EndpointResolveService
   ) {}
 
-  //todo obviously not ready
-  getOrderInformation(): Observable<null> {
-    return this.httpClient.get<null>(
-      this.endpointResolveService.buildUrl(EndpointItem.GetOrderInformation, [])
+  getOrderExists(orderToken: string): Observable<boolean> {
+    return this.httpClient.get<boolean>(
+      this.endpointResolveService.buildUrl(EndpointItem.GetOrderExists, [
+        {
+          key: 'orderToken',
+          value: orderToken
+        }
+      ])
+    );
+  }
+
+  getOrderInformation(orderToken: string): Observable<OrderSummaryDTO> {
+    return this.httpClient.get<OrderSummaryDTO>(
+      this.endpointResolveService.buildUrl(EndpointItem.GetOrderInformation, [
+        {
+          key: 'orderToken',
+          value: orderToken
+        }
+      ])
     );
   }
 }

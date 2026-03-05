@@ -1,5 +1,7 @@
 using App.Misc;
 
+using Shop.Data.DataModels;
+
 namespace Shop.Service;
 
 /* A real implementation requires to integrate a shipping providers (or several) APIs (best case - abstract with interface):
@@ -20,6 +22,39 @@ public class ShippingService
         {
             IsSuccess = true,
             ResultData = (MinDays: 3, MaxDays: 5)
+        };
+        return await Task.FromResult(result);
+    }
+
+    /* only dummy data, plug in real logic from a shipping provider to fetch a target date (or remove if we just redirect to shipping providers site) */
+    public async Task<ServiceResult<DateTime>> GetDeliveryDate(Order order)
+    {
+        var result = new ServiceResult<DateTime>
+        {
+            IsSuccess = true,
+            ResultData = order.OrderDate.AddDays(5)
+        };
+        return await Task.FromResult(result);
+    }
+
+    /* only dummy data, plug in real logic from a shipping provider to fetch real value (or remove if we just redirect to shipping providers site) */
+    public async Task<ServiceResult<string>> GetShippingId(Order order)
+    {
+        var result = new ServiceResult<string>
+        {
+            IsSuccess = true,
+            ResultData = "Shipping_Track_Id_123"
+        };
+        return await Task.FromResult(result);
+    }
+
+    /* only dummy data, plug in real logic from a shipping provider to fetch real value (or remove if we just redirect to shipping providers site) */
+    public async Task<ServiceResult<string>> GetShippingTrackingLink(Order order)
+    {
+        var result = new ServiceResult<string>
+        {
+            IsSuccess = true,
+            ResultData = "www.link-to-my-shipping-provider.de"
         };
         return await Task.FromResult(result);
     }

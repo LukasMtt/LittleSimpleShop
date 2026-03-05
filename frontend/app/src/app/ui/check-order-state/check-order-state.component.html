@@ -1,1 +1,109 @@
-<p>check-order-state works!</p>
+<div class="subgroup-container-header bold-item">
+  {{ this.res('THANK_YOU_FOR_YOUR_ORDER') }}
+</div>
+<div class="subgroup-container">
+  <div class="subgroup-container-header bold-item">
+    {{ this.res('ORDER_CART_CONTENT') }}
+  </div>
+  @for (item of cartItems(); track item.productId) {
+    <div class="subgroup-row subgroup-row-space-between">
+      <div>
+        <span class="bold-item">{{ item?.product?.name || '' }}</span> ×
+        {{ item?.amount || '' }}
+      </div>
+      <div>
+        {{ (item?.product?.price ?? 0) * (item?.amount || 0) | currency }}
+      </div>
+    </div>
+  }
+  <hr class="divider" />
+  <!-- todo: consider adding info regarding promo code/discount when implemented -->
+  <div class="subgroup-row subgroup-row-reverse bold-item">
+    {{ cartItemsTotalPrice() | currency }}
+  </div>
+</div>
+<div class="subgroup-container">
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">{{ this.res('ORDER_NUMBER') }}:</div>
+    <div class="col-3-item">
+      {{ orderToken() }}
+    </div>
+  </div>
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">{{ this.res('ORDER_DATE') }}:</div>
+    <div class="col-3-item">
+      {{ orderDate() }}
+    </div>
+  </div>
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">{{ this.res('ORDER_STATE') }}:</div>
+    <div class="col-3-item">
+      {{ this.res(`ORDER_STATE_${currentState().toUpperCase()}`) }}
+    </div>
+  </div>
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">
+      {{ this.res('ORDER_ESTIMATED_DELIVERY_DATE') }}:
+    </div>
+    <div class="col-3-item">
+      {{ estimatedDelivery() }}
+    </div>
+  </div>
+</div>
+<div class="subgroup-container">
+  <div class="subgroup-row">
+    <div class="subgroup-container-header bold-item">
+      {{ this.res('SHIPPING') }}
+    </div>
+  </div>
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">{{ this.res('SHIPPING_PROVIDER') }}:</div>
+    <div class="col-3-item">
+      {{ this.res(`SHIPPING_PROVIDER_${shippingProvider().toUpperCase()}`) }}
+    </div>
+  </div>
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">
+      {{ this.res('SHIPPING_PROVIDER_TRACKING_NUMBER') }}:
+    </div>
+    <div class="col-3-item">
+      {{ shippingProviderOrderId() }}
+    </div>
+  </div>
+  <div class="subgroup-row">
+    <div class="col-2-item bold-item">
+      {{ this.res('SHIPPING_PROVIDER_TRACKING_LINK') }}:
+    </div>
+    <div class="col-3-item">
+      {{ shippingProviderTrackingLink() }}
+    </div>
+  </div>
+</div>
+<div class="subgroup-container">
+  <div class="subgroup-container-header bold-item">
+    {{ this.res('SHIPPING_ADDRESS') }}
+  </div>
+  <div class="subgroup-row">
+    {{ checkoutInfo()?.firstName }}
+    {{ checkoutInfo()?.lastName }}
+  </div>
+  @if (checkoutInfo()?.companyName) {
+    <div class="subgroup-row">
+      {{ checkoutInfo()?.companyName }}
+    </div>
+  }
+  <div class="subgroup-row">
+    {{ checkoutInfo()?.email }}
+    {{ checkoutInfo()?.phone }}
+  </div>
+  <div class="subgroup-row">
+    {{ checkoutInfo()?.address?.street }}
+    {{ checkoutInfo()?.address?.number }}
+    {{ checkoutInfo()?.address?.addition }}
+  </div>
+  <div class="subgroup-row">
+    {{ checkoutInfo()?.address?.zip }}
+    {{ checkoutInfo()?.address?.city }}
+    {{ checkoutInfo()?.address?.country }}
+  </div>
+</div>

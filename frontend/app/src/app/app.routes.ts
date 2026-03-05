@@ -12,6 +12,7 @@ import { ShippingComponent } from './ui/checkout-trail/shipping/shipping.compone
 import { PaymentComponent } from './ui/checkout-trail/payment/payment.component';
 import { CheckoutSuccessComponent } from './ui/checkout-success/checkout-success.component';
 import { CheckOrderStateComponent } from './ui/check-order-state/check-order-state.component';
+import { orderGuard } from './guards/order.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -32,11 +33,13 @@ export const routes: Routes = [
   },
   {
     path: 'checkout-success/:orderToken',
-    component: CheckoutSuccessComponent
+    component: CheckoutSuccessComponent,
+    canActivate: [orderGuard]
   },
   {
     path: 'check-order-state/:orderToken',
-    component: CheckOrderStateComponent
+    component: CheckOrderStateComponent,
+    canActivate: [orderGuard]
   },
 
   {
