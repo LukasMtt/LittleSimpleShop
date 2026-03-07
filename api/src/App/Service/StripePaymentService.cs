@@ -1,3 +1,8 @@
+using System.Resources;
+
+using Fluid;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 
@@ -17,22 +22,31 @@ public class StripePaymentService
 {
     private IOptions<AppOptions> _appOptions;
     private ShopDbContext _context;
+    private MailService _mailService;
+    private FluidParser _fluidParser;
+    private ResourceManager _resourceManager;
     private string _currency;
-    private readonly List<string> _allowedPaymentMethods = new List<string> { "card", "paypal", "alipay" };
 
-    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context)
+    private readonly List<string> _allowedPaymentMethods = new List<string> { "card", "paypal", "alipay" };
+    private readonly string _metadataOrderToken = "OrderToken";
+    private readonly string _frontendBaseUrl;
+
+    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context, MailService mailService, FluidParser fluidParser)
     {
         _appOptions = appOptions;
         _context = context;
         _currency = _appOptions.Value.StripeCurrency!;
+        _mailService = mailService;
+        _fluidParser = fluidParser;
+
+        _resourceManager = new ResourceManager("OrderConfirmEmail", typeof(Program).Assembly);
 
         StripeConfiguration.ApiKey = _appOptions.Value.StripePrivateKey;
+        _frontendBaseUrl = _appOptions.Value.FrontendBaseUrl;
     }
 
     public async Task<Session> CreateCheckoutSession(Cart cart, Order order)
     {
-        var frontendBaseUrl = _appOptions.Value.FrontendBaseUrl;
-
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = _allowedPaymentMethods,
@@ -41,18 +55,20 @@ public class StripePaymentService
             // Discounts = new List<SessionDiscountOptions>(),
             Metadata = new Dictionary<string, string>
             {
-                { "OrderToken",  order?.OrderToken ?? "" }
+                { _metadataOrderToken,  order?.OrderToken ?? "" }
             },
             Mode = "payment",
-            SuccessUrl = $"{FrontendHelper.GetPaymentSuccessUrl(frontendBaseUrl!)}/{order?.OrderToken ?? ""}",
-            CancelUrl = FrontendHelper.GetPaymentCancelUrl(frontendBaseUrl!),
+            SuccessUrl = $"{FrontendHelper.GetPaymentSuccessUrl(_frontendBaseUrl)}/{order?.OrderToken ?? ""}",
+            CancelUrl = FrontendHelper.GetPaymentCancelUrl(_frontendBaseUrl!),
         };
 
         var service = new SessionService();
         return await service.CreateAsync(options);
     }
 
-    public bool HandleStripeWebhookEvent(string json, StringValues signatureHeader)
+    // this might handle one case in the variety of stripe return values, but is not enough for a hardened prod work flow with delayed payment, more complex error cases and different payment types
+    // task: study stripe API docs regarding use cases of this application and extend accordingly
+    public async Task<bool> HandleStripeWebhookEvent(string json, StringValues signatureHeader)
     {
         var webhookSecret = _appOptions.Value.StripeWebhookSecret;
         try
@@ -63,7 +79,7 @@ public class StripePaymentService
                 case EventTypes.CheckoutSessionCompleted:
                     var session = stripeEvent.Data.Object as Session;
                     Log.Information("Checkout session completed: {0}", session!.Id);
-                    HandleCheckoutSessionCompleted(session);
+                    await HandleCheckoutSessionCompleted(session);
                     break;
             }
             return true;
@@ -75,16 +91,42 @@ public class StripePaymentService
         }
     }
 
-    private void HandleCheckoutSessionCompleted(Session session)
+    private async Task HandleCheckoutSessionCompleted(Session session)
     {
-        // if (!await _cartService.ArchiveCart(cart))
-        // {
-        //     return Problem("Checkout did not succeed.", statusCode: 500);
-        // }
-        //todo send mail with: link to sub site that tracks your order etc
-        //todo update order status to "preparing" zu Beginn
-        //todo create document
-        //todo hier vlt schon einen Schritt weiter mit order status zu "processing"
+        var orderToken = session.Metadata[_metadataOrderToken] ?? "";
+        var order = _context.Order.IgnoreQueryFilters()
+            .Include(x => x.Cart).ThenInclude(x => x!.CartItems)
+            .Include(x => x.ShipmentTarget).ThenInclude(x => x!.Address)
+            .FirstOrDefault(x => x.OrderToken == orderToken);
+
+        if (order == null)
+        {
+            Serilog.Log.Error("No order found.");
+            return;
+        }
+
+        order.State = OrderState.Processing;
+
+        var cancellationTokenSource = new CancellationTokenSource();
+        var checkOrderStateLink = $"{FrontendHelper.GetCheckOrderStateUrl(_frontendBaseUrl)}/{order?.OrderToken ?? ""}";
+        var bodyEmailRaw = _resourceManager.GetString("body") ?? "";
+        var bodyEmailParsed = GetParsedEmailBody(new OrderConfirmTemplate { CustomerName = order!.ShipmentTarget?.FirstName ?? "", CheckOrderStateLink = checkOrderStateLink }, bodyEmailRaw);
+        var subjectEmail = _resourceManager.GetString("subject") ?? "";
+        var mailResult = await _mailService.SendMailAsync(order.ShipmentTarget?.Email ?? "", order.ShipmentTarget?.FirstName ?? "", subjectEmail, bodyEmailParsed, cancellationTokenSource.Token);
+
+        if (mailResult)
+        {
+            var orderEmail = new OrderEmail
+            {
+                Order = order,
+                OrderId = order.Id,
+                OrderEMailType = OrderEMailType.OrderConfirm,
+                SendDate = DateTime.Now
+            };
+            order.OrderEmails.Add(orderEmail);
+        }
+
+        await _context.SaveChangesAsync();
     }
 
     private List<SessionLineItemOptions> ConvertCheckoutCartItems(Cart cart)
@@ -112,5 +154,19 @@ public class StripePaymentService
             }
         }
         return lineItems;
+    }
+
+    private string GetParsedEmailBody(OrderConfirmTemplate model, string source)
+    {
+        if (_fluidParser.TryParse(source, out var template, out var error))
+        {
+            var context = new TemplateContext(model);
+            return template.Render(context);
+        }
+        else
+        {
+            Serilog.Log.Error($"Error while parsing for email body: {error}");
+            return "";
+        }
     }
 }

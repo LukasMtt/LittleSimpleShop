@@ -71,7 +71,6 @@
   "SHIPPING_PROVIDER_TRACKING_LINK": "Tracking-Link",
   "SHIPPING_ADDRESS": "Versandaddresse",
   "ORDER_CART_CONTENT": "Bestellte Artikel",
-  "ORDER_STATE_INITIALIZING": "Bestellung abgegeben",
   "ORDER_STATE_PREPARING": "Bestellung in Vorbereitung",
   "ORDER_STATE_PROCESSING": "Bestellung in Bearbeitung",
   "ORDER_STATE_SHIPPING": "Bestellung versendet",

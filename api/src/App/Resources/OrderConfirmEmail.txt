@@ -1,0 +1,3 @@
+# change content -> "Resgen.exe OrderConfirmEmail.txt OrderConfirmEmail.resx" 
+body=Liebe/r {{CustomerName}} - vielen Dank für Deine Bestellung! </br> </br> Details zum Status und eine Zusammenfassung der Bestellung findest Du hinter <a href=\"{{CheckOrderStateLink}}\">diesem Link</a>. </br> Sobald die Bestellung versandt wurde, erhältst Du eine weitere E-Mail. Den Versandstatus kannst Du anschließend über den ausgewählten Versanddienstleister einsehen.</br> </br> Mit freundlichen Grüßen, </br> Dein Shop-Team
+subject=Bestellung im Shop erfolgreich

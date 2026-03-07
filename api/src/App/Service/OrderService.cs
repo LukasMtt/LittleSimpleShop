@@ -35,7 +35,9 @@ public class OrderService
                 OrderToken = CreateOrderToken(),
                 Cart = cart,
                 ShipmentTarget = shipmentTarget,
-                State = OrderState.Initializing
+                // placeholder, real value has to come from frontend
+                ShippingProvider = ShippingProvider.Dhl,
+                State = OrderState.Preparing
             };
 
             foreach (var cartItem in cart.CartItems)

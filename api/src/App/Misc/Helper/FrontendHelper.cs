@@ -2,6 +2,7 @@ public static class FrontendHelper
 {
     private static readonly string _paymentSuccessUrl = "checkout-success";
     private static readonly string _paymentCancelUrl = "checkout-trail/(checkout:payment)";
+    private static readonly string _checkOrderStateUrl = "check-order-state";
 
     public static string GetPaymentSuccessUrl(string baseUrl)
     {
@@ -11,6 +12,11 @@ public static class FrontendHelper
     public static string GetPaymentCancelUrl(string baseUrl)
     {
         return GetFrontendUrl(baseUrl, _paymentCancelUrl);
+    }
+
+    public static string GetCheckOrderStateUrl(string baseUrl)
+    {
+        return GetFrontendUrl(baseUrl, _checkOrderStateUrl);
     }
 
     private static string GetFrontendUrl(string baseUrl, string path)

@@ -54,6 +54,6 @@ public class PaymentController : ShopBaseController
     {
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
         StringValues signatureHeader = Request.Headers["Stripe-Signature"];
-        return _stripePaymentService.HandleStripeWebhookEvent(json, signatureHeader) ? Ok() : Problem(statusCode: 400);
+        return await _stripePaymentService.HandleStripeWebhookEvent(json, signatureHeader) ? Ok() : Problem(statusCode: 400);
     }
 }

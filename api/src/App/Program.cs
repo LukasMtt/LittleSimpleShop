@@ -4,6 +4,8 @@ using AutoMapper;
 
 using FluentMigrator.Runner;
 
+using Fluid;
+
 using Microsoft.Extensions.Http.Resilience;
 
 using Polly;
@@ -14,7 +16,6 @@ using Shop.Data;
 using Shop.Data.Migrations;
 using Shop.Misc;
 using Shop.Service;
-
 
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
@@ -106,10 +107,12 @@ class Program
 
         services.AddSingleton(ConfigureMappings());
 
+        services.AddSingleton((provider) => new FluidParser());
         services.AddTransient<StripePaymentService>();
         services.AddTransient<OrderService>();
         services.AddTransient<ShippingService>();
         services.AddTransient<CartService>();
+        services.AddTransient<MailService>();
 
         services.AddHttpClient<IFileStorageService, SeaweedFsService>(client =>
         {
@@ -130,10 +133,15 @@ class Program
 
     private static IMapper ConfigureMappings()
     {
+        //todo obviously need to add Serilog here - CHANGE
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole().AddDebug();
+        });
         var mapperConfig = new MapperConfiguration(mc =>
         {
             mc.AddProfile(new MappingProfile());
-        });
+        }, loggerFactory);
         IMapper mapper = mapperConfig.CreateMapper();
         return mapper;
     }

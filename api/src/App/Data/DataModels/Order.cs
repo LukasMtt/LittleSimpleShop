@@ -15,4 +15,5 @@ public class Order : Entity
     public Cart? Cart { get; set; }
     public ShipmentTarget? ShipmentTarget { get; set; }
     public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+    public List<OrderEmail> OrderEmails { get; set; } = new List<OrderEmail>();
 }
