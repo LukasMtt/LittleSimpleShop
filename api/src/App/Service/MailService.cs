@@ -17,7 +17,7 @@ public class MailService
         _appOptions = appOptions;
     }
 
-    public async Task<bool> SendMailAsync(string? destinationAddress, string? destinationName, string? subject, string? body, CancellationToken cancellationToken)
+    public async Task<bool> SendMailAsync(string? destinationAddress, string? destinationName, string? subject, string? body, byte[]? attachmentContent, ContentType? attachmentContentType, string? attachmentFileName, CancellationToken cancellationToken)
     {
         if (!IsMailConfigAndInputValid(destinationAddress, destinationName, subject, body))
         {
@@ -26,7 +26,7 @@ public class MailService
         }
         try
         {
-            var message = GetMessage(destinationName!, destinationAddress!, subject!, body!);
+            var message = GetMessage(destinationName!, destinationAddress!, subject!, body!, attachmentContent, attachmentContentType, attachmentFileName);
             using var client = new SmtpClient();
             client.Connect(_appOptions.Value.Email.SmtpServer, _appOptions.Value.Email.SmtpPort.GetValueOrDefault(), false, cancellationToken);
             if (!string.IsNullOrEmpty(_appOptions.Value.Email.SmtpUser) && !string.IsNullOrEmpty(_appOptions.Value.Email.Password))
@@ -49,16 +49,23 @@ public class MailService
         }
     }
 
-    private MimeMessage GetMessage(string destinationName, string destinationAddress, string subject, string body)
+    private MimeMessage GetMessage(string destinationName, string destinationAddress, string subject, string body, byte[]? attachmentContent, ContentType? attachmentContentType, string? attachmentFileName)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_appOptions.Value.Email.FromName, _appOptions.Value.Email.FromAddress));
         message.To.Add(new MailboxAddress(destinationName, destinationAddress));
         message.Subject = subject;
-        message.Body = new TextPart("html")
+
+        var bodyBuilder = new BodyBuilder
         {
-            Text = body
+            HtmlBody = body
         };
+        if (attachmentContent != null && attachmentContentType != null && attachmentFileName != null)
+        {
+            bodyBuilder.Attachments.Add(attachmentFileName, attachmentContent, attachmentContentType);
+        }
+        message.Body = bodyBuilder.ToMessageBody();
+
         return message;
     }
 

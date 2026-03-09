@@ -8,10 +8,17 @@ public sealed class AppOptions
   public required string StripeCurrency { get; set; }
   public required string StripeWebhookSecret { get; set; }
   public required SeaweedFsOptions SeaweedFs { get; set; }
+  public required PdfConverterOptions PdfConverter { get; set; }
   public required EMailOptions Email { get; set; }
 }
 
 public class SeaweedFsOptions
+{
+  public required string FileUrl { get; set; }
+  public required string AssignUrl { get; set; }
+}
+
+public class PdfConverterOptions
 {
   public required string Url { get; set; }
 }

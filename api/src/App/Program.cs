@@ -113,10 +113,24 @@ class Program
         services.AddTransient<ShippingService>();
         services.AddTransient<CartService>();
         services.AddTransient<MailService>();
+        services.AddTransient<InvoiceService>();
 
-        services.AddHttpClient<IFileStorageService, SeaweedFsService>(client =>
+        services.AddHttpClient<IFileStorageService, SeaweedFsService>()
+        .AddResilienceHandler("default", builder =>
         {
-            client.BaseAddress = new Uri(appOptions?.SeaweedFs?.Url ?? throw new InvalidOperationException("SeaweedFsBaseUrl is not configured."));
+            builder.AddTimeout(TimeSpan.FromSeconds(30));
+            builder.AddRetry(new HttpRetryStrategyOptions
+            {
+                MaxRetryAttempts = 3,
+                BackoffType = DelayBackoffType.Linear,
+                Delay = TimeSpan.FromMilliseconds(20),
+                UseJitter = true
+            });
+        });
+
+        services.AddHttpClient<IPdfConverterService, PdfConverterService>(client =>
+        {
+            client.BaseAddress = new Uri(appOptions?.PdfConverter?.Url ?? throw new InvalidOperationException("PdfConverterBaseUrl is not configured."));
         })
         .AddResilienceHandler("default", builder =>
         {

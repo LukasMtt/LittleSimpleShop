@@ -14,6 +14,9 @@ public class Order : Entity
     public string? ShippingProviderOrderId { get; set; }
     public Cart? Cart { get; set; }
     public ShipmentTarget? ShipmentTarget { get; set; }
+    public string? InvoiceNumber { get; set; }
     public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     public List<OrderEmail> OrderEmails { get; set; } = new List<OrderEmail>();
+    public List<Document> OrderDocuments { get; set; } = new List<Document>();
+
 }

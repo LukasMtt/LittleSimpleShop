@@ -50,4 +50,4 @@ appsettings.Development.json
 # System files
 .DS_Store
 Thumbs.db
-misc/
+material/

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 
+using MimeKit;
+
 using Serilog;
 
 using Shop.Data;
@@ -23,6 +25,7 @@ public class StripePaymentService
     private IOptions<AppOptions> _appOptions;
     private ShopDbContext _context;
     private MailService _mailService;
+    private InvoiceService _invoiceService;
     private FluidParser _fluidParser;
     private ResourceManager _resourceManager;
     private string _currency;
@@ -31,13 +34,14 @@ public class StripePaymentService
     private readonly string _metadataOrderToken = "OrderToken";
     private readonly string _frontendBaseUrl;
 
-    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context, MailService mailService, FluidParser fluidParser)
+    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context, MailService mailService, InvoiceService invoiceService, FluidParser fluidParser)
     {
         _appOptions = appOptions;
         _context = context;
         _currency = _appOptions.Value.StripeCurrency!;
         _mailService = mailService;
         _fluidParser = fluidParser;
+        _invoiceService = invoiceService;
 
         _resourceManager = new ResourceManager("OrderConfirmEmail", typeof(Program).Assembly);
 
@@ -97,6 +101,7 @@ public class StripePaymentService
         var order = _context.Order.IgnoreQueryFilters()
             .Include(x => x.Cart).ThenInclude(x => x!.CartItems)
             .Include(x => x.ShipmentTarget).ThenInclude(x => x!.Address)
+            .Include(x => x.OrderProducts).ThenInclude(x => x.Product)
             .FirstOrDefault(x => x.OrderToken == orderToken);
 
         if (order == null)
@@ -106,13 +111,16 @@ public class StripePaymentService
         }
 
         order.State = OrderState.Processing;
+        order.InvoiceNumber = _invoiceService.CreateInvoiceNumber();
 
         var cancellationTokenSource = new CancellationTokenSource();
+        var invoicePdfByteArray = await _invoiceService.CreateInvoice(order);
         var checkOrderStateLink = $"{FrontendHelper.GetCheckOrderStateUrl(_frontendBaseUrl)}/{order?.OrderToken ?? ""}";
         var bodyEmailRaw = _resourceManager.GetString("body") ?? "";
         var bodyEmailParsed = GetParsedEmailBody(new OrderConfirmTemplate { CustomerName = order!.ShipmentTarget?.FirstName ?? "", CheckOrderStateLink = checkOrderStateLink }, bodyEmailRaw);
         var subjectEmail = _resourceManager.GetString("subject") ?? "";
-        var mailResult = await _mailService.SendMailAsync(order.ShipmentTarget?.Email ?? "", order.ShipmentTarget?.FirstName ?? "", subjectEmail, bodyEmailParsed, cancellationTokenSource.Token);
+        var attachmentFileName = $"Invoice_{order.InvoiceNumber ?? ""}.pdf";
+        var mailResult = await _mailService.SendMailAsync(order.ShipmentTarget?.Email ?? "", order.ShipmentTarget?.FirstName ?? "", subjectEmail, bodyEmailParsed, invoicePdfByteArray, new ContentType("application", "pdf"), attachmentFileName, cancellationTokenSource.Token);
 
         if (mailResult)
         {
