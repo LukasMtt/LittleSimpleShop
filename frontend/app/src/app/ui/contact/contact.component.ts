@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MetadataService } from '../../services/metadata.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BaseComponent } from '../shared/base.component';
 
 @Component({
-  selector: 'app-about',
+  selector: 'app-contact',
   imports: [],
-  templateUrl: './about.component.html',
-  styleUrl: './about.component.css'
+  templateUrl: './contact.component.html',
+  styleUrl: './contact.component.css'
 })
-export class AboutComponent extends BaseComponent {
-  aboutText = signal<SafeHtml>('');
+export class ContactComponent extends BaseComponent {
+  contactText = signal<SafeHtml>('');
 
   constructor(
     public sanitizer: DomSanitizer,
@@ -18,8 +18,8 @@ export class AboutComponent extends BaseComponent {
   ) {
     super();
     metaDataService.getMetadata().subscribe((metaData) => {
-      this.aboutText.set(
-        this.sanitizer.bypassSecurityTrustHtml(metaData.aboutText || '')
+      this.contactText.set(
+        this.sanitizer.bypassSecurityTrustHtml(metaData.contactText || '')
       );
     });
   }

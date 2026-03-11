@@ -17,3 +17,20 @@ public class AddNewsletterSubscriberTable : Migration
     {
     }
 }
+
+[Migration(0000501)]
+public class ExtendMetadataTable : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("MetaData")
+            .AddColumn("FaqText").AsString(int.MaxValue).WithDefaultValue("").NotNullable()
+            .AddColumn("ContactText").AsString(int.MaxValue).WithDefaultValue("").NotNullable()
+            .AddColumn("AboutText").AsString(int.MaxValue).WithDefaultValue("").NotNullable()
+            .AddColumn("ImprintText").AsString(int.MaxValue).WithDefaultValue("").NotNullable();
+    }
+
+    public override void Down()
+    {
+    }
+}

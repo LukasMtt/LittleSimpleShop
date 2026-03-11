@@ -4,13 +4,13 @@ import { MetadataService } from '../../services/metadata.service';
 import { BaseComponent } from '../shared/base.component';
 
 @Component({
-  selector: 'app-about',
+  selector: 'app-faq',
   imports: [],
-  templateUrl: './about.component.html',
-  styleUrl: './about.component.css'
+  templateUrl: './faq.component.html',
+  styleUrl: './faq.component.css'
 })
-export class AboutComponent extends BaseComponent {
-  aboutText = signal<SafeHtml>('');
+export class FaqComponent extends BaseComponent {
+  faqText = signal<SafeHtml>('');
 
   constructor(
     public sanitizer: DomSanitizer,
@@ -18,8 +18,8 @@ export class AboutComponent extends BaseComponent {
   ) {
     super();
     metaDataService.getMetadata().subscribe((metaData) => {
-      this.aboutText.set(
-        this.sanitizer.bypassSecurityTrustHtml(metaData.aboutText || '')
+      this.faqText.set(
+        this.sanitizer.bypassSecurityTrustHtml(metaData.faqText || '')
       );
     });
   }
