@@ -114,6 +114,7 @@ class Program
         services.AddTransient<CartService>();
         services.AddTransient<MailService>();
         services.AddTransient<InvoiceService>();
+        services.AddTransient<NewsletterService>();
 
         services.AddHttpClient<IFileStorageService, SeaweedFsService>()
         .AddResilienceHandler("default", builder =>
