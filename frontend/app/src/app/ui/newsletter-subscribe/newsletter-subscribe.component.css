@@ -3,8 +3,6 @@
   padding-bottom: 2rem;
   background-color: var(--ternary-color);
   display: flex;
-  padding-left: auto;
-  padding-right: auto;
   flex-direction: column;
   gap: 0.9em;
 }

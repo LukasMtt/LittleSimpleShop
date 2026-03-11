@@ -5,6 +5,7 @@
   --secondary-color: #4f6f52;
   --ternary-color: #e3ece4;
   --warning-color: #c9693df8;
+  --info-color: #37a17cf8;
 
   --custom-min-height: calc(100vh - 2 * 7vh - 1rem);
 }

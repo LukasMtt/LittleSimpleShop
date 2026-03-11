@@ -12,6 +12,7 @@ import { MetadataService } from '../../../services/metadata.service';
 import { ShippingService } from '../../../services/shipping.service';
 import { forkJoin } from 'rxjs';
 import { SnackbarComponent } from '../../shared/snackbar/snackbar.component';
+import { ShipmentFormModel } from '../../../models/forms/shipment-form.model';
 
 @Component({
   selector: 'app-payment',
@@ -37,7 +38,7 @@ export class PaymentComponent extends BaseComponent {
   triggerSnackbar = signal<boolean | undefined>(undefined);
   textSnackbar = signal<string>('');
 
-  private shipmentFormGroup: FormGroup;
+  public shipmentFormGroup: FormGroup<ShipmentFormModel>;
 
   constructor(
     public shipmentService: CheckoutService,

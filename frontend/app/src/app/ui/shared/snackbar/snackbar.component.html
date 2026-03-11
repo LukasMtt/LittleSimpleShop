@@ -1,6 +1,7 @@
 @if (showSnackbar()) {
   <div
     class="snackbar-container"
+    [style.background-color]="backgroundColor()"
     animate.enter="snackbar-enter-animation"
     animate.leave="snackbar-leave-animation"
   >

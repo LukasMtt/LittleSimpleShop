@@ -5,9 +5,7 @@
 
   <div class="row">
     <app-form-section
-      [control]="
-        checkoutService.getFormControlFromShipmentFormGroup('firstName')
-      "
+      [control]="shipmentFormGroup.controls.firstName"
       [labelResource]="'FORM_ROW_LABEL_FIRST_NAME'"
       [validationFailResourcesMap]="[
         { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
@@ -19,9 +17,7 @@
     ></app-form-section>
 
     <app-form-section
-      [control]="
-        checkoutService.getFormControlFromShipmentFormGroup('lastName')
-      "
+      [control]="shipmentFormGroup.controls.lastName"
       [labelResource]="'FORM_ROW_LABEL_LAST_NAME'"
       [validationFailResourcesMap]="[
         { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
@@ -34,9 +30,7 @@
   </div>
 
   <app-form-section
-    [control]="
-      checkoutService.getFormControlFromShipmentFormGroup('companyName')
-    "
+    [control]="shipmentFormGroup.controls.companyName"
     [labelResource]="'FORM_ROW_LABEL_COMPANY_NAME'"
     [type]="'text'"
     [id]="'companyName'"
@@ -44,7 +38,7 @@
   ></app-form-section>
 
   <app-form-section
-    [control]="checkoutService.getFormControlFromShipmentFormGroup('email')"
+    [control]="shipmentFormGroup.controls.email"
     [labelResource]="'FORM_ROW_LABEL_EMAIL'"
     [validationFailResourcesMap]="[
       { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' },
@@ -56,11 +50,7 @@
   ></app-form-section>
 
   <app-form-section
-    [control]="
-      checkoutService.getFormControlFromShipmentFormGroup(
-        'isNewsletterActivated'
-      )
-    "
+    [control]="shipmentFormGroup.controls.isNewsletterActivated"
     [labelResource]="'FORM_ROW_LABEL_ISNEWSLETTERACTIVATED'"
     [type]="'checkbox'"
     [id]="'isNewsletterActivated'"
@@ -68,7 +58,7 @@
   ></app-form-section>
 
   <app-form-section
-    [control]="checkoutService.getFormControlFromShipmentFormGroup('phone')"
+    [control]="shipmentFormGroup.controls.phone"
     [labelResource]="'FORM_ROW_LABEL_PHONE'"
     [type]="'text'"
     [id]="'phone'"
@@ -83,9 +73,7 @@
 
   <div class="row">
     <app-form-section
-      [control]="
-        checkoutService.getFormControlFromAddressShipmentFormGroup('street')
-      "
+      [control]="shipmentFormGroup.controls.address.controls.street"
       [labelResource]="'FORM_ROW_LABEL_STREET'"
       [validationFailResourcesMap]="[
         { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
@@ -97,9 +85,7 @@
     ></app-form-section>
 
     <app-form-section
-      [control]="
-        checkoutService.getFormControlFromAddressShipmentFormGroup('number')
-      "
+      [control]="shipmentFormGroup.controls.address.controls.number"
       [labelResource]="'FORM_ROW_LABEL_NUMBER'"
       [validationFailResourcesMap]="[
         { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
@@ -112,9 +98,7 @@
   </div>
 
   <app-form-section
-    [control]="
-      checkoutService.getFormControlFromAddressShipmentFormGroup('addition')
-    "
+    [control]="shipmentFormGroup.controls.address.controls.addition"
     [labelResource]="'FORM_ROW_LABEL_ADDITION'"
     [type]="'text'"
     [id]="'addition'"
@@ -123,9 +107,7 @@
 
   <div class="row">
     <app-form-section
-      [control]="
-        checkoutService.getFormControlFromAddressShipmentFormGroup('zip')
-      "
+      [control]="shipmentFormGroup.controls.address.controls.zip"
       [labelResource]="'FORM_ROW_LABEL_ZIP'"
       [validationFailResourcesMap]="[
         { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
@@ -137,9 +119,7 @@
     ></app-form-section>
 
     <app-form-section
-      [control]="
-        checkoutService.getFormControlFromAddressShipmentFormGroup('city')
-      "
+      [control]="shipmentFormGroup.controls.address.controls.city"
       [labelResource]="'FORM_ROW_LABEL_CITY'"
       [validationFailResourcesMap]="[
         { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
@@ -152,9 +132,7 @@
   </div>
 
   <app-form-section
-    [control]="
-      checkoutService.getFormControlFromAddressShipmentFormGroup('country')
-    "
+    [control]="shipmentFormGroup.controls.address.controls.country"
     [labelResource]="'FORM_ROW_LABEL_COUNTRY'"
     [validationFailResourcesMap]="[
       { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }

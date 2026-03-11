@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ShipmentFormModel } from '../models/forms/shipment-form.model';
+import { DiscountCodeFormModel } from '../models/forms/dicount-code-form.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckoutService {
-  private shipmentFormGroup = new FormGroup({
+  private shipmentFormGroup: FormGroup<ShipmentFormModel> = new FormGroup({
     firstName: new FormControl<string>('', Validators.required),
     lastName: new FormControl<string>('', Validators.required),
     companyName: new FormControl<string>(''),
@@ -21,9 +23,10 @@ export class CheckoutService {
       zip: new FormControl<string>('', Validators.required)
     })
   });
-  private discountCodeFormGroup = new FormGroup({
-    code: new FormControl('', [])
-  });
+  private discountCodeFormGroup: FormGroup<DiscountCodeFormModel> =
+    new FormGroup({
+      code: new FormControl('', [])
+    });
 
   public getShipmentFormGroup(): FormGroup {
     return this.shipmentFormGroup;
@@ -31,32 +34,6 @@ export class CheckoutService {
 
   public getDiscountCodeFormGroup(): FormGroup {
     return this.discountCodeFormGroup;
-  }
-
-  public getDiscountCodeCodeFormControl(): FormControl {
-    return this.discountCodeFormGroup.get('code') as FormControl;
-  }
-
-  public getAddressFormGroupFromShipmentFormGroup(): FormGroup {
-    return this.shipmentFormGroup.get('address') as FormGroup;
-  }
-
-  public getFormControlFromShipmentFormGroup(key: string): FormControl | null {
-    if (!this.shipmentFormGroup.contains(key)) {
-      return null;
-    }
-    return this.shipmentFormGroup.get(key) as FormControl;
-  }
-
-  public getFormControlFromAddressShipmentFormGroup(
-    key: string
-  ): FormControl | null {
-    if (!this.getAddressFormGroupFromShipmentFormGroup().contains(key)) {
-      return null;
-    }
-    return this.getAddressFormGroupFromShipmentFormGroup().get(
-      key
-    ) as FormControl;
   }
 
   public setFormControlsToDirty() {

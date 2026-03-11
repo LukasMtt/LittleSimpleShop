@@ -21,65 +21,27 @@
       {{ this.res('PAYMENT_AND_SHIPPING_INFORMATION_CUSTOMER') }}
     </div>
     <div class="address-summary-item">
-      {{
-        this.shipmentService.getFormControlFromShipmentFormGroup('firstName')
-          ?.value
-      }}
-      {{
-        this.shipmentService.getFormControlFromShipmentFormGroup('lastName')
-          ?.value
-      }}
+      {{ shipmentFormGroup.controls.firstName.value }}
+      {{ shipmentFormGroup.controls.lastName.value }}
     </div>
-    @if (
-      this.shipmentService.getFormControlFromShipmentFormGroup('companyName')
-        ?.value
-    ) {
+    @if (shipmentFormGroup.controls.companyName.value) {
       <div class="address-summary-item">
-        {{
-          this.shipmentService.getFormControlFromShipmentFormGroup(
-            'companyName'
-          )?.value
-        }}
+        {{ shipmentFormGroup.controls.companyName.value }}
       </div>
     }
     <div class="address-summary-item">
-      {{
-        this.shipmentService.getFormControlFromShipmentFormGroup('email')?.value
-      }}
-      {{
-        this.shipmentService.getFormControlFromShipmentFormGroup('phone')?.value
-      }}
+      {{ shipmentFormGroup.controls.email.value }}
+      {{ shipmentFormGroup.controls.phone.value }}
     </div>
     <div class="address-summary-item">
-      {{
-        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
-          'street'
-        )?.value
-      }}
-      {{
-        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
-          'number'
-        )?.value
-      }}
-      {{
-        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
-          'addition'
-        )?.value
-      }}
+      {{ shipmentFormGroup.controls.address.controls.street.value }}
+      {{ shipmentFormGroup.controls.address.controls.number.value }}
+      {{ shipmentFormGroup.controls.address.controls.addition.value }}
     </div>
     <div class="address-summary-item">
-      {{
-        this.shipmentService.getFormControlFromShipmentFormGroup('zip')?.value
-      }}
-      {{
-        this.shipmentService.getFormControlFromAddressShipmentFormGroup('city')
-          ?.value
-      }}
-      {{
-        this.shipmentService.getFormControlFromAddressShipmentFormGroup(
-          'country'
-        )?.value
-      }}
+      {{ shipmentFormGroup.controls.address.controls.zip.value }}
+      {{ shipmentFormGroup.controls.address.controls.city.value }}
+      {{ shipmentFormGroup.controls.address.controls.country.value }}
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -10,7 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 export class SnackbarComponent {
   textSnackbar = input.required<string>();
   triggerSnackbar = input.required<boolean | undefined>();
+  type = input<'warning' | 'info'>('warning');
+
   showSnackbar = signal<boolean>(false);
+  backgroundColor = computed(() => {
+    return `var(--${this.type()}-color)`;
+  });
 
   constructor() {
     effect(() => {

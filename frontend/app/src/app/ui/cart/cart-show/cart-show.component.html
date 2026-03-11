@@ -16,7 +16,7 @@
     (ngSubmit)="onSubmit()"
   >
     <app-form-section
-      [control]="discountCodeCodeFormControl"
+      [control]="discountCodeCodeFormGroup.controls.code"
       [labelResource]="'FORM_ROW_LABEL_DISCOUNT_CODE'"
       [type]="'text'"
       [id]="'discount-code-form-section'"

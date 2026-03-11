@@ -4,6 +4,7 @@ import { FormSectionComponent } from '../../shared/form-section/form-section.com
 import { CheckoutService } from '../../../services/checkout.service';
 import { BaseComponent } from '../../shared/base.component';
 import { CountryService } from '../../../services/country.service';
+import { ShipmentFormModel } from '../../../models/forms/shipment-form.model';
 
 @Component({
   selector: 'app-shipping',
@@ -12,7 +13,7 @@ import { CountryService } from '../../../services/country.service';
   styleUrl: './shipping.component.css'
 })
 export class ShippingComponent extends BaseComponent {
-  public shipmentFormGroup: FormGroup;
+  public shipmentFormGroup: FormGroup<ShipmentFormModel>;
 
   readonly countryList: { countryLong: string; countryShort: string }[] = [];
 

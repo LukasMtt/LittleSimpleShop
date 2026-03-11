@@ -8,6 +8,7 @@ import {
   EndpointResolveService
 } from './endpoint.resolve.service';
 import { CheckoutService } from './checkout.service';
+import { CheckoutDTO } from '../models/api/checkout.dto';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentStripeService {
@@ -28,7 +29,7 @@ export class PaymentStripeService {
     const discountCodeFormGroup =
       this.checkoutService.getDiscountCodeFormGroup();
     const shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
-    const checkoutModel = {
+    const checkoutModel: CheckoutDTO = {
       firstName: shipmentFormGroup.get('firstName')?.value,
       lastName: shipmentFormGroup.get('lastName')?.value,
       companyName: shipmentFormGroup.get('companyName')?.value,

@@ -1,43 +1,52 @@
-@if (control) {
-  @if (type != 'checkbox') {
+@if (control()) {
+  @if (type() != 'checkbox') {
     <div class="form-row">
-      <label [for]="id" class="form-label">{{ getLabelText() }}</label>
+      <label [for]="id()" class="form-label">{{ labelText() }}</label>
     </div>
   }
-  @if (type === 'select' && selectOptions) {
+  @if (type() === 'select' && selectOptions()) {
     <div class="form-row">
-      <select [id]="id" [formControl]="control" class="form-select">
-        @for (option of selectOptions; track $index) {
+      <select [id]="id()" [formControl]="control()!" class="form-select">
+        @for (option of selectOptions(); track $index) {
           <option [value]="option.value" class="form-select-option">
             {{ option.label }}
           </option>
         }
       </select>
     </div>
-  } @else if (type == 'text' || type == 'email') {
+  } @else if (type() == 'checkbox') {
     <div class="form-row">
       <input
-        [id]="id"
-        [type]="type"
-        [formControl]="control"
+        [id]="id()"
+        type="checkbox"
+        [formControl]="control()!"
         class="form-input"
       />
-      <ng-content></ng-content>
-    </div>
-  } @else if (type == 'checkbox') {
-    <div class="form-row">
-      <input
-        [id]="id"
-        [type]="type"
-        [formControl]="control"
-        class="form-input"
-      />
-      <label [for]="id" class="form-label">{{ getLabelText() }}</label>
+      <label [for]="id()" class="form-label">{{ labelText() }}</label>
     </div>
   }
-  @if (performValidation && !control.valid && control.dirty) {
+
+  <div class="form-row">
+    @if (type() == 'text') {
+      <input
+        [id]="id()"
+        type="text"
+        [formControl]="control()!"
+        class="form-input"
+      />
+    } @else if (type() == 'email') {
+      <input
+        [id]="id()"
+        type="email"
+        [formControl]="control()!"
+        class="form-input"
+      />
+    }
+    <ng-content></ng-content>
+  </div>
+  @if (performValidation() && !control()!.valid && control()!.dirty) {
     <div class="form-row validation-text">
-      {{ getErrorMessage(control.errors) }}
+      {{ getErrorMessage(control()!.errors) }}
     </div>
   }
 }
