@@ -28,6 +28,7 @@ export class CarouselComponent {
   constructor(private fileFetchService: FileFetchService) {
     effect(() => {
       if (this.imagesInput()) {
+        this.filledImages.set([]);
         this.setImagesDataUrl();
       }
     });
