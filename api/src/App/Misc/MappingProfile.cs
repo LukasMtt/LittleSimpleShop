@@ -3,6 +3,8 @@ using AutoMapper;
 using Shop.ApiModels;
 using Shop.Data.DataModels;
 
+namespace Shop.Misc;
+
 public class MappingProfile : Profile
 {
     public MappingProfile()

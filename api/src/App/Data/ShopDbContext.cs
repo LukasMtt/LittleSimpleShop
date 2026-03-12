@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 using Shop.Data.DataModels;
+using Shop.Data.Enums;
 using Shop.Misc;
 
 namespace Shop.Data;

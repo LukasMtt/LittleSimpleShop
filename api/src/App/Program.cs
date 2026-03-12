@@ -14,6 +14,7 @@ using Serilog;
 
 using Shop.Data;
 using Shop.Data.Migrations;
+using Shop.Interfaces;
 using Shop.Misc;
 using Shop.Service;
 

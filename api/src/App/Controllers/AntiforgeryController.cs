@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 [Route("shop/[controller]/[action]")]

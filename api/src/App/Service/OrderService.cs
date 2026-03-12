@@ -1,5 +1,3 @@
-using App.Misc;
-
 using AutoMapper;
 
 using EntityFramework.Exceptions.Common;
@@ -7,6 +5,8 @@ using EntityFramework.Exceptions.Common;
 using Shop.ApiModels;
 using Shop.Data;
 using Shop.Data.DataModels;
+using Shop.Data.Enums;
+using Shop.Misc;
 
 namespace Shop.Service;
 

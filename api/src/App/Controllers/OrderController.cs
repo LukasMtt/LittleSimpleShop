@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 using Shop.ApiModels;
 using Shop.Data;
+using Shop.Data.Enums;
+using Shop.Interfaces;
 using Shop.Service;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 public class OrderController : ShopBaseController

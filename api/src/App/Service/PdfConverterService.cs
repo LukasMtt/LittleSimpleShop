@@ -1,6 +1,9 @@
 using System.Text;
 
-using App.Misc;
+using Shop.Interfaces;
+using Shop.Misc;
+
+namespace Shop.Service;
 
 public class PdfConverterService : IPdfConverterService
 {

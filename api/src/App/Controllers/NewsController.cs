@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using Shop.ApiModels;
 using Shop.Data;
+using Shop.Interfaces;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 public class NewsController : ShopBaseController

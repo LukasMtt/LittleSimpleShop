@@ -1,5 +1,3 @@
-using App.Misc;
-
 using MailKit.Net.Smtp;
 
 using Microsoft.Extensions.Options;

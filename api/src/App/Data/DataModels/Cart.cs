@@ -1,4 +1,6 @@
 
+using Shop.Data.Enums;
+
 namespace Shop.Data.DataModels;
 
 public class Cart : Entity

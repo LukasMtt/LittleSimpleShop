@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
+using Shop.Interfaces;
 using Shop.Service;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 public class NewsletterController : ShopBaseController

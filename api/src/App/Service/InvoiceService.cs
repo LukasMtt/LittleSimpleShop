@@ -1,11 +1,13 @@
 using System.Globalization;
 
-using App.Misc;
-
 using Fluid;
 
 using Shop.Data;
 using Shop.Data.DataModels;
+using Shop.Data.Enums;
+using Shop.Interfaces;
+using Shop.Misc;
+using Shop.Templates;
 
 namespace Shop.Service;
 

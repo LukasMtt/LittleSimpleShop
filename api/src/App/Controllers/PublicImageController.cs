@@ -1,7 +1,10 @@
-using App.Controllers;
 using Microsoft.AspNetCore.Mvc;
+
 using Shop.Data;
 using Shop.Data.DataModels;
+using Shop.Interfaces;
+
+namespace Shop.Controllers;
 
 public class PublicImageController : ShopBaseController
 {

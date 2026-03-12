@@ -5,10 +5,11 @@ using Microsoft.Extensions.Options;
 
 using Shop.ApiModels;
 using Shop.Data;
+using Shop.Interfaces;
 using Shop.Misc;
 using Shop.Service;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 public class MetadataController : ShopBaseController

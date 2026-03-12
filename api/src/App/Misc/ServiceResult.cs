@@ -1,4 +1,4 @@
-namespace App.Misc;
+namespace Shop.Misc;
 
 public class ServiceResult<T>
 {

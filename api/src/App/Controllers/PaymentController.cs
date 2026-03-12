@@ -1,5 +1,3 @@
-using App.Controllers;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +5,12 @@ using Microsoft.Extensions.Primitives;
 
 using Shop.ApiModels;
 using Shop.Data;
+using Shop.Interfaces;
 using Shop.Service;
 
 using Stripe.Checkout;
+
+namespace Shop.Controllers;
 
 [ApiController]
 public class PaymentController : ShopBaseController

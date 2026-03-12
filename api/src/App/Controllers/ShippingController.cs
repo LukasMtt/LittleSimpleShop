@@ -1,9 +1,11 @@
-using App.Controllers;
-
 using Microsoft.AspNetCore.Mvc;
 
 using Shop.ApiModels;
+using Shop.Data.Enums;
+using Shop.Interfaces;
 using Shop.Service;
+
+namespace Shop.Controllers;
 
 public class ShippingController : ShopBaseController
 {

@@ -1,3 +1,5 @@
+namespace Shop.Templates;
+
 public class OrderInvoiceTemplate
 {
     public string? Name { get; set; }

@@ -1,9 +1,10 @@
-using App.Misc;
-
 using Microsoft.Extensions.Options;
 
 using Shop.ApiModels;
+using Shop.Interfaces;
 using Shop.Misc;
+
+namespace Shop.Service;
 
 public class SeaweedFsService : IFileStorageService
 {

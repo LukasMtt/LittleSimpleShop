@@ -1,3 +1,5 @@
+namespace Shop.Data.Enums;
+
 public enum Country
 {
     DEU = 0,

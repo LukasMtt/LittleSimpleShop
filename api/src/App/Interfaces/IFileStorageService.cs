@@ -1,4 +1,6 @@
-using App.Misc;
+using Shop.Misc;
+
+namespace Shop.Interfaces;
 
 public interface IFileStorageService
 {

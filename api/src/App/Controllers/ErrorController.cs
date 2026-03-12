@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 public class ErrorController : ControllerBase

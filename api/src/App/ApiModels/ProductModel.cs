@@ -1,3 +1,5 @@
+using Shop.Data.Enums;
+
 namespace Shop.ApiModels;
 
 public class ProductModel : BaseApiModel

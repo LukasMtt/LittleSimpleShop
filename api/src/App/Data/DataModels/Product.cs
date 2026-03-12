@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
+using Shop.Data.Enums;
+
 namespace Shop.Data.DataModels;
 
 [Table("Product")]

@@ -1,7 +1,6 @@
-using App.Misc;
-
 using Shop.Data;
 using Shop.Data.DataModels;
+using Shop.Misc;
 
 namespace Shop.Service;
 

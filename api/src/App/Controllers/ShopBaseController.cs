@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Controllers;
+using Shop.Interfaces;
+
+namespace Shop.Controllers;
 
 [ApiController]
 [Route("shop/[controller]/[action]")]

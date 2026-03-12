@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Shop.Data.Enums;
+
 namespace Shop.Data.DataModels;
 
 [Table("Order")]

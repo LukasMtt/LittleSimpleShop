@@ -1,7 +1,5 @@
 using System.Resources;
 
-using App.Misc;
-
 using Fluid;
 
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +12,10 @@ using Serilog;
 
 using Shop.Data;
 using Shop.Data.DataModels;
+using Shop.Data.Enums;
+using Shop.Helper;
 using Shop.Misc;
+using Shop.Templates;
 
 using Stripe;
 using Stripe.Checkout;

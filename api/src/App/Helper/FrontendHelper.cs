@@ -1,3 +1,5 @@
+namespace Shop.Helper;
+
 public static class FrontendHelper
 {
     private static readonly string _paymentSuccessUrl = "checkout-success";

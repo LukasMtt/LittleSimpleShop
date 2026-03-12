@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 using Shop.ApiModels;
 using Shop.Data;
+using Shop.Interfaces;
 
-namespace App.Controllers;
+namespace Shop.Controllers;
 
 [ApiController]
 public class ProductController : ShopBaseController

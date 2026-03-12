@@ -1,3 +1,5 @@
+namespace Shop.Templates;
+
 public class OrderConfirmTemplate
 {
     public required string CustomerName;
