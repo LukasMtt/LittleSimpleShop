@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="body" xml:space="preserve">
-    <value>Liebe/r {{CustomerName}} - vielen Dank für Deine Bestellung! &lt;/br&gt; &lt;/br&gt; Details zum Status und eine Zusammenfassung der Bestellung findest Du hinter &lt;a href="{{CheckOrderStateLink}}"&gt;diesem Link&lt;/a&gt;. &lt;/br&gt; Sobald die Bestellung versandt wurde, erhalten Sie eine weitere E-Mail. Den Versandstatus können Sie anschließend über den ausgewählten Versanddienstleister einsehen.&lt;/br&gt; &lt;/br&gt; Mit freundlichen Grüßen, &lt;/br&gt; Dein Shop-Team</value>
+    <value>Liebe/r {{CustomerName}} - vielen Dank für Deine Bestellung! &lt;/br&gt; &lt;/br&gt; Details zum Status und eine Zusammenfassung der Bestellung findest Du hinter &lt;a href="{{CheckOrderStateLink}}"&gt;diesem Link&lt;/a&gt;. &lt;/br&gt; Sobald die Bestellung versandt wurde, erhältst Du eine weitere E-Mail. Den Versandstatus kannst Du anschließend über den ausgewählten Versanddienstleister einsehen.&lt;/br&gt; &lt;/br&gt; Mit freundlichen Grüßen, &lt;/br&gt; Dein Shop-Team</value>
   </data>
   <data name="subject" xml:space="preserve">
     <value>Bestellung im Shop erfolgreich</value>

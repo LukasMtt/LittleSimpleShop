@@ -22,23 +22,3 @@
 .snackbar-leave-animation {
   animation: slide-fade-out 0.5s;
 }
-
-/* key frame */
-
-@keyframes slide-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slide-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}

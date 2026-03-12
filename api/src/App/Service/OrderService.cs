@@ -67,6 +67,7 @@ public class OrderService
         // ugly, better implementation needed
         catch (ReferenceConstraintException referenceConstraintException) when (referenceConstraintException?.InnerException?.Message.Contains("CHECK") ?? false)
         {
+            // handle in frontend with more specific error message?
             Serilog.Log.Error("Product could not be added to order since the amount in stock dropped to zero.");
             return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
         }

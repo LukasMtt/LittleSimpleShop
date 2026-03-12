@@ -2,6 +2,7 @@
   <app-card
     [cardModel]="cardModel"
     [routerLink]="cardModel.cardLink ?? ''"
+    animate.enter="enter-animation"
     [style]="{
       'grid-row-start': cardModel.gridRowStartEnd
         ? cardModel.gridRowStartEnd[0]

@@ -103,29 +103,9 @@
 }
 
 .pop-up-image-animation {
-  animation: slide-fade 1s;
+  animation: slide-fade-in 1s;
 }
 
 .pop-up-close-image-animation {
-  animation: slide-fade-back 0.5s;
-}
-
-/* key frame */
-
-@keyframes slide-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slide-fade-back {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  animation: slide-fade-out 0.5s;
 }
