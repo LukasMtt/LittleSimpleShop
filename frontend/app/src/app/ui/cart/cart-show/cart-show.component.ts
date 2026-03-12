@@ -90,13 +90,14 @@ export class CartShowComponent extends BaseComponent {
 
   public onSubmit() {
     let dynamicDiscountCodeValidator = discountCodeValidator();
-    this.discountCodeCodeFormGroup.addValidators(dynamicDiscountCodeValidator);
-    this.discountCodeCodeFormGroup.updateValueAndValidity();
+    this.discountCodeCodeFormGroup.controls.code.addValidators(
+      dynamicDiscountCodeValidator
+    );
+    this.discountCodeCodeFormGroup.controls.code.updateValueAndValidity();
 
-    this.discountCodeCodeFormGroup.markAsTouched();
-    this.discountCodeCodeFormGroup.markAsDirty();
-
-    this.discountCodeCodeFormGroup.removeValidators(
+    this.discountCodeCodeFormGroup =
+      this.checkoutService.getDiscountCodeFormGroup();
+    this.discountCodeCodeFormGroup.controls.code.removeValidators(
       dynamicDiscountCodeValidator
     );
   }

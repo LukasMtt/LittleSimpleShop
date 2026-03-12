@@ -17,12 +17,14 @@ public class PaymentController : ShopBaseController
     private StripePaymentService _stripePaymentService;
     private OrderService _orderService;
     private ShopDbContext _context;
+    private NewsletterService _newsletterService;
 
-    public PaymentController(StripePaymentService stripePaymentService, OrderService orderService, ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService)
+    public PaymentController(StripePaymentService stripePaymentService, OrderService orderService, ShopDbContext context, NewsletterService newsletterService, IFileStorageService fileStorageService) : base(fileStorageService)
     {
         _stripePaymentService = stripePaymentService;
         _orderService = orderService;
         _context = context;
+        _newsletterService = newsletterService;
     }
 
     [HttpPost]
@@ -45,6 +47,10 @@ public class PaymentController : ShopBaseController
             return Problem("Checkout did not succeed.", statusCode: 500);
         }
         Session session = await _stripePaymentService.CreateCheckoutSession(cart, result.ResultData);
+        if (model.IsNewsletterActivated && !string.IsNullOrEmpty(model.Email))
+        {
+            await _newsletterService.AddActiveNewsletterSubscriber(model.Email);
+        }
         return Ok(new { id = session.Id });
     }
 

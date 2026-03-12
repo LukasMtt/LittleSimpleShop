@@ -14,13 +14,11 @@ public class OrderService
 {
     private ShopDbContext _context;
     private IMapper _mapper;
-    private NewsletterService _newsletterService;
 
-    public OrderService(ShopDbContext context, IMapper mapper, NewsletterService newsletterService)
+    public OrderService(ShopDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
-        _newsletterService = newsletterService;
     }
 
     public async Task<ServiceResult<Order?>> CreateAndSaveOrder(CheckoutModel model, Cart cart)
@@ -61,13 +59,8 @@ public class OrderService
 
             _context.Order.Add(order);
 
-            if (model.IsNewsletterActivated && !string.IsNullOrEmpty(model.Email))
-            {
-                await _newsletterService.AddActiveNewsletterSubscriber(model.Email);
-            }
-
             await transaction.CommitAsync();
-            return await _context.SaveChangesAsync() > 0
+            return (await _context.SaveChangesAsync()) > 0
                 ? new ServiceResult<Order?> { IsSuccess = true, ResultData = order }
                 : new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
         }
