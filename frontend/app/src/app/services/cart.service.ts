@@ -167,7 +167,7 @@ export class CartService {
   public resetCart() {
     this.httpClient
       .get<number>(
-        this.endpointResolveService.buildUrl(EndpointItem.AchieveCart, []),
+        this.endpointResolveService.buildUrl(EndpointItem.ArchiveCart, []),
         { withCredentials: true }
       )
       .subscribe((count) => {

@@ -46,7 +46,7 @@ public class PaymentController : ShopBaseController
         {
             return Problem("Checkout did not succeed.", statusCode: 500);
         }
-        Session session = await _stripePaymentService.CreateCheckoutSession(cart, result.ResultData);
+        Session session = (await _stripePaymentService.CreateCheckoutSession(cart, result.ResultData)).ResultData!;
         if (model.IsNewsletterActivated && !string.IsNullOrEmpty(model.Email))
         {
             await _newsletterService.AddActiveNewsletterSubscriber(model.Email);
@@ -60,6 +60,6 @@ public class PaymentController : ShopBaseController
     {
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
         StringValues signatureHeader = Request.Headers["Stripe-Signature"];
-        return await _stripePaymentService.HandleStripeWebhookEvent(json, signatureHeader) ? Ok() : Problem(statusCode: 400);
+        return (await _stripePaymentService.HandleStripeWebhookEvent(json, signatureHeader)).ResultData ? Ok() : Problem(statusCode: 400);
     }
 }

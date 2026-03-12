@@ -1,3 +1,5 @@
+using App.Misc;
+
 using Shop.Data;
 using Shop.Data.DataModels;
 
@@ -12,14 +14,25 @@ public class CartService
         _context = context;
     }
 
-    public string CreateCartToken()
+    public ServiceResult<string> CreateCartToken()
     {
-        return Guid.NewGuid().ToString();
+        return new ServiceResult<string>
+        {
+            IsSuccess = true,
+            ResultData = Guid.NewGuid().ToString()
+
+        };
     }
 
-    public async Task<bool> ArchiveCart(Cart cart)
+    public async Task<ServiceResult<bool>> ArchiveCart(Cart cart)
     {
         cart.State = CartLifecycleState.Archived;
-        return await _context.SaveChangesAsync() == 1;
+        var isSuccess = await _context.SaveChangesAsync() == 1;
+        return new ServiceResult<bool>
+        {
+            IsSuccess = isSuccess,
+            ResultData = isSuccess,
+            ErrorMessage = isSuccess ? "" : "Could not archive the cart."
+        };
     }
 }

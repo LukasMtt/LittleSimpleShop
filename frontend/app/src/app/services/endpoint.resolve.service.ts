@@ -39,7 +39,7 @@ export enum EndpointItem {
   PushCartItem = 'pushCartItem',
   PopCartItemByProductId = 'popCartItemByProductId',
   UpdateCartItemAmountByProductId = 'updateCartItemAmountByProductId',
-  AchieveCart = 'achieveCart',
+  ArchiveCart = 'archiveCart',
   GetOrderInformation = 'getOrderInformation',
   GetOrderExists = 'getOrderExists',
   PostNewsletterSubscriber = 'postNewsletterSubscriber'
@@ -157,9 +157,9 @@ export class EndpointResolveService {
     parent: this.cart,
     item: EndpointItem.UpdateCartItemAmountByProductId
   };
-  achieveCart: EndpointNode = {
+  archiveCart: EndpointNode = {
     parent: this.cart,
-    item: EndpointItem.AchieveCart
+    item: EndpointItem.ArchiveCart
   };
   getOrderInformation: EndpointNode = {
     parent: this.order,
@@ -196,7 +196,7 @@ export class EndpointResolveService {
     this.pushCartItem,
     this.popCartItemByProductId,
     this.updateCartItemAmountByProductId,
-    this.achieveCart,
+    this.archiveCart,
     this.getOrderInformation,
     this.getOrderExists,
     this.postNewsletterSubscriber

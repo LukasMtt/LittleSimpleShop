@@ -1,3 +1,5 @@
+using App.Misc;
+
 using Microsoft.Extensions.Options;
 
 using Shop.ApiModels;
@@ -16,7 +18,7 @@ public class SeaweedFsService : IFileStorageService
         _appOptions = options;
     }
 
-    public async Task<HttpContent?> GetFileAsync(string fileId)
+    public async Task<ServiceResult<HttpContent?>> GetFileAsync(string fileId)
     {
         var baseAddressFileUrl = _appOptions.Value.SeaweedFs.FileUrl;
         if (string.IsNullOrEmpty(baseAddressFileUrl))
@@ -28,26 +30,42 @@ public class SeaweedFsService : IFileStorageService
         {
             var response = await _httpClient.GetAsync($"{baseAddressFileUrl}/{fileId}", cts.Token);
             response.EnsureSuccessStatusCode();
-            return response.Content;
+            return new ServiceResult<HttpContent?>
+            {
+                IsSuccess = true,
+                ResultData = response.Content
+            };
         }
         catch (OperationCanceledException)
         {
             Serilog.Log.Warning("Timeout occurred while fetching file from SeaweedFS with fileId: {FileId}", fileId);
-            return null;
+            return new ServiceResult<HttpContent?>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not fetch file from SeaweedFs."
+            };
         }
         catch (HttpRequestException ex)
         {
             Serilog.Log.Error(ex, "HTTP error occurred while fetching file from SeaweedFS with fileId: {FileId}", fileId);
-            return null;
+            return new ServiceResult<HttpContent?>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not fetch file from SeaweedFs."
+            };
         }
         catch (Exception ex)
         {
             Serilog.Log.Error(ex, "Error occured while fetching file from SeaweedFS with fileId: {FileId}", fileId);
-            return null;
+            return new ServiceResult<HttpContent?>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not fetch file from SeaweedFs."
+            };
         }
     }
 
-    public async Task<string?> PostFileAsync(byte[] fileContent, string contentType)
+    public async Task<ServiceResult<string>> PostFileAsync(byte[] fileContent, string contentType)
     {
         var baseAddressAssignUrl = _appOptions.Value.SeaweedFs.AssignUrl;
         if (string.IsNullOrEmpty(baseAddressAssignUrl))
@@ -66,28 +84,48 @@ public class SeaweedFsService : IFileStorageService
             var fileId = await AssignAndGetNewFileId(baseAddressAssignUrl, cts);
             if (fileId == null)
             {
-                return null;
+                return new ServiceResult<string>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Could not post file to SeaweedFs."
+                };
             }
             var byteArrayContent = new ByteArrayContent(fileContent);
             byteArrayContent.Headers.Add("Content-Type", contentType);
             var responsePost = await _httpClient.PostAsync($"{baseAddressFileUrl}/{fileId}", byteArrayContent, cts.Token);
             responsePost.EnsureSuccessStatusCode();
-            return fileId;
+            return new ServiceResult<string>
+            {
+                IsSuccess = true,
+                ResultData = fileId!
+            };
         }
         catch (OperationCanceledException)
         {
             Serilog.Log.Warning("Timeout occurred while posting file to SeaweedFS or getting a file id for this post.");
-            return null;
+            return new ServiceResult<string>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not post file to SeaweedFs."
+            };
         }
         catch (HttpRequestException ex)
         {
             Serilog.Log.Error(ex, "HTTP error occurred while posting file to SeaweedFS or getting a file id for this post.");
-            return null;
+            return new ServiceResult<string>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not post file to SeaweedFs."
+            };
         }
         catch (Exception ex)
         {
             Serilog.Log.Error(ex, "Error occurred while posting file to SeaweedFS or getting a file id for this post.");
-            return null;
+            return new ServiceResult<string>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not post file to SeaweedFs."
+            };
         }
     }
 

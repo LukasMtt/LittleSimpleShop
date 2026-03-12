@@ -1,5 +1,7 @@
 using System.Globalization;
 
+using App.Misc;
+
 using Fluid;
 
 using Shop.Data;
@@ -24,17 +26,25 @@ public class InvoiceService
         _fluidParser = fluidParser;
     }
 
-    public async Task<byte[]?> CreateInvoice(Order order)
+    public async Task<ServiceResult<byte[]>> CreateInvoice(Order order)
     {
         var documentTemplate = _context.Document.FirstOrDefault(x => x.DocumentType == DocumentType.InvoiceTemplate);
         if (documentTemplate == null || documentTemplate.FileExtension != "html")
         {
-            return null;
+            return new ServiceResult<byte[]>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not create invoice"
+            };
         }
-        var documentTemplateFileContent = await _fileStorageService.GetFileAsync(documentTemplate.FileId ?? "");
+        var documentTemplateFileContent = (await _fileStorageService.GetFileAsync(documentTemplate.FileId ?? "")).ResultData;
         if (documentTemplateFileContent == null)
         {
-            return null;
+            return new ServiceResult<byte[]>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not create invoice"
+            };
         }
         if (_fluidParser.TryParse(await documentTemplateFileContent.ReadAsStringAsync(), out var template, out var error))
         {
@@ -58,18 +68,26 @@ public class InvoiceService
             var context = new TemplateContext(model, templateOptions);
             var filledTemplate = template.Render(context);
 
-            var result = await _pdfConverterService.ConvertHtmlToPdfFileAsync(filledTemplate);
+            var result = (await _pdfConverterService.ConvertHtmlToPdfFileAsync(filledTemplate)).ResultData;
             if (result == null)
             {
-                return null;
+                return new ServiceResult<byte[]>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Could not create invoice"
+                };
             }
             var pdfResult = await result.ReadAsByteArrayAsync();
             if (pdfResult == null)
             {
                 Serilog.Log.Error($"Error while reading pdf file as byte array.");
-                return null;
+                return new ServiceResult<byte[]>
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Could not create invoice"
+                };
             }
-            var invoiceDocumentFileId = await _fileStorageService.PostFileAsync(pdfResult, _invoiceContentType);
+            var invoiceDocumentFileId = (await _fileStorageService.PostFileAsync(pdfResult, _invoiceContentType)).ResultData;
             var invoiceDocument = new Document
             {
                 FileId = invoiceDocumentFileId,
@@ -80,17 +98,29 @@ public class InvoiceService
             };
             order.OrderDocuments.Add(invoiceDocument);
             await _context.SaveChangesAsync();
-            return pdfResult;
+            return new ServiceResult<byte[]>
+            {
+                IsSuccess = true,
+                ResultData = pdfResult
+            };
         }
         else
         {
             Serilog.Log.Error($"Error while parsing for email body: {error}");
-            return null;
+            return new ServiceResult<byte[]>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not create invoice"
+            };
         }
     }
 
-    public string CreateInvoiceNumber()
+    public ServiceResult<string> CreateInvoiceNumber()
     {
-        return $"IN-{Guid.NewGuid()}";
+        return new ServiceResult<string>
+        {
+            IsSuccess = true,
+            ResultData = $"IN-{Guid.NewGuid()}"
+        };
     }
 }

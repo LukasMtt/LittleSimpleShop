@@ -1,5 +1,7 @@
+using App.Misc;
+
 public interface IFileStorageService
 {
-    Task<HttpContent?> GetFileAsync(string fileId);
-    Task<string?> PostFileAsync(byte[] fileContent, string contentType);
+    Task<ServiceResult<HttpContent?>> GetFileAsync(string fileId);
+    Task<ServiceResult<string>> PostFileAsync(byte[] fileContent, string contentType);
 }

@@ -17,7 +17,7 @@ public abstract class ShopBaseController : ControllerBase
 
     protected async Task<FileContentResult?> GetFileAsync(string fileId)
     {
-        var fileContent = await _fileStorageService.GetFileAsync(fileId);
+        var fileContent = (await _fileStorageService.GetFileAsync(fileId)).ResultData;
         if (fileContent == null)
         {
             return null;

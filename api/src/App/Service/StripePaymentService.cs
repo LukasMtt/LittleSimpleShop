@@ -1,5 +1,7 @@
 using System.Resources;
 
+using App.Misc;
+
 using Fluid;
 
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +40,7 @@ public class StripePaymentService
     {
         _appOptions = appOptions;
         _context = context;
-        _currency = GetCurrencyFromCultureCode(_appOptions.Value.CultureCode);
+        _currency = GetCurrencyFromCultureCode(_appOptions.Value.CultureCode).ResultData!;
         _mailService = mailService;
         _fluidParser = fluidParser;
         _invoiceService = invoiceService;
@@ -49,7 +51,7 @@ public class StripePaymentService
         _frontendBaseUrl = _appOptions.Value.FrontendBaseUrl;
     }
 
-    public async Task<Session> CreateCheckoutSession(Cart cart, Order order)
+    public async Task<ServiceResult<Session>> CreateCheckoutSession(Cart cart, Order order)
     {
         var options = new SessionCreateOptions
         {
@@ -67,12 +69,16 @@ public class StripePaymentService
         };
 
         var service = new SessionService();
-        return await service.CreateAsync(options);
+        return new ServiceResult<Session>
+        {
+            IsSuccess = true,
+            ResultData = await service.CreateAsync(options)
+        };
     }
 
     // this might handle one case in the variety of stripe return values, but is not enough for a hardened prod work flow with delayed payment, more complex error cases and different payment types
     // task: study stripe API docs regarding use cases of this application and extend accordingly
-    public async Task<bool> HandleStripeWebhookEvent(string json, StringValues signatureHeader)
+    public async Task<ServiceResult<bool>> HandleStripeWebhookEvent(string json, StringValues signatureHeader)
     {
         var webhookSecret = _appOptions.Value.StripeWebhookSecret;
         try
@@ -86,23 +92,39 @@ public class StripePaymentService
                     await HandleCheckoutSessionCompleted(session);
                     break;
             }
-            return true;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = true,
+                ResultData = true
+            };
         }
         catch (StripeException e)
         {
             Log.Error("Stripe webhook error: {0}", e.Message);
-            return false;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not process webhook."
+            };
         }
     }
 
     // needs further development
-    public string GetCurrencyFromCultureCode(string cultureCode)
+    public ServiceResult<string> GetCurrencyFromCultureCode(string cultureCode)
     {
         if (cultureCode == "de")
         {
-            return "eur";
+            return new ServiceResult<string>
+            {
+                IsSuccess = true,
+                ResultData = "eur"
+            };
         }
-        return "usd";
+        return new ServiceResult<string>
+        {
+            IsSuccess = true,
+            ResultData = "usd"
+        };
     }
 
     private async Task HandleCheckoutSessionCompleted(Session session)
@@ -121,16 +143,16 @@ public class StripePaymentService
         }
 
         order.State = OrderState.Processing;
-        order.InvoiceNumber = _invoiceService.CreateInvoiceNumber();
+        order.InvoiceNumber = _invoiceService.CreateInvoiceNumber().ResultData;
 
         var cancellationTokenSource = new CancellationTokenSource();
-        var invoicePdfByteArray = await _invoiceService.CreateInvoice(order);
+        var invoicePdfByteArray = (await _invoiceService.CreateInvoice(order)).ResultData;
         var checkOrderStateLink = $"{FrontendHelper.GetCheckOrderStateUrl(_frontendBaseUrl)}/{order?.OrderToken ?? ""}";
         var bodyEmailRaw = _resourceManager.GetString("body") ?? "";
         var bodyEmailParsed = GetParsedEmailBody(new OrderConfirmTemplate { CustomerName = order!.ShipmentTarget?.FirstName ?? "", CheckOrderStateLink = checkOrderStateLink }, bodyEmailRaw);
         var subjectEmail = _resourceManager.GetString("subject") ?? "";
         var attachmentFileName = $"Invoice_{order.InvoiceNumber ?? ""}.pdf";
-        var mailResult = await _mailService.SendMailAsync(order.ShipmentTarget?.Email ?? "", order.ShipmentTarget?.FirstName ?? "", subjectEmail, bodyEmailParsed, invoicePdfByteArray, new ContentType("application", "pdf"), attachmentFileName, cancellationTokenSource.Token);
+        var mailResult = (await _mailService.SendMailAsync(order.ShipmentTarget?.Email ?? "", order.ShipmentTarget?.FirstName ?? "", subjectEmail, bodyEmailParsed, invoicePdfByteArray, new ContentType("application", "pdf"), attachmentFileName, cancellationTokenSource.Token)).ResultData;
 
         if (mailResult)
         {

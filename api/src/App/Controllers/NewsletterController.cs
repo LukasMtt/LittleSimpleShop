@@ -18,7 +18,7 @@ public class NewsletterController : ShopBaseController
     public async Task<ActionResult> PostNewsletterSubscriber([FromQuery] string email)
     {
 
-        if (await _newsletterService.AddActiveNewsletterSubscriber(email))
+        if ((await _newsletterService.AddActiveNewsletterSubscriber(email)).ResultData)
         {
             return Created();
         }

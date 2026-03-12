@@ -1,4 +1,6 @@
+using App.Misc;
+
 public interface IPdfConverterService
 {
-    public Task<HttpContent?> ConvertHtmlToPdfFileAsync(string html);
+    public Task<ServiceResult<HttpContent?>> ConvertHtmlToPdfFileAsync(string html);
 }

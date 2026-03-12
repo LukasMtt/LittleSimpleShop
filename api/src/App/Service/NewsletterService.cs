@@ -1,3 +1,5 @@
+using App.Misc;
+
 using Shop.Data;
 using Shop.Data.DataModels;
 
@@ -12,17 +14,27 @@ public class NewsletterService
         _context = context;
     }
 
-    public async Task<bool> AddActiveNewsletterSubscriber(string? email)
+    public async Task<ServiceResult<bool>> AddActiveNewsletterSubscriber(string? email)
     {
         if (string.IsNullOrEmpty(email))
         {
-            return false;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not add newsletter subscriber."
+            };
         }
         var subscriber = _context.NewsletterSubscriber.FirstOrDefault(x => x.Email == email);
         if (subscriber != null)
         {
             subscriber.IsActive = true;
-            return await _context.SaveChangesAsync() == 1;
+            var alreadySubscribedResult = await _context.SaveChangesAsync() == 1;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = alreadySubscribedResult,
+                ErrorMessage = alreadySubscribedResult ? null : "Could not add newsletter subscriber.",
+                ResultData = alreadySubscribedResult
+            };
         }
         var newsletterSubscriber = new NewsletterSubscriber
         {
@@ -30,18 +42,34 @@ public class NewsletterService
             IsActive = true
         };
         _context.NewsletterSubscriber.Add(newsletterSubscriber);
-        return await _context.SaveChangesAsync() == 1;
+        var newlySubscribedResult = await _context.SaveChangesAsync() == 1;
+        return new ServiceResult<bool>
+        {
+            IsSuccess = newlySubscribedResult,
+            ErrorMessage = newlySubscribedResult ? null : "Could not add newsletter subscriber.",
+            ResultData = newlySubscribedResult
+        };
     }
 
-    public async Task<bool> DeactivateNewsletterSubscriber(string email)
+    public async Task<ServiceResult<bool>> DeactivateNewsletterSubscriber(string email)
     {
         var subscriber = _context.NewsletterSubscriber.FirstOrDefault(x => x.Email == email);
         if (subscriber == null)
         {
-            return true;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = true,
+                ResultData = true
+            };
         }
         _context.NewsletterSubscriber.Remove(subscriber);
-        return await _context.SaveChangesAsync() == 1;
+        var result = await _context.SaveChangesAsync() == 1;
+        return new ServiceResult<bool>
+        {
+            IsSuccess = result,
+            ResultData = result,
+            ErrorMessage = result ? null : "Could not deactivate subscriber"
+        };
     }
 
     //implement mechanism for broadcasting newsletter to subscribers

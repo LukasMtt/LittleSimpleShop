@@ -1,3 +1,5 @@
+using App.Misc;
+
 using MailKit.Net.Smtp;
 
 using Microsoft.Extensions.Options;
@@ -17,12 +19,16 @@ public class MailService
         _appOptions = appOptions;
     }
 
-    public async Task<bool> SendMailAsync(string? destinationAddress, string? destinationName, string? subject, string? body, byte[]? attachmentContent, ContentType? attachmentContentType, string? attachmentFileName, CancellationToken cancellationToken)
+    public async Task<ServiceResult<bool>> SendMailAsync(string? destinationAddress, string? destinationName, string? subject, string? body, byte[]? attachmentContent, ContentType? attachmentContentType, string? attachmentFileName, CancellationToken cancellationToken)
     {
         if (!IsMailConfigAndInputValid(destinationAddress, destinationName, subject, body))
         {
             Serilog.Log.Error("Could not send email due to error.");
-            return false;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not send email"
+            };
         }
         try
         {
@@ -35,17 +41,29 @@ public class MailService
             }
             await client.SendAsync(message, cancellationToken);
             client.Disconnect(true, cancellationToken);
-            return true;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = true,
+                ResultData = true
+            };
         }
         catch (OperationCanceledException)
         {
             Serilog.Log.Warning("Could not send email due to cancellation of the sending process.");
-            return false;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not send email"
+            };
         }
         catch (Exception)
         {
             Serilog.Log.Error("Could not send email due to error.");
-            return false;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = "Could not send email"
+            };
         }
     }
 

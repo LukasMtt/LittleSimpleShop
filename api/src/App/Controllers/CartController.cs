@@ -49,7 +49,11 @@ public class CartController : ShopBaseController
             return true;
         }
 
-        cartToken = _cartService.CreateCartToken();
+        cartToken = _cartService.CreateCartToken().ResultData;
+        if (cartToken == null)
+        {
+            return false;
+        }
         var cart = new Cart
         {
             CartToken = cartToken,
@@ -159,7 +163,7 @@ public class CartController : ShopBaseController
     }
 
     [HttpGet]
-    public int AchieveCart()
+    public int ArchiveCart()
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))

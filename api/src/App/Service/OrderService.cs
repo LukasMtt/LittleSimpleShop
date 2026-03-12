@@ -32,7 +32,7 @@ public class OrderService
             {
                 OrderDate = DateTime.UtcNow,
                 DiscountCode = model.DiscountCode,
-                OrderToken = CreateOrderToken(),
+                OrderToken = CreateOrderToken().ResultData,
                 Cart = cart,
                 ShipmentTarget = shipmentTarget,
                 // placeholder, real value has to come from frontend
@@ -79,9 +79,13 @@ public class OrderService
 
     }
 
-    public string CreateOrderToken()
+    public ServiceResult<string> CreateOrderToken()
     {
         var timePortion = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
-        return $"{Guid.NewGuid()}-{timePortion}";
+        return new ServiceResult<string>
+        {
+            IsSuccess = true,
+            ResultData = $"{Guid.NewGuid()}-{timePortion}"
+        };
     }
 }
