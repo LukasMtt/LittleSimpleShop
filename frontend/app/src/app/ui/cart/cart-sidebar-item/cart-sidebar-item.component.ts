@@ -1,4 +1,4 @@
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { TickCounterComponent } from '../../shared/tick-counter/tick-counter.component';
 import { CartService } from '../../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
@@ -7,6 +7,7 @@ import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
+import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
   selector: 'app-cart-sidebar-item',
@@ -42,17 +43,22 @@ export class CartSidebarItemComponent extends BaseComponent {
     }
     return '';
   });
+  currency = signal<string>('USD');
 
   cartItemImage: DisplayImageInput | undefined;
 
   constructor(
     public cartService: CartService,
-    private fileFetchService: FileFetchService
+    private fileFetchService: FileFetchService,
+    metaDataService: MetadataService
   ) {
     super();
     effect(() => {
       this.cartItemImage = this.cartItem()?.product.image;
       this.setCartItemImage();
+    });
+    metaDataService.getMetadata().subscribe((metadata) => {
+      this.currency.set(metadata.currency ?? 'USD');
     });
   }
 

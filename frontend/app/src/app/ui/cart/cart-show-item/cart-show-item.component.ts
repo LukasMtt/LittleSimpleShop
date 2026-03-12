@@ -7,6 +7,7 @@ import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
+import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
   selector: 'app-cart-show-item',
@@ -44,12 +45,14 @@ export class CartShowItemComponent extends BaseComponent {
   });
   cartItemPerPieceText = signal<string>('');
   cartItemForAllPiecesText = signal<string>('');
+  currency = signal<string>('USD');
 
   cartItemImage: DisplayImageInput | undefined;
 
   constructor(
     public cartService: CartService,
-    private fileFetchService: FileFetchService
+    private fileFetchService: FileFetchService,
+    private metaDataService: MetadataService
   ) {
     super();
     this.cartItemPerPieceText.set(this.res('CARTITEM_PER_PIECE'));
@@ -57,6 +60,9 @@ export class CartShowItemComponent extends BaseComponent {
     effect(() => {
       this.cartItemImage = this.cartItem()?.product.image;
       this.setCartItemImage();
+    });
+    metaDataService.getMetadata().subscribe((metadata) => {
+      this.currency.set(metadata.currency ?? 'USD');
     });
   }
 

@@ -8,4 +8,5 @@ export interface MetadataShopDTO {
   contactText: string | undefined;
   aboutText: string | undefined;
   imprintText: string | undefined;
+  currency: string | undefined;
 }

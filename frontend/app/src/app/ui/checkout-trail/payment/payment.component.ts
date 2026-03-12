@@ -37,6 +37,7 @@ export class PaymentComponent extends BaseComponent {
   paymentBadgesTextList = signal<string[]>([]);
   triggerSnackbar = signal<boolean | undefined>(undefined);
   textSnackbar = signal<string>('');
+  currency = signal<string>('');
 
   public shipmentFormGroup: FormGroup<ShipmentFormModel>;
 
@@ -55,6 +56,7 @@ export class PaymentComponent extends BaseComponent {
       metaDataService.getMetadata(),
       shippingService.getShippingTimeEstimation()
     ]).subscribe(([metadata, estimation]) => {
+      this.currency.set(metadata.currency ?? 'USD');
       const textList: string[] = [];
       textList.push(
         this.res('ORDER_RETURN_TIMESPAN').replace(

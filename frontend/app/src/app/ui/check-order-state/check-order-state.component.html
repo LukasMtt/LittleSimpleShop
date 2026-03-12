@@ -19,7 +19,7 @@
   <hr class="divider" />
   <!-- todo: consider adding info regarding promo code/discount when implemented -->
   <div class="subgroup-row subgroup-row-reverse bold-item">
-    {{ cartItemsTotalPrice() | currency }}
+    {{ cartItemsTotalPrice() | currency: currency() }}
   </div>
 </div>
 <div class="subgroup-container">

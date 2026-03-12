@@ -51,6 +51,7 @@ export class ProductShowComponent extends BaseComponent {
   freeShippingString = signal<string>('');
   freeShippingThresholdString = signal<string>('');
   shippingDeliveryEstimationString = signal<string | undefined>(undefined);
+  currency = signal<string>('USD');
 
   subPriceMetaInfosLength = computed(() => {
     return this.subPriceMetaInfos().length;
@@ -90,6 +91,7 @@ export class ProductShowComponent extends BaseComponent {
       this.res('SAFETY_AND_USAGE_DESCRIPTION_HEADER')
     );
     metaDataService.getMetadata().subscribe((metadata) => {
+      this.currency.set(metadata.currency ?? 'USD');
       this.freeShippingThresholdString.set(
         currencyPipe.transform(metadata.freeShippingThreshold) ?? ''
       );

@@ -43,6 +43,7 @@ export class CartShowComponent extends BaseComponent {
     return 'invalid sum';
   });
   bottomBadgesTextList = signal<string[]>([]);
+  currency = signal<string>('USD');
 
   public discountCodeCodeFormGroup: FormGroup<DiscountCodeFormModel>;
 
@@ -61,11 +62,15 @@ export class CartShowComponent extends BaseComponent {
       metaDataService.getMetadata(),
       shippingService.getShippingTimeEstimation()
     ]).subscribe(([metadata, estimation]) => {
+      this.currency.set(metadata.currency ?? 'USD');
       const textList: string[] = [];
       textList.push(
         this.res('FREE_SHIPPING_FROM').replace(
           '{X}',
-          currencyPipe.transform(metadata.freeShippingThreshold) ?? ''
+          currencyPipe.transform(
+            metadata.freeShippingThreshold,
+            this.currency()
+          ) ?? ''
         )
       );
       textList.push(

@@ -10,7 +10,7 @@
     {{ cartItem()?.product?.name || '' }}
   </div>
   <div>
-    {{ totalPrice() | currency }}
+    {{ totalPrice() | currency: currency() }}
   </div>
 </div>
 <app-tick-counter

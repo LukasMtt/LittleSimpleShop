@@ -2,7 +2,7 @@
   <div class="product-description-top-col-1">
     <div class="product-description-header">
       {{ productName() | uppercase }} {{ midDotString }}
-      {{ productPrice() | currency }}
+      {{ productPrice() | currency: currency() }}
     </div>
     <div class="product-description-badges">
       <app-text-badge class="badge">{{
@@ -46,7 +46,7 @@
   <div class="product-description-top-col-2">
     <div class="product-description-header">
       {{ productName() | uppercase }} {{ midDotString }}
-      {{ productPrice() | currency }}
+      {{ productPrice() | currency: currency() }}
     </div>
     <div class="product-description-badges">
       <app-text-badge class="badge">{{

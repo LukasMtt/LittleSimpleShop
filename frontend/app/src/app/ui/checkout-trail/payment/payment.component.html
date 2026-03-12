@@ -6,14 +6,14 @@
         {{ item.amount }}
       </div>
       <div class="cart-item-price">
-        {{ (item.product.price ?? 0) * item.amount | currency }}
+        {{ (item.product.price ?? 0) * item.amount | currency: currency() }}
       </div>
     </div>
   }
   <hr class="divider" />
   <!-- consider adding info on the promo code/discount when implemented -->
   <div class="cart-sum">
-    {{ totalPriceCart() | currency }}
+    {{ totalPriceCart() | currency: currency() }}
   </div>
   <br />
   <div class="address-summary">

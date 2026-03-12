@@ -43,6 +43,6 @@
     {{ this.res('CART_SUM') }}
   </div>
   <div>
-    {{ cartPriceTotal() | currency }}
+    {{ cartPriceTotal() | currency: currency() }}
   </div>
 </div>

@@ -11,10 +11,13 @@
       >{{ cartItem()?.product?.name || '' }}
     </span>
     <br />
-    {{ cartItem()?.product?.price | currency }} {{ cartItemPerPieceText() }}
+    {{ cartItem()?.product?.price | currency: currency() }}
+    {{ cartItemPerPieceText() }}
   </div>
   <div></div>
-  <div>{{ totalPrice() | currency }} {{ cartItemForAllPiecesText() }}</div>
+  <div>
+    {{ totalPrice() | currency: currency() }} {{ cartItemForAllPiecesText() }}
+  </div>
 </div>
 <app-tick-counter
   [counter]="cartItem()?.amount || 0"

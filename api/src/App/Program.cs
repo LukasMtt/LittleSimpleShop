@@ -17,6 +17,7 @@ using Shop.Data.Migrations;
 using Shop.Misc;
 using Shop.Service;
 
+using System.Globalization;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 
@@ -32,6 +33,11 @@ class Program
             builder.Services.Configure<AppOptions>(builder.Configuration);
             var options = builder.Configuration.Get<AppOptions>();
             var isDevEnv = builder.Environment.IsDevelopment();
+
+            if (!string.IsNullOrEmpty(options?.CultureCode))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(options.CultureCode);
+            }
 
             RegisterServices(builder.Services, options, isDevEnv);
             MigrateDatabase(options);

@@ -6,6 +6,7 @@ import { CartItemModel } from '../../models/component/cart-item.model';
 import { ProductService } from '../../services/product.service';
 import { CheckoutDTO } from '../../models/api/checkout.dto';
 import { CurrencyPipe } from '@angular/common';
+import { MetadataService } from '../../services/metadata.service';
 
 @Component({
   selector: 'app-check-order-state',
@@ -23,6 +24,7 @@ export class CheckOrderStateComponent extends BaseComponent {
   shippingProvider = signal<string>('');
   shippingProviderOrderId = signal<string>('');
   shippingProviderTrackingLink = signal<string>('');
+  currency = signal<string>('USD');
 
   cartItemsTotalPrice = computed(() => {
     if (this.cartItems().length < 1) return 0;
@@ -34,12 +36,17 @@ export class CheckOrderStateComponent extends BaseComponent {
   constructor(
     activatedRoute: ActivatedRoute,
     orderService: OrderService,
-    productService: ProductService
+    productService: ProductService,
+    metaDataService: MetadataService
   ) {
     super();
 
     activatedRoute.params.subscribe((params) => {
       this.orderToken.set(params['orderToken']);
+    });
+
+    metaDataService.getMetadata().subscribe((metadata) => {
+      this.currency.set(metadata.currency ?? 'USD');
     });
 
     orderService.getOrderInformation(this.orderToken()).subscribe({

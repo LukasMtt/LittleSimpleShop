@@ -11,4 +11,5 @@ public class MetadataModel
     public string? ContactText { get; set; }
     public string? AboutText { get; set; }
     public string? ImprintText { get; set; }
+    public string? Currency { get; set; }
 }

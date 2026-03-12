@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { CardBoardComponent } from '../../shared/card-board/card.board.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ProductService } from '../../../services/product.service';
@@ -9,12 +9,13 @@ import { CategoryType } from '../../../enums/category-type.enum';
 import { ProductDTO } from '../../../models/api/product.dto';
 import { CardInput } from '../../../models/component/card.input';
 import { CurrencyPipe } from '@angular/common';
+import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
-    selector: 'app-product-board',
-    imports: [CardBoardComponent, MatPaginator],
-    templateUrl: './product-board.component.html',
-    styleUrl: './product-board.component.css'
+  selector: 'app-product-board',
+  imports: [CardBoardComponent, MatPaginator],
+  templateUrl: './product-board.component.html',
+  styleUrl: './product-board.component.css'
 })
 export class ProductBoardComponent implements OnInit, Paginable {
   @Input({ required: true }) categoryId!: string;
@@ -27,12 +28,15 @@ export class ProductBoardComponent implements OnInit, Paginable {
   routeType = RouteEndpointType.ShowProduct.toString();
   paginationState = new PaginationStateModel();
 
+  currency = signal<string>('USD');
+
   readonly pageSize = 8;
   readonly pageOffset = 0;
 
   constructor(
     private productService: ProductService,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private metaDataService: MetadataService
   ) {}
 
   ngOnInit() {
@@ -42,6 +46,10 @@ export class ProductBoardComponent implements OnInit, Paginable {
     this.paginationState.pageOffset = this.pageOffset;
 
     this.initProductList();
+
+    this.metaDataService.getMetadata().subscribe((metadata) => {
+      this.currency.set(metadata.currency ?? 'USD');
+    });
   }
 
   initProductList() {
@@ -91,7 +99,7 @@ export class ProductBoardComponent implements OnInit, Paginable {
         fileId: product.images[0].fileId,
         productId: product.id
       },
-      subText: `${product.name ?? ''} \u00B7 ${this.currencyPipe.transform(product.price)}`,
+      subText: `${product.name ?? ''} \u00B7 ${this.currencyPipe.transform(product.price, this.currency())}`,
       cardLink: targetRoute
     };
   }

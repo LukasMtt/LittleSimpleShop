@@ -38,7 +38,7 @@ public class StripePaymentService
     {
         _appOptions = appOptions;
         _context = context;
-        _currency = _appOptions.Value.StripeCurrency!;
+        _currency = GetCurrencyFromCultureCode(_appOptions.Value.CultureCode);
         _mailService = mailService;
         _fluidParser = fluidParser;
         _invoiceService = invoiceService;
@@ -93,6 +93,16 @@ public class StripePaymentService
             Log.Error("Stripe webhook error: {0}", e.Message);
             return false;
         }
+    }
+
+    // needs further development
+    public string GetCurrencyFromCultureCode(string cultureCode)
+    {
+        if (cultureCode == "de")
+        {
+            return "eur";
+        }
+        return "usd";
     }
 
     private async Task HandleCheckoutSessionCompleted(Session session)
