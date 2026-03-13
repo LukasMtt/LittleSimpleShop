@@ -13,7 +13,7 @@ export class AboutComponent extends BaseComponent {
   aboutText = signal<SafeHtml>('');
 
   constructor(
-    public sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     metaDataService: MetadataService
   ) {
     super();

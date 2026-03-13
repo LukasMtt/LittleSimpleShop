@@ -3,7 +3,8 @@ import {
   computed,
   ElementRef,
   HostListener,
-  model
+  model,
+  signal
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +15,7 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { HeaderSidebarComponent } from './header-sidebar/header-sidebar.component';
 import { NewsHeaderComponent } from './news-header/news-header.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -33,15 +35,21 @@ export class HeaderComponent extends BaseComponent {
   hideMainMenu = model<boolean>(true);
   hideCartMenu = model<boolean>(true);
 
+  openCookieWindow = signal<boolean>(false);
+  cookieText = signal<SafeHtml>('');
   cart = computed(() => {
     return this.cartService.cartReadonly();
   });
 
   constructor(
     private elementRef: ElementRef,
-    private cartService: CartService
+    private cartService: CartService,
+    private sanitizer: DomSanitizer
   ) {
     super();
+    this.cookieText.set(
+      this.sanitizer.bypassSecurityTrustHtml(this.res('COOKIE_TEXT'))
+    );
   }
 
   @HostListener('document:click', ['$event.target'])
@@ -60,5 +68,13 @@ export class HeaderComponent extends BaseComponent {
 
   public onCartButtonClick(): void {
     this.hideCartMenu.update((value) => !value);
+  }
+
+  public openPopUpCookie() {
+    this.openCookieWindow.set(true);
+  }
+
+  public closePopUpCookie() {
+    this.openCookieWindow.set(false);
   }
 }

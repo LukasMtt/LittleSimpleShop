@@ -1,23 +1,38 @@
 <header>
   <app-news-header></app-news-header>
-  <mat-toolbar class="header-toolbar">
-    <button mat-icon-button (click)="onMenuButtonClick()" class="mat-icon-wrap">
-      <mat-icon class="medium-button">menu</mat-icon>
-    </button>
-    <span></span>
-    <span class="header-banner" routerLink="shop">{{
-      this.res('SITE_TITLE')
-    }}</span>
-    <span></span>
-    <button
-      mat-icon-button
-      (click)="onCartButtonClick()"
-      class="shopping-basket-sidebar-button"
-    >
-      <mat-icon class="medium-button">shopping_basket</mat-icon>
-      <span class="counter-badge">{{ cart().cartItems.length }}</span>
-    </button>
-  </mat-toolbar>
+  <div class="header-toolbar">
+    <div (click)="onMenuButtonClick()" class="left-button mat-icon-wrap">
+      <mat-icon class="header-button">menu</mat-icon>
+    </div>
+    <div class="header-banner" routerLink="shop">
+      {{ this.res('SITE_TITLE') }}
+    </div>
+    <div class="button-group-right">
+      <div (click)="openPopUpCookie()" class="mat-icon-wrap">
+        <mat-icon class="header-button">cookie</mat-icon>
+      </div>
+      <div (click)="onCartButtonClick()" class="mat-icon-wrap">
+        <mat-icon class="header-button">shopping_basket</mat-icon>
+      </div>
+      <div class="counter-badge">{{ cart().cartItems.length }}</div>
+    </div>
+  </div>
   <app-header-sidebar class="header-menu-sidebar" [(isHidden)]="hideMainMenu" />
   <app-cart-sidebar class="header-cart-sidebar" [(isHidden)]="hideCartMenu" />
 </header>
+@if (openCookieWindow()) {
+  <div
+    class="cookie-pop-up-background-overlay"
+    animate.enter="pop-up-cookie-animation"
+    animate.leave="pop-up-close-cookie-animation"
+  ></div>
+
+  <div
+    class="cookie-pop-up-container"
+    animate.enter="pop-up-cookie-animation"
+    animate.leave="pop-up-close-cookie-animation"
+  >
+    <div [innerHTML]="cookieText()"></div>
+    <mat-icon class="close-button" (click)="closePopUpCookie()">close</mat-icon>
+  </div>
+}

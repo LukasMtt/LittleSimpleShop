@@ -80,5 +80,6 @@
   "SHIPPING_PROVIDER_FEDEX": "FedEx",
   "SHIPPING_PROVIDER_HERMES": "Hermes",
   "SHIPPING_PROVIDER_UPS": "UPS",
-  "SUBSCRIBE_NEWSLETTER_INFO": "Du wurdest zum Newsletter hinzugefügt!"
+  "SUBSCRIBE_NEWSLETTER_INFO": "Du wurdest zum Newsletter hinzugefügt!",
+  "COOKIE_TEXT": "Wir verwenden lediglich essentielle Cookies für folgende Zwecke: <ul> <li>sichere Übertragung Ihrer Daten</li> <li>Abwicklung des Bezahlvorgangs</li> <li>Verwaltung Ihres Warenkorbs</li> </ul> Insbesondere werden also keinerlei nicht-technisch notwendigen Daten gespeichert oder getrackt, wie beispielsweise zu Werbe- oder sonstigen Zwecken."
 }
