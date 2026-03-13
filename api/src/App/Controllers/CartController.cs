@@ -81,7 +81,7 @@ public class CartController : ShopBaseController
     }
 
     [HttpPost]
-    public int PushCartItem(CartItemModel cartItem)
+    public async Task<int> PushCartItem(CartItemModel cartItem)
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
@@ -99,7 +99,8 @@ public class CartController : ShopBaseController
         var existingCartItem = cart.CartItems.FirstOrDefault(item => item.ProductId == cartItem.ProductId);
         if (existingCartItem != null)
         {
-            return 0;
+            existingCartItem.Amount += cartItem.Amount;
+            return await _context.SaveChangesAsync();
         }
 
         var newCartItem = new CartItem
@@ -109,7 +110,7 @@ public class CartController : ShopBaseController
             CartId = cart.Id
         };
         cart.CartItems.Add(newCartItem);
-        return _context.SaveChanges();
+        return await _context.SaveChangesAsync();
     }
 
     [HttpPost]
