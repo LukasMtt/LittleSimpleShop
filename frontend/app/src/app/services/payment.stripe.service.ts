@@ -30,22 +30,25 @@ export class PaymentStripeService {
       this.checkoutService.getDiscountCodeFormGroup();
     const shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
     const checkoutModel: CheckoutDTO = {
-      firstName: shipmentFormGroup.get('firstName')?.value,
-      lastName: shipmentFormGroup.get('lastName')?.value,
-      companyName: shipmentFormGroup.get('companyName')?.value,
-      email: shipmentFormGroup.get('email')?.value,
-      isNewsletterActivated: shipmentFormGroup.get('isNewsletterActivated')
-        ?.value,
-      phone: shipmentFormGroup.get('phone')?.value,
-      discountCode: discountCodeFormGroup.get('code')?.value,
+      firstName: shipmentFormGroup.controls.firstName?.value ?? '',
+      lastName: shipmentFormGroup.controls.lastName?.value ?? '',
+      companyName: shipmentFormGroup.controls.companyName?.value ?? '',
+      email: shipmentFormGroup.controls.email?.value ?? '',
+      isNewsletterActivated:
+        shipmentFormGroup.controls.isNewsletterActivated?.value ?? false,
+      phone: shipmentFormGroup.controls.phone?.value ?? '',
+      discountCode: discountCodeFormGroup.controls.code?.value ?? '',
       address: {
-        street: shipmentFormGroup.get('address.street')?.value,
-        number: shipmentFormGroup.get('address.number')?.value,
-        addition: shipmentFormGroup.get('address.addition')?.value,
-        city: shipmentFormGroup.get('address.city')?.value,
-        country: shipmentFormGroup.get('address.country')?.value,
-        zip: shipmentFormGroup.get('address.zip')?.value
-      }
+        street: shipmentFormGroup.controls.address.controls.street?.value ?? '',
+        number: shipmentFormGroup.controls.address.controls.number?.value ?? '',
+        addition:
+          shipmentFormGroup.controls.address.controls.addition?.value ?? '',
+        city: shipmentFormGroup.controls.address.controls.city?.value ?? '',
+        country:
+          shipmentFormGroup.controls.address.controls.country?.value ?? 0,
+        zip: shipmentFormGroup.controls.address.controls.zip?.value ?? ''
+      },
+      shippingProvider: shipmentFormGroup.controls.shippingProvider.value ?? 0
     };
     return this.httpClient.post<string>(
       this.endpointResolveService.buildUrl(

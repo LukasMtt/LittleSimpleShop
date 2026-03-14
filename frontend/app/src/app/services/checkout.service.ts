@@ -21,18 +21,19 @@ export class CheckoutService {
       city: new FormControl<string>('', Validators.required),
       country: new FormControl<number | null>(null, Validators.required),
       zip: new FormControl<string>('', Validators.required)
-    })
+    }),
+    shippingProvider: new FormControl<number | null>(null, Validators.required)
   });
   private discountCodeFormGroup: FormGroup<DiscountCodeFormModel> =
     new FormGroup({
       code: new FormControl('', [])
     });
 
-  public getShipmentFormGroup(): FormGroup {
+  public getShipmentFormGroup(): FormGroup<ShipmentFormModel> {
     return this.shipmentFormGroup;
   }
 
-  public getDiscountCodeFormGroup(): FormGroup {
+  public getDiscountCodeFormGroup(): FormGroup<DiscountCodeFormModel> {
     return this.discountCodeFormGroup;
   }
 

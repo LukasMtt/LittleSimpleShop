@@ -15,4 +15,5 @@ export interface ShipmentFormModel {
     country: FormControl<number | null>;
     zip: FormControl<string | null>;
   }>;
+  shippingProvider: FormControl<number | null>;
 }

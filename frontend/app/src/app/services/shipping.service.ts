@@ -16,6 +16,16 @@ export class ShippingService {
     private endpointResolveService: EndpointResolveService
   ) {}
 
+  getShippingProviders(): Observable<
+    { valueInt: number; valueText: string; costText: string }[]
+  > {
+    return this.httpClient.get<
+      { valueInt: number; valueText: string; costText: string }[]
+    >(
+      this.endpointResolveService.buildUrl(EndpointItem.GetShippingProvider, [])
+    );
+  }
+
   /* current implementation does not consider a real delivery API so params not meaningful */
   getShippingTimeEstimation(): Observable<ShippingEstimationDTO> {
     return this.httpClient.get<ShippingEstimationDTO>(

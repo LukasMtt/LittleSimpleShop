@@ -7,6 +7,7 @@ export interface CheckoutDTO {
   phone?: string;
   address: CheckoutAddressDTO;
   discountCode?: string;
+  shippingProvider: number;
 }
 
 export interface CheckoutAddressDTO {
@@ -14,6 +15,6 @@ export interface CheckoutAddressDTO {
   number: string;
   addition?: string;
   city: string;
-  country: string;
+  country: number;
   zip: string;
 }

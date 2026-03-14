@@ -17,16 +17,16 @@
   opacity: 0.66;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+}
+
 @media (min-width: 700px) {
   .shipment-form {
     width: 80vw;
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
   }
 
   .street-section {
@@ -60,9 +60,6 @@
   }
 
   .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     gap: 0.66rem;
   }
 

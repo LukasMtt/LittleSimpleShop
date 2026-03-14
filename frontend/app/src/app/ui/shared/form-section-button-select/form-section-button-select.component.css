@@ -1,0 +1,35 @@
+.options-buttons-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1rem;
+}
+
+.select-button {
+  flex: auto;
+  border: solid;
+  border-color: var(--secondary-color);
+  border-width: 1px;
+  border-radius: 3px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.66rem;
+}
+
+.select-button:hover {
+  opacity: 0.5;
+}
+
+.selected-button {
+  background-color: var(--secondary-color-transparent);
+}
+
+.option-text {
+  font-size: 0.8rem;
+}
+
+.option-sub-text {
+  font-size: 0.5rem;
+}

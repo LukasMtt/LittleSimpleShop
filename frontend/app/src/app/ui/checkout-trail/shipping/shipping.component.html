@@ -137,9 +137,26 @@
     [validationFailResourcesMap]="[
       { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
     ]"
-    [selectOptions]="getCountrySelectOptions()"
+    [selectOptions]="countryList()"
     [type]="'select'"
     [id]="'country'"
     [isRequired]="true"
   ></app-form-section>
+
+  <br />
+
+  <div class="sub-label">
+    {{ this.res('SHIPMENT_SUBCAPTION_SHIPPING_PROVIDER') }}
+  </div>
+
+  <app-form-section-button-select
+    [control]="shipmentFormGroup.controls.shippingProvider"
+    [labelResource]="'FORM_ROW_LABEL_SHIPPING_PROVIDER'"
+    [validationFailResourcesMap]="[
+      { key: 'required', value: 'VALIDATION_FIELD_REQUIRED' }
+    ]"
+    [selectOptions]="shippingProviders()"
+    [id]="'shippingProvider'"
+    [isRequired]="true"
+  ></app-form-section-button-select>
 </form>

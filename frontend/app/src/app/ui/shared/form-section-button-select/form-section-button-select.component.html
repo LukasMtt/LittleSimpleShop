@@ -1,0 +1,24 @@
+@if (control()) {
+  @if (selectOptions()) {
+    <div class="form-row">
+      <label [for]="id()" class="form-label">{{ labelText() }}</label>
+    </div>
+    <div class="options-buttons-row">
+      @for (option of selectOptions(); track $index) {
+        <div
+          [id]="id()"
+          [class]="{
+            'select-button': true,
+            'selected-button': isSelected(option.value)
+          }"
+          (click)="selectOption(option.value)"
+        >
+          <div class="option-text">{{ option.label }}</div>
+          @if (option.subLabel) {
+            <div class="option-sub-text">{{ option.subLabel }}</div>
+          }
+        </div>
+      }
+    </div>
+  }
+}
