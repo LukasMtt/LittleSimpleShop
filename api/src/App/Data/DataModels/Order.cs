@@ -12,6 +12,7 @@ public class Order : Entity
     public OrderState State { get; set; }
     public string? OrderToken { get; set; }
     public ShippingProvider? ShippingProvider { get; set; }
+    public decimal ShippingCost { get; set; }
     // placeholder for real implementation and usage of mapping to shipping API
     public string? ShippingProviderOrderId { get; set; }
     public Cart? Cart { get; set; }

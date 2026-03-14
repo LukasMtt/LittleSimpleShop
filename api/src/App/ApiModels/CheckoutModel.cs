@@ -1,3 +1,5 @@
+using Shop.Data.Enums;
+
 namespace Shop.ApiModels;
 
 public class CheckoutModel : BaseApiModel
@@ -10,4 +12,5 @@ public class CheckoutModel : BaseApiModel
     public string? Phone { get; set; }
     public required CheckoutAddressModel Address { get; set; }
     public string? DiscountCode { get; set; }
+    public ShippingProvider ShippingProvider { get; set; }
 }

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using Microsoft.AspNetCore.Mvc;
 
 using Shop.ApiModels;
@@ -24,5 +26,22 @@ public class ShippingController : ShopBaseController
         return result.IsSuccess
             ? Ok(new ShippingEstimationModel { MinDays = result.ResultData!.MinDays, MaxDays = result.ResultData!.MaxDays })
             : Problem(result.ErrorMessage, statusCode: 500);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetShippingProvider()
+    {
+        var providers = Enum.GetValues<ShippingProvider>();
+        var resultList = new List<object>();
+        foreach (var provider in providers)
+        {
+            resultList.Add(new
+            {
+                valueInt = (int)provider,
+                valueText = provider.ToString(),
+                costText = (await _shippingService.GetShippingCost(provider)).ResultData.ToString("C", CultureInfo.CurrentCulture)
+            });
+        }
+        return Ok(resultList);
     }
 }

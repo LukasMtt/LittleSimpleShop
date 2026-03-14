@@ -34,3 +34,17 @@ public class ExtendMetadataTable : Migration
     {
     }
 }
+
+[Migration(0000502)]
+public class ExtendOrderByShippingCostColumnTable : Migration
+{
+    public override void Up()
+    {
+        Alter.Table("Order")
+            .AddColumn("ShippingCost").AsDecimal().WithDefaultValue(0m).NotNullable();
+    }
+
+    public override void Down()
+    {
+    }
+}

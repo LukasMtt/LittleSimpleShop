@@ -14,11 +14,13 @@ public class OrderService
 {
     private ShopDbContext _context;
     private IMapper _mapper;
+    private ShippingService _shippingService;
 
-    public OrderService(ShopDbContext context, IMapper mapper)
+    public OrderService(ShopDbContext context, IMapper mapper, ShippingService shippingService)
     {
         _context = context;
         _mapper = mapper;
+        _shippingService = shippingService;
     }
 
     public async Task<ServiceResult<Order?>> CreateAndSaveOrder(CheckoutModel model, Cart cart)
@@ -35,9 +37,9 @@ public class OrderService
                 OrderToken = CreateOrderToken().ResultData,
                 Cart = cart,
                 ShipmentTarget = shipmentTarget,
-                // placeholder, real value has to come from frontend
-                ShippingProvider = ShippingProvider.Dhl,
-                State = OrderState.Preparing
+                ShippingProvider = model.ShippingProvider,
+                ShippingCost = (await _shippingService.GetShippingCost(model.ShippingProvider)).ResultData,
+                State = OrderState.Preparing,
             };
 
             foreach (var cartItem in cart.CartItems)
@@ -59,10 +61,18 @@ public class OrderService
 
             _context.Order.Add(order);
 
-            await transaction.CommitAsync();
-            return (await _context.SaveChangesAsync()) > 0
-                ? new ServiceResult<Order?> { IsSuccess = true, ResultData = order }
-                : new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+            var isSuccess = (await _context.SaveChangesAsync()) > 0;
+
+            if (isSuccess)
+            {
+                await transaction.CommitAsync();
+                return new ServiceResult<Order?> { IsSuccess = true, ResultData = order };
+            }
+            else
+            {
+                await transaction.RollbackAsync();
+                return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
+            }
         }
         // ugly, better implementation needed
         catch (ReferenceConstraintException referenceConstraintException) when (referenceConstraintException?.InnerException?.Message.Contains("CHECK") ?? false)

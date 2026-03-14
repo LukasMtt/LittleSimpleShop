@@ -58,4 +58,14 @@ public class ShippingService
         };
         return await Task.FromResult(result);
     }
+
+    /* only dummy data, plug in real logic from a shipping provider to fetch real cost */
+    public async Task<ServiceResult<decimal>> GetShippingCost(ShippingProvider shippingProvider)
+    {
+        return await Task.FromResult(new ServiceResult<decimal>
+        {
+            IsSuccess = true,
+            ResultData = 4.95m
+        });
+    }
 }
