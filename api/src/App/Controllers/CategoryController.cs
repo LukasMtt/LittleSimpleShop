@@ -26,6 +26,7 @@ public class CategoryController : ShopBaseController
     public List<CategoryModel> GetAllCustomCategories()
     {
         return _context.Category
+            .AsNoTracking()
             .Where(x => x.CategoryType == CategoryType.Custom)
             .Include(x => x.ProductList)
             .Include(x => x.Images)

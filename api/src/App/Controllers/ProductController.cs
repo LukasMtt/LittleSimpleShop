@@ -25,6 +25,7 @@ public class ProductController : ShopBaseController
     public List<ProductModel> GetAllProducts(int pageOffset, int pageSize)
     {
         return _context.Product
+            .AsNoTracking()
             .OrderBy(x => x.Category!.Name)
             .Skip(pageOffset * pageSize)
             .Take(pageSize)
@@ -37,6 +38,7 @@ public class ProductController : ShopBaseController
     public List<ProductModel> GetAllProductsInSale(int pageOffset, int pageSize)
     {
         return _context.Product
+            .AsNoTracking()
             .Where(x => x.IsInSale)
             .OrderBy(x => x.Category!.Name)
             .Skip(pageOffset * pageSize)
@@ -50,6 +52,7 @@ public class ProductController : ShopBaseController
     public List<ProductModel> GetAllProductsByCategoryId(long categoryId, int pageOffset, int pageSize)
     {
         return _context.Product
+            .AsNoTracking()
             .Where(x => x.Category!.Id == categoryId)
             .OrderBy(x => x.Id)
             .Skip(pageOffset * pageSize)
