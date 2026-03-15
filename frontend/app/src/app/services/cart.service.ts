@@ -179,18 +179,20 @@ export class CartService {
       });
   }
 
-  public getCartPriceSum() {
+  public getCartPriceSum(shippingCost: number) {
     const invalidBaseItems = this.cart()?.cartItems.filter(
       (x) => x.product.price === undefined || x.product.price <= 0
     );
     if (invalidBaseItems && invalidBaseItems.length > 0) {
-      return 'invalid sum';
+      return 0;
     }
     const baseItems = this.cart()?.cartItems.filter((x) => x.amount > 0);
     if (baseItems && baseItems.length > 0) {
-      return baseItems
-        .map((x) => x.product.price! * x.amount)
-        .reduce((x, y) => (x += y));
+      return (
+        baseItems
+          .map((x) => x.product.price! * x.amount)
+          .reduce((x, y) => (x += y)) + shippingCost
+      );
     }
     return 0;
   }

@@ -32,6 +32,11 @@
   font-weight: bold;
 }
 
+.cart-item-shipping {
+  font-weight: bold;
+  font-style: italic;
+}
+
 .cart-sum {
   display: flex;
   flex-direction: row-reverse;

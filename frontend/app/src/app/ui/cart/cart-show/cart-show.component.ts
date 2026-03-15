@@ -38,9 +38,9 @@ export class CartShowComponent extends BaseComponent {
   });
   cartPriceTotal = computed(() => {
     if (this.cart() !== undefined) {
-      return this.cartService.getCartPriceSum();
+      return this.cartService.getCartPriceSum(0);
     }
-    return 'invalid sum';
+    return 0;
   });
   bottomBadgesTextList = signal<string[]>([]);
   currency = signal<string>('USD');

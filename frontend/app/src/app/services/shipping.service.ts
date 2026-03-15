@@ -17,12 +17,15 @@ export class ShippingService {
   ) {}
 
   getShippingProviders(): Observable<
-    { valueInt: number; valueText: string; costText: string }[]
+    { valueInt: number; valueText: string; cost: number }[]
   > {
     return this.httpClient.get<
-      { valueInt: number; valueText: string; costText: string }[]
+      { valueInt: number; valueText: string; cost: number }[]
     >(
-      this.endpointResolveService.buildUrl(EndpointItem.GetShippingProvider, [])
+      this.endpointResolveService.buildUrl(
+        EndpointItem.GetShippingProviders,
+        []
+      )
     );
   }
 

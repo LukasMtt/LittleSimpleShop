@@ -29,28 +29,50 @@ export class PaymentComponent extends BaseComponent {
   public cart = signal<CartModel | undefined>(undefined);
 
   public totalPriceCart = computed(() => {
-    if (this.cart() !== undefined) {
-      return this.cartService.getCartPriceSum();
+    if (this.cart() !== undefined && this.shippingProviderInfo().shippingCost) {
+      return this.cartService.getCartPriceSum(
+        this.shippingProviderInfo().shippingCost
+      );
     }
-    return 'invalid sum';
+    return 0;
   });
   paymentBadgesTextList = signal<string[]>([]);
   triggerSnackbar = signal<boolean | undefined>(undefined);
   textSnackbar = signal<string>('');
-  currency = signal<string>('');
+  currency = signal<string>('USD');
+  shippingProviderInfo = signal<{
+    providerName: string;
+    shippingCost: number;
+  }>({ providerName: '', shippingCost: 0 });
 
   public shipmentFormGroup: FormGroup<ShipmentFormModel>;
 
   constructor(
-    public shipmentService: CheckoutService,
+    public checkoutService: CheckoutService,
     private paymentStripeService: PaymentStripeService,
     private cartService: CartService,
     metaDataService: MetadataService,
     shippingService: ShippingService
   ) {
     super();
-    this.shipmentFormGroup = this.shipmentService.getShipmentFormGroup();
+    this.shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
     this.cart.set(this.cartService.cartReadonly());
+
+    shippingService.getShippingProviders().subscribe((providerList) => {
+      const provider = providerList.find(
+        (x) =>
+          x.valueInt ==
+          (this.shipmentFormGroup.controls.shippingProvider.value ?? -1)
+      );
+      if (provider) {
+        this.shippingProviderInfo.set({
+          providerName: this.res(
+            `SHIPPING_PROVIDER_${provider.valueText.toUpperCase() ?? ''}`
+          ),
+          shippingCost: provider.cost
+        });
+      }
+    });
 
     forkJoin([
       metaDataService.getMetadata(),

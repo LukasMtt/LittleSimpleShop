@@ -7,6 +7,8 @@ import { CountryService } from '../../../services/country.service';
 import { ShipmentFormModel } from '../../../models/forms/shipment-form.model';
 import { FormSectionButtonSelectComponent } from '../../shared/form-section-button-select/form-section-button-select.component';
 import { ShippingService } from '../../../services/shipping.service';
+import { CurrencyPipe } from '@angular/common';
+import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
   selector: 'app-shipping',
@@ -25,15 +27,32 @@ export class ShippingComponent extends BaseComponent {
   shippingProviders = signal<
     { value: number; label: string; subLabel: string }[]
   >([]);
+  currency = signal<string>('USD');
 
   constructor(
     public checkoutService: CheckoutService,
     private countryService: CountryService,
-    shippingService: ShippingService
+    metadataService: MetadataService,
+    shippingService: ShippingService,
+    currencyPipe: CurrencyPipe
   ) {
     super();
     this.shipmentFormGroup = this.checkoutService.getShipmentFormGroup();
-
+    metadataService.getMetadata().subscribe((metadata) => {
+      this.currency.set(metadata.currency ?? 'USD');
+      shippingService.getShippingProviders().subscribe((providerList) => {
+        this.shippingProviders.set(
+          providerList.map((provider) => ({
+            value: provider.valueInt,
+            label: this.res(
+              `SHIPPING_PROVIDER_${provider.valueText?.toUpperCase()}`
+            ),
+            subLabel:
+              currencyPipe.transform(provider.cost, this.currency()) ?? ''
+          }))
+        );
+      });
+    });
     // todo fetch backend list
     this.countryList.set(
       this.countryService.getCountryList().map((country) => ({
@@ -41,16 +60,5 @@ export class ShippingComponent extends BaseComponent {
         label: country.countryLong
       }))
     );
-    shippingService.getShippingProviders().subscribe((providerList) => {
-      this.shippingProviders.set(
-        providerList.map((provider) => ({
-          value: provider.valueInt,
-          label: this.res(
-            `SHIPPING_PROVIDER_${provider.valueText?.toUpperCase()}`
-          ),
-          subLabel: provider.costText
-        }))
-      );
-    });
   }
 }

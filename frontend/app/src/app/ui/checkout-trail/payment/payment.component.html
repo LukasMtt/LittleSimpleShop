@@ -1,15 +1,23 @@
 <div class="col1">
   @for (item of cart()?.cartItems ?? []; track item.productId) {
     <div class="cart-item">
-      <div class="cart-item-name-and-quantity">
+      <div>
         <span class="cart-item-name">{{ item.product.name }}</span> ×
         {{ item.amount }}
       </div>
-      <div class="cart-item-price">
+      <div>
         {{ (item.product.price ?? 0) * item.amount | currency: currency() }}
       </div>
     </div>
   }
+  <div class="cart-item">
+    <div class="cart-item-shipping">
+      {{ res('SHIPPING') }} ({{ shippingProviderInfo().providerName }})
+    </div>
+    <div>
+      {{ shippingProviderInfo().shippingCost | currency: currency() }}
+    </div>
+  </div>
   <hr class="divider" />
   <!-- consider adding info on the promo code/discount when implemented -->
   <div class="cart-sum">

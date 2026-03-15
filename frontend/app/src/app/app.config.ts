@@ -1,6 +1,7 @@
 import {
   ApplicationConfig,
   inject,
+  LOCALE_ID,
   provideAppInitializer
 } from '@angular/core';
 import {
@@ -19,9 +20,13 @@ import { AppConfigService } from './services/app.config.service';
 import { ResourceService } from './services/resource.service';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { GermanMatPaginatorIntl } from './misc/mat-paginator-intl';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
 import { csrfInterceptor } from './interceptors/csrf.interceptor';
 import { CookieService } from 'ngx-cookie-service';
+
+//static yet, make configurable
+import localeDe from '@angular/common/locales/de';
+registerLocaleData(localeDe);
 
 const appConfigServiceAndAntiforgeryTokenProvider = provideAppInitializer(
   () => {
@@ -72,6 +77,8 @@ export const appConfig: ApplicationConfig = {
     appConfigServiceAndAntiforgeryTokenProvider,
     resourceServiceProvider,
     [{ provide: MatPaginatorIntl, useClass: GermanMatPaginatorIntl }],
+    // static yet, make configurable
+    [{ provide: LOCALE_ID, useValue: 'de-DE' }],
     CurrencyPipe,
     CookieService
   ]

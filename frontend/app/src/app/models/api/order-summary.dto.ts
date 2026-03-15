@@ -6,6 +6,7 @@ export interface OrderSummaryDTO {
   orderDate: string;
   orderEstimatedDeliveryDate: string;
   shippingProvider: string;
+  shippingCost: number;
   shippingProviderOrderId: string;
   shippingProviderTrackingLink: string;
   cart: CartModel;

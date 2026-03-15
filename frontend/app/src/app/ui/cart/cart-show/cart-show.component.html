@@ -41,6 +41,9 @@
 <div class="cart-sum-container">
   <div>
     {{ this.res('CART_SUM') }}
+    <span class="shipping-fee-text"
+      >({{ this.res('WITH_ADDITIONAL_SHIPPING_FEES_TEXT') }})</span
+    >
   </div>
   <div>
     {{ cartPriceTotal() | currency: currency() }}

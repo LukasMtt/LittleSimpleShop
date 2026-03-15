@@ -38,3 +38,7 @@
   flex: 2;
   height: 1.75rem;
 }
+
+.shipping-fee-text {
+  font-size: 0.66rem;
+}

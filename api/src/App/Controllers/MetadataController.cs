@@ -34,7 +34,7 @@ public class MetadataController : ShopBaseController
         if (metadata != null)
         {
             var model = _mapper.Map<MetadataModel>(metadata);
-            model.Currency = (_paymentService.GetCurrencyFromCultureCode(_options.Value.CultureCode)).ResultData!.ToUpper();
+            model.Currency = _paymentService.GetCurrencyFromCultureCode(_options.Value.CultureCode).ResultData!.ToUpper();
             return model;
         }
         return null;

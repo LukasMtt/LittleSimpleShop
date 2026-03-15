@@ -114,6 +114,8 @@ button:disabled {
 .form-label {
   font-weight: bold;
   font-size: 0.66rem;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .validation-text {

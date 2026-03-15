@@ -22,15 +22,18 @@ export class CheckOrderStateComponent extends BaseComponent {
   checkoutInfo = signal<CheckoutDTO | undefined>(undefined);
   cartItems = signal<CartItemModel[]>([]);
   shippingProvider = signal<string>('');
+  shippingCost = signal<number>(0);
   shippingProviderOrderId = signal<string>('');
   shippingProviderTrackingLink = signal<string>('');
   currency = signal<string>('USD');
 
   cartItemsTotalPrice = computed(() => {
     if (this.cartItems().length < 1) return 0;
-    return this.cartItems()
-      .map((x) => x.amount * (x.product?.price ?? 0))
-      .reduce((acc, cur) => acc + cur);
+    return (
+      this.cartItems()
+        .map((x) => x.amount * (x.product?.price ?? 0))
+        .reduce((acc, cur) => acc + cur) + this.shippingCost()
+    );
   });
 
   constructor(
@@ -82,6 +85,7 @@ export class CheckOrderStateComponent extends BaseComponent {
             this.cartItems.set(cartItems);
           });
         this.shippingProvider.set(result.shippingProvider);
+        this.shippingCost.set(result.shippingCost);
         this.shippingProviderOrderId.set(result.shippingProviderOrderId);
         this.shippingProviderTrackingLink.set(
           result.shippingProviderTrackingLink
