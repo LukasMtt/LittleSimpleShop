@@ -18,14 +18,17 @@ public class NewsletterController : ShopBaseController
     [HttpPost]
     public async Task<ActionResult> PostNewsletterSubscriber([FromQuery] string email)
     {
-
+        if (string.IsNullOrEmpty(email))
+        {
+            return Problem("Supplied email not valid", statusCode: 400);
+        }
         if ((await _newsletterService.AddActiveNewsletterSubscriber(email)).ResultData)
         {
             return Created();
         }
         else
         {
-            return Problem("Could not register the email as a newsletter subscriber.", statusCode: 400);
+            return Problem("Could not register the email as a newsletter subscriber.", statusCode: 500);
         }
     }
 }

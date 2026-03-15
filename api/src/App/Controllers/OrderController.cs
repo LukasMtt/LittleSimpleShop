@@ -44,7 +44,7 @@ public class OrderController : ShopBaseController
 
         if (entity == null || entity.State == OrderState.Removed || entity.State == OrderState.IssuePending)
         {
-            return Problem("Could not display order.", statusCode: 500);
+            return Problem("Could not display order.", statusCode: 400);
         }
 
         var model = _mapper.Map<OrderSummaryModel>(entity);

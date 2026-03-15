@@ -35,12 +35,12 @@ public class PaymentController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
-            return Problem("Checkout did not succeed.", statusCode: 500);
+            return Problem("Checkout did not succeed. No cart token supplied.", statusCode: 400);
         }
-        var cart = _context.Cart.Include(x => x.CartItems).FirstOrDefault(c => c.CartToken == cartToken);
+        var cart = _context.Cart.Where(x => x.CartToken == cartToken).Include(x => x.CartItems).FirstOrDefault();
         if (cart == null)
         {
-            return Problem("Checkout did not succeed.", statusCode: 500);
+            return Problem("Checkout did not succeed. No cart found.", statusCode: 500);
         }
         var result = await _orderService.CreateAndSaveOrder(model, cart);
         if (!result.IsSuccess || result.ResultData == null)
@@ -61,6 +61,6 @@ public class PaymentController : ShopBaseController
     {
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
         StringValues signatureHeader = Request.Headers["Stripe-Signature"];
-        return (await _stripePaymentService.HandleStripeWebhookEvent(json, signatureHeader)).ResultData ? Ok() : Problem(statusCode: 400);
+        return (await _stripePaymentService.HandleStripeWebhookEvent(json, signatureHeader)).ResultData ? Ok() : Problem("Could not finish payment process.", statusCode: 500);
     }
 }

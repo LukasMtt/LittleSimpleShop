@@ -92,7 +92,15 @@ public class StripePaymentService
                 case EventTypes.CheckoutSessionCompleted:
                     var session = stripeEvent.Data.Object as Session;
                     Log.Information("Checkout session completed: {0}", session!.Id);
-                    await HandleCheckoutSessionCompleted(session);
+                    var completeResult = await HandleCheckoutSessionCompleted(session);
+                    if (!completeResult.ResultData)
+                    {
+                        return new ServiceResult<bool>
+                        {
+                            IsSuccess = false,
+                            ErrorMessage = "Could not process webhook"
+                        };
+                    }
                     break;
             }
             return new ServiceResult<bool>
@@ -130,7 +138,7 @@ public class StripePaymentService
         };
     }
 
-    private async Task HandleCheckoutSessionCompleted(Session session)
+    private async Task<ServiceResult<bool>> HandleCheckoutSessionCompleted(Session session)
     {
         var orderToken = session.Metadata[_metadataOrderToken] ?? "";
         var order = _context.Order.IgnoreQueryFilters()
@@ -142,7 +150,11 @@ public class StripePaymentService
         if (order == null)
         {
             Serilog.Log.Error("No order found.");
-            return;
+            return new ServiceResult<bool>
+            {
+                IsSuccess = false,
+                ErrorMessage = "No order found"
+            };
         }
 
         order.State = OrderState.Processing;
@@ -169,7 +181,13 @@ public class StripePaymentService
             order.OrderEmails.Add(orderEmail);
         }
 
-        await _context.SaveChangesAsync();
+        var result = await _context.SaveChangesAsync() > 0;
+        return new ServiceResult<bool>
+        {
+            ResultData = result,
+            IsSuccess = result,
+            ErrorMessage = result ? null : "Could not finalize order."
+        };
     }
 
     private List<SessionLineItemOptions> ConvertCheckoutCartItems(Cart cart)

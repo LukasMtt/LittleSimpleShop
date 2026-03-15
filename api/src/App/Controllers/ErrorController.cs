@@ -26,6 +26,6 @@ public class ErrorController : ControllerBase
                 throw exception;
             }
         }
-        return StatusCode(500, "An error occurred while processing the request.");
+        return Problem("An error occurred while processing the request.", statusCode: 500);
     }
 }
