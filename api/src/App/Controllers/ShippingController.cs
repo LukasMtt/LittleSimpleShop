@@ -1,5 +1,3 @@
-using System.Globalization;
-
 using Microsoft.AspNetCore.Mvc;
 
 using Shop.ApiModels;
@@ -29,7 +27,7 @@ public class ShippingController : ShopBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetShippingProvider()
+    public async Task<IActionResult> GetShippingProviders()
     {
         var providers = Enum.GetValues<ShippingProvider>();
         var resultList = new List<object>();
@@ -39,7 +37,7 @@ public class ShippingController : ShopBaseController
             {
                 valueInt = (int)provider,
                 valueText = provider.ToString(),
-                costText = (await _shippingService.GetShippingCost(provider)).ResultData.ToString("C", CultureInfo.CurrentCulture)
+                cost = (await _shippingService.GetShippingCost(provider)).ResultData
             });
         }
         return Ok(resultList);

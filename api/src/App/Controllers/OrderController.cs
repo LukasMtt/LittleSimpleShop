@@ -37,9 +37,10 @@ public class OrderController : ShopBaseController
     public async Task<IActionResult> GetOrderInformation(string orderToken)
     {
         var entity = _context.Order.IgnoreQueryFilters()
+            .Where(x => x.OrderToken == orderToken)
             .Include(x => x.Cart).ThenInclude(x => x!.CartItems)
             .Include(x => x.ShipmentTarget).ThenInclude(x => x!.Address)
-            .FirstOrDefault(x => x.OrderToken == orderToken);
+            .FirstOrDefault();
 
         if (entity == null || entity.State == OrderState.Removed || entity.State == OrderState.IssuePending)
         {

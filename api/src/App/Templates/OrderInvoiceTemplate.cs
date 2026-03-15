@@ -8,6 +8,7 @@ public class OrderInvoiceTemplate
     public string? Country { get; set; }
     public string? InvoiceNumber { get; set; }
     public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public string? ShippingCost { get; set; }
     public string? TotalPrice { get; set; }
 }
 

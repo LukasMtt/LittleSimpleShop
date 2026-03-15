@@ -58,6 +58,8 @@ public class StripePaymentService
         {
             PaymentMethodTypes = _allowedPaymentMethods,
             LineItems = ConvertCheckoutCartItems(cart),
+            // entry point to map integrated shipping info to stripe payment process - has to be created within stripe to map shipment config there to our config
+            // ShippingOptions = new List<SessionShippingOptionOptions>(),
             // entry point to map a discount code to stripe payment process - has to be created within stripe to map the code to value
             // Discounts = new List<SessionDiscountOptions>(),
             Metadata = new Dictionary<string, string>
