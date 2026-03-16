@@ -53,12 +53,14 @@ export class ShippingComponent extends BaseComponent {
         );
       });
     });
-    // todo fetch backend list
-    this.countryList.set(
-      this.countryService.getCountryList().map((country) => ({
-        value: country.countryShort,
-        label: country.countryLong
-      }))
-    );
+
+    this.countryService.getCountries().subscribe((countries) => {
+      this.countryList.set(
+        countries.map((country) => ({
+          value: country,
+          label: this.res(`COUNTRY_${country}`)
+        }))
+      );
+    });
   }
 }

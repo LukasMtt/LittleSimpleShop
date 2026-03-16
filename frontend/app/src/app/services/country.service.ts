@@ -1,16 +1,23 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+  EndpointItem,
+  EndpointResolveService
+} from './endpoint.resolve.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountryService {
-  private countryList: { countryLong: string; countryShort: string }[] = [
-    { countryLong: 'Deutschland', countryShort: 'DEU' },
-    { countryLong: 'Österreich', countryShort: 'AUT' },
-    { countryLong: 'Schweiz', countryShort: 'CHE' }
-  ];
+  constructor(
+    private httpClient: HttpClient,
+    private endpointResolveService: EndpointResolveService
+  ) {}
 
-  public getCountryList() {
-    return this.countryList;
+  public getCountries(): Observable<string[]> {
+    return this.httpClient.get<string[]>(
+      this.endpointResolveService.buildUrl(EndpointItem.GetCountries, [])
+    );
   }
 }

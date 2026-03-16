@@ -17,6 +17,7 @@ export enum EndpointItem {
   Cart = 'cart/',
   Order = 'order/',
   Newsletter = 'newsletter/',
+  Country = 'country/',
 
   GetAllCustomCategories = 'getAllCustomCategories',
   GetAllProducts = 'getAllProducts',
@@ -43,7 +44,8 @@ export enum EndpointItem {
   GetOrderInformation = 'getOrderInformation',
   GetOrderExists = 'getOrderExists',
   PostNewsletterSubscriber = 'postNewsletterSubscriber',
-  GetShippingProviders = 'getShippingProviders'
+  GetShippingProviders = 'getShippingProviders',
+  GetCountries = 'getCountries'
 }
 
 @Injectable({
@@ -73,6 +75,7 @@ export class EndpointResolveService {
     parent: this.shop,
     item: EndpointItem.Newsletter
   };
+  country: EndpointNode = { parent: this.shop, item: EndpointItem.Country };
 
   getAllCustomCategories: EndpointNode = {
     parent: this.category,
@@ -178,6 +181,10 @@ export class EndpointResolveService {
     parent: this.shipping,
     item: EndpointItem.GetShippingProviders
   };
+  getCountries: EndpointNode = {
+    parent: this.country,
+    item: EndpointItem.GetCountries
+  };
 
   leafList: EndpointNode[] = [
     this.getAllCustomCategories,
@@ -205,7 +212,8 @@ export class EndpointResolveService {
     this.getOrderInformation,
     this.getOrderExists,
     this.postNewsletterSubscriber,
-    this.getShippingProviders
+    this.getShippingProviders,
+    this.getCountries
   ];
 
   apiBaseEndpointUrl = '';
