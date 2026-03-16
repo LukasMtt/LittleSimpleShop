@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: var(--custom-min-height);
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: fit-content;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.go-to-main-page-button {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}

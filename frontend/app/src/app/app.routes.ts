@@ -13,6 +13,7 @@ import { CheckOrderStateComponent } from './ui/check-order-state/check-order-sta
 import { orderGuard } from './guards/order.guard';
 import { FaqComponent } from './ui/faq/faq.component';
 import { ContactComponent } from './ui/contact/contact.component';
+import { ErrorComponent } from './ui/error/error.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'imprint', component: ImprintComponent },
+  { path: 'error', component: ErrorComponent },
 
   {
     path: 'checkout-trail',
@@ -46,7 +48,8 @@ export const routes: Routes = [
     path: 'products/:categoryId/:categoryType',
     component: ProductBoardComponent
   },
-  { path: 'showProduct/:productId', component: ProductShowComponent }
+  { path: 'showProduct/:productId', component: ProductShowComponent },
+  { path: '**', component: ErrorComponent }
 ];
 
 export enum RouteEndpointType {
