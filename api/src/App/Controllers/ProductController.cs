@@ -22,7 +22,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public List<ProductModel> GetAllProducts(int pageOffset, int pageSize)
+    public ActionResult<List<ProductModel>> GetAllProducts(int pageOffset, int pageSize)
     {
         return _context.Product
             .AsNoTracking()
@@ -35,7 +35,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public List<ProductModel> GetAllProductsInSale(int pageOffset, int pageSize)
+    public ActionResult<List<ProductModel>> GetAllProductsInSale(int pageOffset, int pageSize)
     {
         return _context.Product
             .AsNoTracking()
@@ -49,7 +49,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public List<ProductModel> GetAllProductsByCategoryId(long categoryId, int pageOffset, int pageSize)
+    public ActionResult<List<ProductModel>> GetAllProductsByCategoryId(long categoryId, int pageOffset, int pageSize)
     {
         return _context.Product
             .AsNoTracking()
@@ -63,7 +63,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public ProductModel? GetProductById(long productId)
+    public ActionResult<ProductModel?> GetProductById(long productId)
     {
         return _context.Product
             .Where(x => x.Id == productId)
@@ -73,7 +73,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public bool IsProductInStock(long productId)
+    public ActionResult<bool> IsProductInStock(long productId)
     {
         return _context.Product
             .Where(x => x.Id == productId && x.AmountInStock > 0)
@@ -81,7 +81,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public int GetProductsByCategoryIdCount(long categoryId)
+    public ActionResult<int> GetProductsByCategoryIdCount(long categoryId)
     {
         return _context.Product
             .Where(x => x.Category!.Id == categoryId)
@@ -89,13 +89,13 @@ public class ProductController : ShopBaseController
     }
 
     [HttpGet]
-    public int GetAllProductsCount()
+    public ActionResult<int> GetAllProductsCount()
     {
         return _context.Product.Count();
     }
 
     [HttpGet]
-    public int GetAllProductsInSaleCount()
+    public ActionResult<int> GetAllProductsInSaleCount()
     {
         return _context.Product
             .Where(x => x.IsInSale)
@@ -103,7 +103,7 @@ public class ProductController : ShopBaseController
     }
 
     [HttpPost]
-    public List<ProductModel> GetProductsByIds([FromBody] List<long> productIdList)
+    public ActionResult<List<ProductModel>> GetProductsByIds([FromBody] List<long> productIdList)
     {
         return _context.Product
             .Where(x => productIdList.Contains(x.Id))

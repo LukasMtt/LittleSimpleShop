@@ -29,21 +29,21 @@ public class CartController : ShopBaseController
     }
 
     [HttpGet]
-    public CartModel? GetCart()
+    public async Task<ActionResult<CartModel?>> GetCart()
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
             Serilog.Log.Information("No cart token found in cookies.");
-            return null;
+            return NotFound();
         }
 
-        var cart = _context.Cart.Include(c => c.CartItems).FirstOrDefault(c => c.CartToken == cartToken);
+        var cart = await _context.Cart.Include(c => c.CartItems).FirstOrDefaultAsync(c => c.CartToken == cartToken);
         return cart == null ? null : _mapper.Map<CartModel>(cart);
     }
 
     [HttpPost]
-    public bool CreateCart()
+    public async Task<ActionResult<bool>> CreateCart()
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (!string.IsNullOrEmpty(cartToken))
@@ -54,7 +54,7 @@ public class CartController : ShopBaseController
         cartToken = _cartService.CreateCartToken().ResultData;
         if (cartToken == null)
         {
-            return false;
+            return NotFound();
         }
         var cart = new Cart
         {
@@ -63,7 +63,7 @@ public class CartController : ShopBaseController
         };
 
         _context.Cart.Add(cart);
-        var result = _context.SaveChanges() > 0;
+        var result = await _context.SaveChangesAsync() > 0;
 
         if (result)
         {
@@ -81,19 +81,19 @@ public class CartController : ShopBaseController
     }
 
     [HttpPost]
-    public async Task<int> PushCartItem(CartItemModel cartItem)
+    public async Task<ActionResult<int>> PushCartItem(CartItemModel cartItem)
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
             Serilog.Log.Information("No cart token found in cookies.");
-            return 0;
+            return NotFound();
         }
 
-        var cart = _context.Cart.Include(x => x.CartItems).FirstOrDefault(c => c.CartToken == cartToken);
+        var cart = await _context.Cart.Include(x => x.CartItems).FirstOrDefaultAsync(c => c.CartToken == cartToken);
         if (cart == null)
         {
-            return 0;
+            return NotFound();
         }
 
         var existingCartItem = cart.CartItems.FirstOrDefault(item => item.ProductId == cartItem.ProductId);
@@ -114,73 +114,73 @@ public class CartController : ShopBaseController
     }
 
     [HttpPost]
-    public int PopCartItemByProductId(int productId)
+    public async Task<ActionResult<int>> PopCartItemByProductId(int productId)
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
             Serilog.Log.Information("No cart token found in cookies.");
-            return 0;
+            return NotFound();
         }
 
-        var cart = _context.Cart.Include(x => x.CartItems).FirstOrDefault(c => c.CartToken == cartToken);
+        var cart = await _context.Cart.Include(x => x.CartItems).FirstOrDefaultAsync(c => c.CartToken == cartToken);
         if (cart == null)
         {
-            return 0;
+            return NotFound();
         }
 
         var existingCartItem = cart.CartItems.FirstOrDefault(item => item.ProductId == productId);
         if (existingCartItem == null)
         {
-            return 0;
+            return NotFound();
         }
 
         cart.CartItems.Remove(existingCartItem);
-        return _context.SaveChanges();
+        return await _context.SaveChangesAsync();
     }
 
     [HttpPost]
-    public int UpdateCartItemAmountByProductId(int productId, int amount)
+    public async Task<ActionResult<int>> UpdateCartItemAmountByProductId(int productId, int amount)
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
             Serilog.Log.Information("No cart token found in cookies.");
-            return 0;
+            return NotFound();
         }
 
-        var cart = _context.Cart.Include(c => c.CartItems).FirstOrDefault(c => c.CartToken == cartToken);
+        var cart = await _context.Cart.Include(c => c.CartItems).FirstOrDefaultAsync(c => c.CartToken == cartToken);
         if (cart == null)
         {
-            return 0;
+            return NotFound();
         }
 
         var existingCartItem = cart.CartItems.FirstOrDefault(item => item.ProductId == productId);
         if (existingCartItem == null)
         {
-            return 0;
+            return NotFound();
         }
 
         existingCartItem.Amount = amount;
-        return _context.SaveChanges();
+        return await _context.SaveChangesAsync();
     }
 
     [HttpGet]
-    public int ArchiveCart()
+    public async Task<ActionResult<int>> ArchiveCart()
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
             Serilog.Log.Information("No cart token found in cookies.");
-            return 0;
+            return NotFound();
         }
 
-        var cart = _context.Cart.FirstOrDefault(c => c.CartToken == cartToken);
+        var cart = await _context.Cart.FirstOrDefaultAsync(c => c.CartToken == cartToken);
         if (cart == null)
         {
-            return 0;
+            return NotFound();
         }
         cart.State = CartLifecycleState.Archived;
-        return _context.SaveChanges();
+        return await _context.SaveChangesAsync();
     }
 }

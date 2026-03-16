@@ -17,7 +17,7 @@ public class ShippingController : ShopBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetShippingTimeEstimation(ShippingProvider shippingProvider)
+    public async Task<ActionResult<ShippingEstimationModel>> GetShippingTimeEstimation(ShippingProvider shippingProvider)
     {
         /* stub call, params not yet implemented */
         var result = await _shippingService.GetShippingTimeSpanEstimation(shippingProvider, 0, 0);
@@ -27,7 +27,7 @@ public class ShippingController : ShopBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetShippingProviders()
+    public async Task<ActionResult<object>> GetShippingProviders()
     {
         var providers = Enum.GetValues<ShippingProvider>();
         var resultList = new List<object>();

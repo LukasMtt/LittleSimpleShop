@@ -23,7 +23,7 @@ public class CategoryController : ShopBaseController
     }
 
     [HttpGet]
-    public List<CategoryModel> GetAllCustomCategories()
+    public ActionResult<List<CategoryModel>> GetAllCustomCategories()
     {
         return _context.Category
             .AsNoTracking()
@@ -37,7 +37,7 @@ public class CategoryController : ShopBaseController
     }
 
     [HttpGet]
-    public CategoryModel? GetSaleCategory()
+    public ActionResult<CategoryModel?> GetSaleCategory()
     {
         return _context.Category
             .Where(x => x.CategoryType == CategoryType.Sale)
@@ -47,7 +47,7 @@ public class CategoryController : ShopBaseController
     }
 
     [HttpGet]
-    public CategoryModel? GetAllCategory()
+    public ActionResult<CategoryModel?> GetAllCategory()
     {
         return _context.Category
             .Where(x => x.CategoryType == CategoryType.All)

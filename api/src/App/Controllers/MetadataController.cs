@@ -1,6 +1,7 @@
 using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 using Shop.ApiModels;
@@ -28,15 +29,15 @@ public class MetadataController : ShopBaseController
     }
 
     [HttpGet]
-    public MetadataModel? GetMetadata()
+    public async Task<ActionResult<MetadataModel?>> GetMetadata()
     {
-        var metadata = _dbContext.Metadata.FirstOrDefault();
+        var metadata = await _dbContext.Metadata.FirstOrDefaultAsync();
         if (metadata != null)
         {
             var model = _mapper.Map<MetadataModel>(metadata);
             model.Currency = _paymentService.GetCurrencyFromCultureCode(_options.Value.CultureCode).ResultData!.ToUpper();
             return model;
         }
-        return null;
+        return NotFound();
     }
 }

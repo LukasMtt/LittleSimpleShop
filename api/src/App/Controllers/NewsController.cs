@@ -1,6 +1,7 @@
 using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using Shop.ApiModels;
 using Shop.Data;
@@ -21,13 +22,13 @@ public class NewsController : ShopBaseController
     }
 
     [HttpGet]
-    public List<NewsModel> GetAllNews()
+    public async Task<ActionResult<List<NewsModel>>> GetAllNews()
     {
         var dateTimeToday = DateTime.Today;
 
-        return _context.News
+        return await _context.News
             .Where(x => x.ValidFrom <= dateTimeToday && x.ValidTo >= dateTimeToday)
             .Select(x => _mapper.Map<NewsModel>(x))
-            .ToList();
+            .ToListAsync();
     }
 }

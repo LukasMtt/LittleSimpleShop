@@ -15,7 +15,7 @@ public class AntiforgeryController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetAntiforgeryToken()
+    public IActionResult GetAntiforgeryToken()
     {
         // only responsible for generating and sending the antiforgery token to the client via cookie at first load of SPA
         // functionality for the form embedded token not used

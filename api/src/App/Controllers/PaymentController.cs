@@ -30,7 +30,7 @@ public class PaymentController : ShopBaseController
 
     [HttpPost]
     [EnableRateLimiting("paymentRateLimiterPolicy")]
-    public async Task<ActionResult> CreateCheckoutSession([FromBody] CheckoutModel model)
+    public async Task<IActionResult> CreateCheckoutSession([FromBody] CheckoutModel model)
     {
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))

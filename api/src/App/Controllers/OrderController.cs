@@ -26,7 +26,7 @@ public class OrderController : ShopBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetOrderExists(string orderToken)
+    public async Task<ActionResult<bool>> GetOrderExists(string orderToken)
     {
         var entity = _context.Order.FirstOrDefault(x => x.OrderToken == orderToken);
         return entity == null ? Ok(false) : Ok(true);
@@ -34,7 +34,7 @@ public class OrderController : ShopBaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetOrderInformation(string orderToken)
+    public async Task<ActionResult<OrderSummaryModel>> GetOrderInformation(string orderToken)
     {
         var entity = _context.Order.IgnoreQueryFilters()
             .Where(x => x.OrderToken == orderToken)
