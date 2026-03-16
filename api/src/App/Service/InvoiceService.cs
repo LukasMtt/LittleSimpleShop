@@ -66,7 +66,7 @@ public class InvoiceService
                     Price = x.Product.Price.ToString("C", CultureInfo.CurrentCulture)
                 }).ToList(),
                 ShippingCost = order.ShippingCost.ToString("C", CultureInfo.CurrentCulture),
-                TotalPrice = (order.OrderProducts.Sum(x => x.Product?.Price ?? 0m) + order.ShippingCost).ToString("C", CultureInfo.CurrentCulture)
+                TotalPrice = (order.OrderProducts.Sum(x => (x.Product?.Price ?? 0m) * x.Quantity) + order.ShippingCost).ToString("C", CultureInfo.CurrentCulture)
             };
             var context = new TemplateContext(model, templateOptions);
             var filledTemplate = template.Render(context);

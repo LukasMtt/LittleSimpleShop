@@ -1,3 +1,5 @@
+using FluentMigrator;
+
 namespace Shop.Data.Migrations;
 
 [Migration(0000600)]

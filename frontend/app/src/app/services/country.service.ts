@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class CountryService {
   private countryList: { countryLong: string; countryShort: string }[] = [
-    { countryLong: 'Germany', countryShort: 'DEU' },
-    { countryLong: 'Austria', countryShort: 'AUT' },
-    { countryLong: 'Switzerland', countryShort: 'CHE' }
+    { countryLong: 'Deutschland', countryShort: 'DEU' },
+    { countryLong: 'Österreich', countryShort: 'AUT' },
+    { countryLong: 'Schweiz', countryShort: 'CHE' }
   ];
 
   public getCountryList() {
