@@ -11,6 +11,5 @@
   [class.expansion-section-content]="true"
   [class.collapse-section-content-open]="expansionSectionOpen()"
   [class.collapse-section-content-close]="!expansionSectionOpen()"
->
-  <ng-content></ng-content>
-</div>
+  [innerHTML]="content()"
+></div>

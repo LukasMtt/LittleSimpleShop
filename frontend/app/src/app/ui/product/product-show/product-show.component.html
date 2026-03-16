@@ -26,18 +26,25 @@
       }
     </ul>
   </div>
-  <div class="product-description-text">
-    {{ productDescription() }}
-  </div>
+  <div
+    class="product-description-text"
+    [innerHTML]="productDescription()"
+  ></div>
   <div class="product-expansion-section-container">
-    <app-expansion-section [headerText]="productDescriptionExtendedHeader()">
-      {{ productDescriptionExtended() }}
+    <app-expansion-section
+      [headerText]="productDescriptionExtendedHeader()"
+      [content]="productDescriptionExtended()"
+    >
     </app-expansion-section>
-    <app-expansion-section [headerText]="shippingAndReturnPolicyHeader()">
-      {{ shippingAndReturnPolicy() }}
+    <app-expansion-section
+      [headerText]="shippingAndReturnPolicyHeader()"
+      [content]="shippingAndReturnPolicy()"
+    >
     </app-expansion-section>
-    <app-expansion-section [headerText]="safetyUsageDescriptionHeader()">
-      {{ safetyUsageDescription() }}
+    <app-expansion-section
+      [headerText]="safetyUsageDescriptionHeader()"
+      [content]="safetyUsageDescription()"
+    >
     </app-expansion-section>
   </div>
 </div>

@@ -13,6 +13,7 @@ import { ExpansionSectionComponent } from '../../shared/expansion-section/expans
 import { ReplaceStringPipe } from '../../../pipes/replace.pipe';
 import { MetadataService } from '../../../services/metadata.service';
 import { ShippingService } from '../../../services/shipping.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-show',
@@ -35,10 +36,10 @@ export class ProductShowComponent extends BaseComponent {
 
   productName = signal<string>('');
   productPrice = signal<number | undefined>(undefined);
-  productDescription = signal<string>('');
-  productDescriptionExtended = signal<string>('');
+  productDescription = signal<SafeHtml>('');
+  productDescriptionExtended = signal<SafeHtml>('');
   productDescriptionExtendedHeader = signal<string>('');
-  safetyUsageDescription = signal<string>('');
+  safetyUsageDescription = signal<SafeHtml>('');
   safetyUsageDescriptionHeader = signal<string>('');
   productCount = signal<number>(1);
   isProductInStock = signal<boolean>(false);
@@ -46,7 +47,7 @@ export class ProductShowComponent extends BaseComponent {
   productHighlights = signal<string[]>([]);
   carouselImages = signal<DisplayImageInput[]>([]);
   subPriceMetaInfos = signal<string[]>([]);
-  shippingAndReturnPolicy = signal<string>('');
+  shippingAndReturnPolicy = signal<SafeHtml>('');
   shippingAndReturnPolicyHeader = signal<string>('');
   freeShippingString = signal<string>('');
   freeShippingThresholdString = signal<string>('');
@@ -77,7 +78,8 @@ export class ProductShowComponent extends BaseComponent {
     private cartService: CartService,
     metaDataService: MetadataService,
     shippingService: ShippingService,
-    currencyPipe: CurrencyPipe
+    currencyPipe: CurrencyPipe,
+    sanitizer: DomSanitizer
   ) {
     super();
     this.freeShippingString.set(this.res('FREE_SHIPPING_FROM'));
@@ -103,7 +105,9 @@ export class ProductShowComponent extends BaseComponent {
         )
       ]);
       this.shippingAndReturnPolicy.set(
-        metadata.shippingAndReturnPolicyDescription ?? ''
+        sanitizer.bypassSecurityTrustHtml(
+          metadata.shippingAndReturnPolicyDescription ?? ''
+        )
       );
     });
     shippingService.getShippingTimeEstimation().subscribe((estimation) => {
@@ -120,11 +124,17 @@ export class ProductShowComponent extends BaseComponent {
         .subscribe((product) => {
           this.productName.set(product.name);
           this.productPrice.set(product.price);
-          this.productDescription.set(product.shortDescription);
+          this.productDescription.set(
+            sanitizer.bypassSecurityTrustHtml(product.shortDescription)
+          );
           this.isProductInStock.set(product.isInStock);
           this.productHighlights.set(product.highlightDescriptions);
-          this.productDescriptionExtended.set(product.detailDescription);
-          this.safetyUsageDescription.set(product.safetyUsageDescription);
+          this.productDescriptionExtended.set(
+            sanitizer.bypassSecurityTrustHtml(product.detailDescription)
+          );
+          this.safetyUsageDescription.set(
+            sanitizer.bypassSecurityTrustHtml(product.safetyUsageDescription)
+          );
           if (product && product.images && product.images.length > 0) {
             this.productMainImage.set({
               ...product.images[0],
