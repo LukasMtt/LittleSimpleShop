@@ -125,15 +125,17 @@ export class ProductShowComponent extends BaseComponent {
           this.productName.set(product.name);
           this.productPrice.set(product.price);
           this.productDescription.set(
-            sanitizer.bypassSecurityTrustHtml(product.shortDescription)
+            sanitizer.bypassSecurityTrustHtml(product.shortDescription ?? '')
           );
           this.isProductInStock.set(product.isInStock);
           this.productHighlights.set(product.highlightDescriptions);
           this.productDescriptionExtended.set(
-            sanitizer.bypassSecurityTrustHtml(product.detailDescription)
+            sanitizer.bypassSecurityTrustHtml(product.detailDescription ?? '')
           );
           this.safetyUsageDescription.set(
-            sanitizer.bypassSecurityTrustHtml(product.safetyUsageDescription)
+            sanitizer.bypassSecurityTrustHtml(
+              product.safetyUsageDescription ?? ''
+            )
           );
           if (product && product.images && product.images.length > 0) {
             this.productMainImage.set({

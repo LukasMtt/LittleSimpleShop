@@ -1,5 +1,3 @@
-using AutoMapper;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,31 +10,33 @@ namespace Shop.Controllers;
 [ApiController]
 public class ProductController : ShopBaseController
 {
-    private IMapper _mapper;
     private ShopDbContext _context;
 
-    public ProductController(IMapper mapper, ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService)
+    public ProductController(ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService)
     {
-        _mapper = mapper;
         _context = context;
     }
 
     [HttpGet]
     public ActionResult<List<ProductModel>> GetAllProducts(int pageOffset, int pageSize)
     {
+        var mapper = new ProductMapper();
+
         return _context.Product
             .AsNoTracking()
             .OrderBy(x => x.Category!.Name)
             .Skip(pageOffset * pageSize)
             .Take(pageSize)
             .Include(x => x.Images)
-            .Select(x => _mapper.Map<ProductModel>(x))
+            .Select(x => mapper.ProductToProductModel(x))
             .ToList();
     }
 
     [HttpGet]
     public ActionResult<List<ProductModel>> GetAllProductsInSale(int pageOffset, int pageSize)
     {
+        var mapper = new ProductMapper();
+
         return _context.Product
             .AsNoTracking()
             .Where(x => x.IsInSale)
@@ -44,13 +44,15 @@ public class ProductController : ShopBaseController
             .Skip(pageOffset * pageSize)
             .Take(pageSize)
             .Include(x => x.Images)
-            .Select(x => _mapper.Map<ProductModel>(x))
+            .Select(x => mapper.ProductToProductModel(x))
             .ToList();
     }
 
     [HttpGet]
     public ActionResult<List<ProductModel>> GetAllProductsByCategoryId(long categoryId, int pageOffset, int pageSize)
     {
+        var mapper = new ProductMapper();
+
         return _context.Product
             .AsNoTracking()
             .Where(x => x.Category!.Id == categoryId)
@@ -58,17 +60,19 @@ public class ProductController : ShopBaseController
             .Skip(pageOffset * pageSize)
             .Take(pageSize)
             .Include(x => x.Images)
-            .Select(x => _mapper.Map<ProductModel>(x))
+            .Select(x => mapper.ProductToProductModel(x))
             .ToList();
     }
 
     [HttpGet]
     public ActionResult<ProductModel?> GetProductById(long productId)
     {
+        var mapper = new ProductMapper();
+
         return _context.Product
             .Where(x => x.Id == productId)
             .Include(x => x.Images)
-            .Select(x => _mapper.Map<ProductModel>(x))
+            .Select(x => mapper.ProductToProductModel(x))
             .FirstOrDefault();
     }
 
@@ -105,10 +109,12 @@ public class ProductController : ShopBaseController
     [HttpPost]
     public ActionResult<List<ProductModel>> GetProductsByIds([FromBody] List<long> productIdList)
     {
+        var mapper = new ProductMapper();
+
         return _context.Product
             .Where(x => productIdList.Contains(x.Id))
             .Include(x => x.Images)
-            .Select(x => _mapper.Map<ProductModel>(x))
+            .Select(x => mapper.ProductToProductModel(x))
             .ToList()
             .OrderBy(x => x.Id)
             .ToList();

@@ -1,7 +1,5 @@
 using App.Middlewares;
 
-using AutoMapper;
-
 using FluentMigrator.Runner;
 
 using Fluid;
@@ -112,8 +110,6 @@ class Program
 
         services.AddDbContext<ShopDbContext>();
 
-        services.AddSingleton(ConfigureMappings());
-
         services.AddSingleton((provider) => new FluidParser());
         services.AddTransient<StripePaymentService>();
         services.AddTransient<OrderService>();
@@ -151,21 +147,6 @@ class Program
                 UseJitter = true
             });
         });
-    }
-
-    private static IMapper ConfigureMappings()
-    {
-        //todo obviously need to add Serilog here - CHANGE
-        var loggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole().AddDebug();
-        });
-        var mapperConfig = new MapperConfiguration(mc =>
-        {
-            mc.AddProfile(new MappingProfile());
-        }, loggerFactory);
-        IMapper mapper = mapperConfig.CreateMapper();
-        return mapper;
     }
 
     private static ServiceProvider CreateFluentMigratorServices(AppOptions appOptions)

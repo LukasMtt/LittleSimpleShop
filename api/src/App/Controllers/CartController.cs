@@ -1,5 +1,3 @@
-using AutoMapper;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +13,12 @@ namespace Shop.Controllers;
 [ApiController]
 public class CartController : ShopBaseController
 {
-    private IMapper _mapper;
     private ShopDbContext _context;
     private CartService _cartService;
     private IWebHostEnvironment _webHostEnvironment;
 
-    public CartController(IMapper mapper, ShopDbContext context, IFileStorageService fileStorageService, CartService cartService, IWebHostEnvironment webHostEnvironment) : base(fileStorageService)
+    public CartController(ShopDbContext context, IFileStorageService fileStorageService, CartService cartService, IWebHostEnvironment webHostEnvironment) : base(fileStorageService)
     {
-        _mapper = mapper;
         _context = context;
         _cartService = cartService;
         _webHostEnvironment = webHostEnvironment;
@@ -38,8 +34,9 @@ public class CartController : ShopBaseController
             return NotFound();
         }
 
+        var mapper = new CartMapper();
         var cart = await _context.Cart.Include(c => c.CartItems).FirstOrDefaultAsync(c => c.CartToken == cartToken);
-        return cart == null ? null : _mapper.Map<CartModel>(cart);
+        return cart == null ? null : mapper.CartToCartModel(cart);
     }
 
     [HttpPost]

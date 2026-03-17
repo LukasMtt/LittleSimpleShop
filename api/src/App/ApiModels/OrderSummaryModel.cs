@@ -4,7 +4,7 @@ public class OrderSummaryModel
 {
     public required string State { get; set; }
     public required string OrderDate { get; set; }
-    public required string OrderEstimatedDeliveryDate { get; set; }
+    public string? OrderEstimatedDeliveryDate { get; set; }
     public required string ShippingProvider { get; set; }
     public required decimal ShippingCost { get; set; }
     public string? ShippingProviderOrderId { get; set; }

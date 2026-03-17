@@ -1,5 +1,3 @@
-using AutoMapper;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,13 +12,11 @@ namespace Shop.Controllers;
 [ApiController]
 public class OrderController : ShopBaseController
 {
-    private IMapper _mapper;
     private ShopDbContext _context;
     private ShippingService _shippingService;
 
-    public OrderController(IMapper mapper, ShopDbContext context, ShippingService shippingService, IFileStorageService fileStorageService) : base(fileStorageService)
+    public OrderController(ShopDbContext context, ShippingService shippingService, IFileStorageService fileStorageService) : base(fileStorageService)
     {
-        _mapper = mapper;
         _context = context;
         _shippingService = shippingService;
     }
@@ -47,7 +43,8 @@ public class OrderController : ShopBaseController
             return Problem("Could not display order.", statusCode: 400);
         }
 
-        var model = _mapper.Map<OrderSummaryModel>(entity);
+        var mapper = new OrderMapper();
+        var model = mapper.OrderToOrderSummaryModel(entity);
         model.OrderDate = entity.OrderDate.ToShortDateString();
         model.State = entity.State.ToString();
         model.OrderEstimatedDeliveryDate = (await _shippingService.GetDeliveryDate(entity)).ResultData.ToShortDateString();

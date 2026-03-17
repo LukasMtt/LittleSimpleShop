@@ -52,6 +52,7 @@
 .product-description-text {
   font-size: 0.75rem;
   padding-bottom: 1rem;
+  text-align: justify;
 }
 
 .product-description-highlights {

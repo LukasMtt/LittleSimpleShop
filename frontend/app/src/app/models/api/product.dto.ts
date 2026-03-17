@@ -1,4 +1,3 @@
-import { CategoryDTO } from './category.dto';
 import { PublicImageDTO } from './public-image.dto';
 
 export interface ProductDTO {
@@ -9,7 +8,6 @@ export interface ProductDTO {
   highlightDescriptions: string[];
   detailDescription: string;
   safetyUsageDescription: string;
-  category: CategoryDTO;
   price: number;
   isInSale: boolean;
   isInStock: boolean;

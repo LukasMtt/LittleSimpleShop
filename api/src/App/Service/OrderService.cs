@@ -1,5 +1,3 @@
-using AutoMapper;
-
 using EntityFramework.Exceptions.Common;
 
 using Shop.ApiModels;
@@ -13,22 +11,21 @@ namespace Shop.Service;
 public class OrderService
 {
     private ShopDbContext _context;
-    private IMapper _mapper;
     private ShippingService _shippingService;
 
-    public OrderService(ShopDbContext context, IMapper mapper, ShippingService shippingService)
+    public OrderService(ShopDbContext context, ShippingService shippingService)
     {
         _context = context;
-        _mapper = mapper;
         _shippingService = shippingService;
     }
 
     public async Task<ServiceResult<Order?>> CreateAndSaveOrder(CheckoutModel model, Cart cart)
     {
+        var mapper = new CheckoutModelMapper();
         try
         {
             await using var transaction = await _context.Database.BeginTransactionAsync();
-            var shipmentTarget = _mapper.Map<ShipmentTarget>(model);
+            var shipmentTarget = mapper.CheckoutModelToShipmentTarget(model);
 
             var order = new Order
             {

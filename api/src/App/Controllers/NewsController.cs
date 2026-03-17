@@ -1,5 +1,3 @@
-using AutoMapper;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +10,10 @@ namespace Shop.Controllers;
 [ApiController]
 public class NewsController : ShopBaseController
 {
-    private IMapper _mapper;
     private ShopDbContext _context;
 
-    public NewsController(IMapper mapper, ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService)
+    public NewsController(ShopDbContext context, IFileStorageService fileStorageService) : base(fileStorageService)
     {
-        _mapper = mapper;
         _context = context;
     }
 
@@ -25,10 +21,11 @@ public class NewsController : ShopBaseController
     public async Task<ActionResult<List<NewsModel>>> GetAllNews()
     {
         var dateTimeToday = DateTime.Today;
+        var mapper = new NewsMapper();
 
         return await _context.News
             .Where(x => x.ValidFrom <= dateTimeToday && x.ValidTo >= dateTimeToday)
-            .Select(x => _mapper.Map<NewsModel>(x))
+            .Select(x => mapper.NewsToNewsModel(x))
             .ToListAsync();
     }
 }

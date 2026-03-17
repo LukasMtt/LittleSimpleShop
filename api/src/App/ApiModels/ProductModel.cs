@@ -11,7 +11,6 @@ public class ProductModel : BaseApiModel
     public string? SafetyUsageDescription { get; set; }
     public decimal Price { get; set; }
     public ICollection<PublicImageModel> Images { get; set; } = new List<PublicImageModel>();
-    public required CategoryModel Category { get; set; }
     public bool IsInSale { get; set; }
     public ProductLifecycleState LifecycleState { get; set; }
     public bool IsInStock { get; set; }
