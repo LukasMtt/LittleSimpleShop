@@ -14,17 +14,16 @@ public class CartService
         _context = context;
     }
 
-    public ServiceResult<string> CreateCartToken()
+    public virtual ServiceResult<string> CreateCartToken()
     {
         return new ServiceResult<string>
         {
             IsSuccess = true,
             ResultData = Guid.NewGuid().ToString()
-
         };
     }
 
-    public async Task<ServiceResult<bool>> ArchiveCart(Cart cart)
+    public virtual async Task<ServiceResult<bool>> ArchiveCart(Cart cart)
     {
         cart.State = CartLifecycleState.Archived;
         var isSuccess = await _context.SaveChangesAsync() == 1;

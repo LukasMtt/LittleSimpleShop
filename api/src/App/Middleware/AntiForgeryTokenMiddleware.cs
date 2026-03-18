@@ -3,14 +3,16 @@ namespace App.Middlewares;
 public class AntiForgeryTokenMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly bool _writeValidationFailToResponse;
     private readonly HashSet<string> _ignoredEndpoints = new HashSet<string>
     {
         "/shop/Payment/PersistSuccessfulStripePaymentResult"
     };
 
-    public AntiForgeryTokenMiddleware(RequestDelegate next)
+    public AntiForgeryTokenMiddleware(RequestDelegate next, bool writeValidationFailToResponse = true)
     {
         _next = next;
+        _writeValidationFailToResponse = writeValidationFailToResponse;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -30,7 +32,10 @@ public class AntiForgeryTokenMiddleware
             {
                 Serilog.Log.Warning("Antiforgery token validation failed.");
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                await context.Response.WriteAsync("Invalid antiforgery token.");
+                if (_writeValidationFailToResponse)
+                {
+                    await context.Response.WriteAsync("Antiforgery token validation failed.");
+                }
                 return;
             }
         }

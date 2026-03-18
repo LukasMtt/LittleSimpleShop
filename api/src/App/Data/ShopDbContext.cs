@@ -11,28 +11,33 @@ namespace Shop.Data;
 
 public class ShopDbContext : DbContext
 {
-    public DbSet<Product> Product { get; set; }
-    public DbSet<Category> Category { get; set; }
-    public DbSet<PublicImage> PublicImage { get; set; }
-    public DbSet<News> News { get; set; }
-    public DbSet<Order> Order { get; set; }
-    public DbSet<OrderProduct> OrderProduct { get; set; }
-    public DbSet<Metadata> Metadata { get; set; }
-    public DbSet<Cart> Cart { get; set; }
-    public DbSet<CartItem> CartItem { get; set; }
-    public DbSet<Document> Document { get; set; }
-    public DbSet<NewsletterSubscriber> NewsletterSubscriber { get; set; }
+    public virtual DbSet<Product> Product { get; set; }
+    public virtual DbSet<Category> Category { get; set; }
+    public virtual DbSet<PublicImage> PublicImage { get; set; }
+    public virtual DbSet<News> News { get; set; }
+    public virtual DbSet<Order> Order { get; set; }
+    public virtual DbSet<OrderProduct> OrderProduct { get; set; }
+    public virtual DbSet<Metadata> Metadata { get; set; }
+    public virtual DbSet<Cart> Cart { get; set; }
+    public virtual DbSet<CartItem> CartItem { get; set; }
+    public virtual DbSet<Document> Document { get; set; }
+    public virtual DbSet<NewsletterSubscriber> NewsletterSubscriber { get; set; }
 
     private IOptions<AppOptions> _options;
+    private bool _isForTesting;
 
-    public ShopDbContext(IOptions<AppOptions> options) : base()
+    public ShopDbContext(IOptions<AppOptions> options, DbContextOptions<ShopDbContext> dbContextOptions, bool isForTesting = false) : base(dbContextOptions)
     {
         _options = options;
+        _isForTesting = isForTesting;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_options.Value.ConnectionString);
+        if (!_isForTesting)
+        {
+            optionsBuilder.UseSqlServer(_options.Value.ConnectionString);
+        }
         optionsBuilder.UseExceptionProcessor();
     }
 

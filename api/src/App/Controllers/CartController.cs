@@ -36,7 +36,7 @@ public class CartController : ShopBaseController
 
         var mapper = new CartMapper();
         var cart = await _context.Cart.Include(c => c.CartItems).FirstOrDefaultAsync(c => c.CartToken == cartToken);
-        return cart == null ? null : mapper.CartToCartModel(cart);
+        return cart == null ? NotFound() : Ok(mapper.CartToCartModel(cart));
     }
 
     [HttpPost]
@@ -45,7 +45,7 @@ public class CartController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (!string.IsNullOrEmpty(cartToken))
         {
-            return true;
+            return Ok(true);
         }
 
         cartToken = _cartService.CreateCartToken().ResultData;
@@ -74,7 +74,7 @@ public class CartController : ShopBaseController
             });
         }
 
-        return result;
+        return Ok(result);
     }
 
     [HttpPost]
@@ -97,7 +97,7 @@ public class CartController : ShopBaseController
         if (existingCartItem != null)
         {
             existingCartItem.Amount += cartItem.Amount;
-            return await _context.SaveChangesAsync();
+            return Ok(await _context.SaveChangesAsync());
         }
 
         var newCartItem = new CartItem
@@ -107,7 +107,7 @@ public class CartController : ShopBaseController
             CartId = cart.Id
         };
         cart.CartItems.Add(newCartItem);
-        return await _context.SaveChangesAsync();
+        return Ok(await _context.SaveChangesAsync());
     }
 
     [HttpPost]
@@ -133,7 +133,7 @@ public class CartController : ShopBaseController
         }
 
         cart.CartItems.Remove(existingCartItem);
-        return await _context.SaveChangesAsync();
+        return Ok(await _context.SaveChangesAsync());
     }
 
     [HttpPost]
@@ -159,7 +159,7 @@ public class CartController : ShopBaseController
         }
 
         existingCartItem.Amount = amount;
-        return await _context.SaveChangesAsync();
+        return Ok(await _context.SaveChangesAsync());
     }
 
     [HttpGet]
@@ -178,6 +178,6 @@ public class CartController : ShopBaseController
             return NotFound();
         }
         cart.State = CartLifecycleState.Archived;
-        return await _context.SaveChangesAsync();
+        return Ok(await _context.SaveChangesAsync());
     }
 }
