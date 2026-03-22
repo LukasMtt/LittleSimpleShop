@@ -1,0 +1,4 @@
+{
+  "apiBaseEndpointUrl": "https://localhost:443",
+  "stripePublicKey": "pk_test_123"
+}
