@@ -7,10 +7,12 @@ namespace Shop.Controllers;
 public class ErrorController : ControllerBase
 {
     private readonly IHostEnvironment _hostEnvironment;
+    private readonly ILogger<ErrorController> _logger;
 
-    public ErrorController(IHostEnvironment hostEnvironment)
+    public ErrorController(IHostEnvironment hostEnvironment, ILogger<ErrorController> logger)
     {
         _hostEnvironment = hostEnvironment;
+        _logger = logger;
     }
 
     [Route("/error")]
@@ -20,7 +22,7 @@ public class ErrorController : ControllerBase
         var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
         if (exception != null)
         {
-            Serilog.Log.Error(exception, "An error occurred while processing the request.");
+            _logger.LogError(exception, "An error occurred while processing the request.");
             if (_hostEnvironment.IsDevelopment())
             {
                 throw exception;

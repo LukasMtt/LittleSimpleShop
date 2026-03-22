@@ -10,13 +10,15 @@ public class SeaweedFsService : IFileStorageService
 {
     private readonly HttpClient _httpClient;
     private readonly IOptions<AppOptions> _appOptions;
+    private ILogger<SeaweedFsService> _logger;
 
     private static readonly string _assignEndpoint = "dir/assign";
 
-    public SeaweedFsService(HttpClient httpClient, IOptions<AppOptions> options)
+    public SeaweedFsService(HttpClient httpClient, IOptions<AppOptions> options, ILogger<SeaweedFsService> logger)
     {
         _httpClient = httpClient;
         _appOptions = options;
+        _logger = logger;
     }
 
     public async Task<ServiceResult<HttpContent?>> GetFileAsync(string fileId)
@@ -37,9 +39,9 @@ public class SeaweedFsService : IFileStorageService
                 ResultData = response.Content
             };
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException operationCanceledException)
         {
-            Serilog.Log.Warning("Timeout occurred while fetching file from SeaweedFS with fileId: {FileId}", fileId);
+            _logger.LogWarning(operationCanceledException, "Timeout occurred while fetching file from SeaweedFS with fileId: {FileId}", fileId);
             return new ServiceResult<HttpContent?>
             {
                 IsSuccess = false,
@@ -48,7 +50,7 @@ public class SeaweedFsService : IFileStorageService
         }
         catch (HttpRequestException ex)
         {
-            Serilog.Log.Error(ex, "HTTP error occurred while fetching file from SeaweedFS with fileId: {FileId}", fileId);
+            _logger.LogError(ex, "HTTP error occurred while fetching file from SeaweedFS with fileId: {FileId}", fileId);
             return new ServiceResult<HttpContent?>
             {
                 IsSuccess = false,
@@ -57,7 +59,7 @@ public class SeaweedFsService : IFileStorageService
         }
         catch (Exception ex)
         {
-            Serilog.Log.Error(ex, "Error occured while fetching file from SeaweedFS with fileId: {FileId}", fileId);
+            _logger.LogError(ex, "Error occured while fetching file from SeaweedFS with fileId: {FileId}", fileId);
             return new ServiceResult<HttpContent?>
             {
                 IsSuccess = false,
@@ -103,7 +105,7 @@ public class SeaweedFsService : IFileStorageService
         }
         catch (OperationCanceledException)
         {
-            Serilog.Log.Warning("Timeout occurred while posting file to SeaweedFS or getting a file id for this post.");
+            _logger.LogWarning("Timeout occurred while posting file to SeaweedFS or getting a file id for this post.");
             return new ServiceResult<string>
             {
                 IsSuccess = false,
@@ -112,7 +114,7 @@ public class SeaweedFsService : IFileStorageService
         }
         catch (HttpRequestException ex)
         {
-            Serilog.Log.Error(ex, "HTTP error occurred while posting file to SeaweedFS or getting a file id for this post.");
+            _logger.LogError(ex, "HTTP error occurred while posting file to SeaweedFS or getting a file id for this post.");
             return new ServiceResult<string>
             {
                 IsSuccess = false,
@@ -121,7 +123,7 @@ public class SeaweedFsService : IFileStorageService
         }
         catch (Exception ex)
         {
-            Serilog.Log.Error(ex, "Error occurred while posting file to SeaweedFS or getting a file id for this post.");
+            _logger.LogError(ex, "Error occurred while posting file to SeaweedFS or getting a file id for this post.");
             return new ServiceResult<string>
             {
                 IsSuccess = false,
@@ -138,7 +140,7 @@ public class SeaweedFsService : IFileStorageService
         var fileId = assignModel?.Fid;
         if (string.IsNullOrEmpty(fileId))
         {
-            Serilog.Log.Error("Empty file id assigned by SeaweedFs.");
+            _logger.LogError("Empty file id assigned by SeaweedFs.");
             return null;
         }
         return fileId;

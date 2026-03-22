@@ -8,13 +8,15 @@ namespace Shop.Service;
 public class PdfConverterService : IPdfConverterService
 {
     private readonly HttpClient _httpClient;
+    private ILogger<PdfConverterService> _logger;
 
     private static readonly string _convertHtmlChromiumEndpoint = "forms/chromium/convert/html";
     private static readonly string _fileName = "index.html";
 
-    public PdfConverterService(HttpClient httpClient)
+    public PdfConverterService(HttpClient httpClient, ILogger<PdfConverterService> logger)
     {
         _httpClient = httpClient;
+        _logger = logger;
     }
 
     public async Task<ServiceResult<HttpContent?>> ConvertHtmlToPdfFileAsync(string html)
@@ -31,9 +33,9 @@ public class PdfConverterService : IPdfConverterService
                 ResultData = response.Content
             };
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException operationCanceledException)
         {
-            Serilog.Log.Warning("Timeout occurred while converting html to pdf via the conversion service.");
+            _logger.LogError(operationCanceledException, "Timeout occurred while converting html to pdf via the conversion service.");
             return new ServiceResult<HttpContent?>
             {
                 IsSuccess = false,
@@ -42,7 +44,7 @@ public class PdfConverterService : IPdfConverterService
         }
         catch (HttpRequestException ex)
         {
-            Serilog.Log.Error(ex, "HTTP error occurred while converting html to pdf via the conversion service.");
+            _logger.LogError(ex, "HTTP error occurred while converting html to pdf via the conversion service.");
             return new ServiceResult<HttpContent?>
             {
                 IsSuccess = false,
@@ -51,7 +53,7 @@ public class PdfConverterService : IPdfConverterService
         }
         catch (Exception ex)
         {
-            Serilog.Log.Error(ex, "Error occurred while converting html to pdf via the conversion service.");
+            _logger.LogError(ex, "Error occurred while converting html to pdf via the conversion service.");
             return new ServiceResult<HttpContent?>
             {
                 IsSuccess = false,

@@ -16,12 +16,14 @@ public class CartController : ShopBaseController
     private ShopDbContext _context;
     private CartService _cartService;
     private IWebHostEnvironment _webHostEnvironment;
+    private ILogger<CartController> _logger;
 
-    public CartController(ShopDbContext context, IFileStorageService fileStorageService, CartService cartService, IWebHostEnvironment webHostEnvironment) : base(fileStorageService)
+    public CartController(ShopDbContext context, IFileStorageService fileStorageService, CartService cartService, IWebHostEnvironment webHostEnvironment, ILogger<CartController> logger) : base(fileStorageService)
     {
         _context = context;
         _cartService = cartService;
         _webHostEnvironment = webHostEnvironment;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -30,7 +32,7 @@ public class CartController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
-            Serilog.Log.Information("No cart token found in cookies.");
+            _logger.LogWarning("No cart token found in cookies for a GetCart request.");
             return NotFound();
         }
 
@@ -83,7 +85,7 @@ public class CartController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
-            Serilog.Log.Information("No cart token found in cookies.");
+            _logger.LogWarning("No cart token found in cookies for a PushCartItem request.");
             return NotFound();
         }
 
@@ -116,7 +118,7 @@ public class CartController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
-            Serilog.Log.Information("No cart token found in cookies.");
+            _logger.LogWarning("No cart token found in cookies for a PopCartItemByProductId request.");
             return NotFound();
         }
 
@@ -142,7 +144,7 @@ public class CartController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
-            Serilog.Log.Information("No cart token found in cookies.");
+            _logger.LogWarning("No cart token found in cookies for a UpdateCartItemAmountByProductId request.");
             return NotFound();
         }
 
@@ -168,7 +170,7 @@ public class CartController : ShopBaseController
         var cartToken = HttpContext?.Request?.Cookies?.TryGetValue(CartTokenCookieName, out var token) == true ? token : null;
         if (string.IsNullOrEmpty(cartToken))
         {
-            Serilog.Log.Information("No cart token found in cookies.");
+            _logger.LogWarning("No cart token found in cookies for a ArchiveCart request.");
             return NotFound();
         }
 

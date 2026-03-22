@@ -31,13 +31,14 @@ public class StripePaymentService
     private InvoiceService _invoiceService;
     private FluidParser _fluidParser;
     private ResourceManager _resourceManager;
+    private ILogger<StripePaymentService> _logger;
     private string _currency;
 
     private readonly List<string> _allowedPaymentMethods = new List<string> { "card", "paypal", "alipay" };
     private readonly string _metadataOrderToken = "OrderToken";
     private readonly string _frontendBaseUrl;
 
-    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context, MailService mailService, InvoiceService invoiceService, FluidParser fluidParser)
+    public StripePaymentService(IOptions<AppOptions> appOptions, ShopDbContext context, MailService mailService, InvoiceService invoiceService, FluidParser fluidParser, ILogger<StripePaymentService> logger)
     {
         _appOptions = appOptions;
         _context = context;
@@ -45,6 +46,7 @@ public class StripePaymentService
         _mailService = mailService;
         _fluidParser = fluidParser;
         _invoiceService = invoiceService;
+        _logger = logger;
 
         _resourceManager = new ResourceManager("OrderConfirmEmail", typeof(Program).Assembly);
 
@@ -91,7 +93,7 @@ public class StripePaymentService
             {
                 case EventTypes.CheckoutSessionCompleted:
                     var session = stripeEvent.Data.Object as Session;
-                    Log.Information("Checkout session completed: {0}", session!.Id);
+                    _logger.LogInformation("Checkout session completed: {0}", session!.Id);
                     var completeResult = await HandleCheckoutSessionCompleted(session);
                     if (!completeResult.ResultData)
                     {
@@ -111,7 +113,7 @@ public class StripePaymentService
         }
         catch (StripeException e)
         {
-            Log.Error("Stripe webhook error: {0}", e.Message);
+            _logger.LogError(e, "Stripe webhook error: {0}", e.Message);
             return new ServiceResult<bool>
             {
                 IsSuccess = false,
@@ -149,7 +151,7 @@ public class StripePaymentService
 
         if (order == null)
         {
-            Serilog.Log.Error("No order found.");
+            _logger.LogError("No order found.");
             return new ServiceResult<bool>
             {
                 IsSuccess = false,
@@ -226,7 +228,7 @@ public class StripePaymentService
         }
         else
         {
-            Serilog.Log.Error($"Error while parsing for email body: {error}");
+            _logger.LogError($"Error while parsing for email body: {error}");
             return "";
         }
     }

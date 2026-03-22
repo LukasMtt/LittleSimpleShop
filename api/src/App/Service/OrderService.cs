@@ -12,11 +12,13 @@ public class OrderService
 {
     private ShopDbContext _context;
     private ShippingService _shippingService;
+    private ILogger<OrderService> _logger;
 
-    public OrderService(ShopDbContext context, ShippingService shippingService)
+    public OrderService(ShopDbContext context, ShippingService shippingService, ILogger<OrderService> logger)
     {
         _context = context;
         _shippingService = shippingService;
+        _logger = logger;
     }
 
     public async Task<ServiceResult<Order?>> CreateAndSaveOrder(CheckoutModel model, Cart cart)
@@ -44,7 +46,7 @@ public class OrderService
                 var product = _context.Product.Find(cartItem.ProductId);
                 if (product == null)
                 {
-                    Serilog.Log.Warning("Failed to create order due to non existent product");
+                    _logger.LogWarning("Failed to create order due to non existent product.");
                     return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
                 }
                 product.AmountInStock = product.AmountInStock - cartItem.Amount;
@@ -75,12 +77,12 @@ public class OrderService
         catch (ReferenceConstraintException referenceConstraintException) when (referenceConstraintException?.InnerException?.Message.Contains("CHECK") ?? false)
         {
             // handle in frontend with more specific error message?
-            Serilog.Log.Error("Product could not be added to order since the amount in stock dropped to zero.");
+            _logger.LogError(referenceConstraintException, "Product could not be added to order since the amount in stock dropped to zero.");
             return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            Serilog.Log.Error("Could not instantiate order");
+            _logger.LogError(exception, "Could not instantiate order.");
             return new ServiceResult<Order?> { IsSuccess = false, ErrorMessage = "Failed to create order." };
         }
 

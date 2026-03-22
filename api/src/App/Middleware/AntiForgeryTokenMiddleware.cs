@@ -4,15 +4,17 @@ public class AntiForgeryTokenMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly bool _writeValidationFailToResponse;
+    private readonly ILogger<AntiForgeryTokenMiddleware> _logger;
     private readonly HashSet<string> _ignoredEndpoints = new HashSet<string>
     {
         "/shop/Payment/PersistSuccessfulStripePaymentResult"
     };
 
-    public AntiForgeryTokenMiddleware(RequestDelegate next, bool writeValidationFailToResponse = true)
+    public AntiForgeryTokenMiddleware(RequestDelegate next, ILogger<AntiForgeryTokenMiddleware> logger, bool writeValidationFailToResponse = true)
     {
         _next = next;
         _writeValidationFailToResponse = writeValidationFailToResponse;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -30,7 +32,7 @@ public class AntiForgeryTokenMiddleware
 
             if (string.IsNullOrEmpty(cookieToken) || string.IsNullOrEmpty(headerToken) || cookieToken != headerToken)
             {
-                Serilog.Log.Warning("Antiforgery token validation failed.");
+                _logger.LogWarning("Antiforgery token validation failed.");
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 if (_writeValidationFailToResponse)
                 {

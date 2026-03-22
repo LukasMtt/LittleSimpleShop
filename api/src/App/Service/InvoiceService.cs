@@ -17,15 +17,17 @@ public class InvoiceService
     private IPdfConverterService _pdfConverterService;
     private ShopDbContext _context;
     private FluidParser _fluidParser;
+    private ILogger<InvoiceService> _logger;
 
     private static readonly string _invoiceContentType = "application/pdf";
 
-    public InvoiceService(IFileStorageService fileStorageService, IPdfConverterService pdfConverterService, ShopDbContext context, FluidParser fluidParser)
+    public InvoiceService(IFileStorageService fileStorageService, IPdfConverterService pdfConverterService, ShopDbContext context, FluidParser fluidParser, ILogger<InvoiceService> logger)
     {
         _fileStorageService = fileStorageService;
         _pdfConverterService = pdfConverterService;
         _context = context;
         _fluidParser = fluidParser;
+        _logger = logger;
     }
 
     public async Task<ServiceResult<byte[]>> CreateInvoice(Order order)
@@ -83,7 +85,7 @@ public class InvoiceService
             var pdfResult = await result.ReadAsByteArrayAsync();
             if (pdfResult == null)
             {
-                Serilog.Log.Error($"Error while reading pdf file as byte array.");
+                _logger.LogError("Error while reading pdf file as byte array.");
                 return new ServiceResult<byte[]>
                 {
                     IsSuccess = false,
@@ -109,7 +111,7 @@ public class InvoiceService
         }
         else
         {
-            Serilog.Log.Error($"Error while parsing for email body: {error}");
+            _logger.LogError($"Error while parsing for email body: {error}");
             return new ServiceResult<byte[]>
             {
                 IsSuccess = false,

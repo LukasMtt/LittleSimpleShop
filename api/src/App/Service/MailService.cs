@@ -11,17 +11,19 @@ namespace Shop.Service;
 public class MailService
 {
     private IOptions<AppOptions> _appOptions;
+    private ILogger<MailService> _logger;
 
-    public MailService(IOptions<AppOptions> appOptions)
+    public MailService(IOptions<AppOptions> appOptions, ILogger<MailService> logger)
     {
         _appOptions = appOptions;
+        _logger = logger;
     }
 
     public async Task<ServiceResult<bool>> SendMailAsync(string? destinationAddress, string? destinationName, string? subject, string? body, byte[]? attachmentContent, ContentType? attachmentContentType, string? attachmentFileName, CancellationToken cancellationToken)
     {
         if (!IsMailConfigAndInputValid(destinationAddress, destinationName, subject, body))
         {
-            Serilog.Log.Error("Could not send email due to error.");
+            _logger.LogError("Could not send email due to error.");
             return new ServiceResult<bool>
             {
                 IsSuccess = false,
@@ -45,18 +47,18 @@ public class MailService
                 ResultData = true
             };
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException operationCanceledException)
         {
-            Serilog.Log.Warning("Could not send email due to cancellation of the sending process.");
+            _logger.LogError(operationCanceledException, "Could not send email due to cancellation of the sending process.");
             return new ServiceResult<bool>
             {
                 IsSuccess = false,
                 ErrorMessage = "Could not send email"
             };
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            Serilog.Log.Error("Could not send email due to error.");
+            _logger.LogError(exception, "Could not send email due to error.");
             return new ServiceResult<bool>
             {
                 IsSuccess = false,

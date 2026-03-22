@@ -9,6 +9,7 @@ using Microsoft.Extensions.Http.Resilience;
 using Polly;
 
 using Serilog;
+using Serilog.Events;
 
 using Shop.Data;
 using Shop.Data.Migrations;
@@ -24,7 +25,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        ConfigureSerilog();
+        ConfigureBootstrapSerilog();
         try
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -38,10 +39,11 @@ class Program
                 Thread.CurrentThread.CurrentCulture = new CultureInfo(options.CultureCode);
             }
 
-            RegisterServices(builder.Services, options, isDevEnv);
+            RegisterServices(builder, options, isDevEnv);
             MigrateDatabase(options);
 
             var app = builder.Build();
+            app.UseSerilogRequestLogging();
             if (isDevEnv)
             {
                 app.UseSwagger();
@@ -68,15 +70,18 @@ class Program
         }
     }
 
-    private static void RegisterServices(IServiceCollection services, AppOptions? appOptions, bool isDevEnv)
+    private static void RegisterServices(WebApplicationBuilder builder, AppOptions? appOptions, bool isDevEnv)
     {
-        services.AddCors(options =>
+        if (isDevEnv)
         {
-            options.AddPolicy(name: "CorsPolicy",
-                builder => builder.WithOrigins(appOptions?.FrontendBaseUrl ?? throw new InvalidOperationException("FrontendBaseUrl is not configured.")).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
-            );
-        });
-        services.AddAntiforgery(options =>
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "CorsPolicy",
+                    builder => builder.WithOrigins(appOptions?.FrontendBaseUrl ?? throw new InvalidOperationException("FrontendBaseUrl is not configured.")).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+                );
+            });
+        }
+        builder.Services.AddAntiforgery(options =>
         {
             options.HeaderName = "X-Xsrf-Header";
             options.Cookie.Name = "XSRF-TOKEN";
@@ -92,8 +97,8 @@ class Program
             }
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
-        services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-        services.AddRateLimiter(options => options.AddPolicy("paymentRateLimiterPolicy",
+        builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+        builder.Services.AddRateLimiter(options => options.AddPolicy("paymentRateLimiterPolicy",
             httpContext => RateLimitPartition.GetFixedWindowLimiter(
                 partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                 factory: partition => new FixedWindowRateLimiterOptions
@@ -104,22 +109,26 @@ class Program
                     Window = TimeSpan.FromMinutes(1)
                 })).RejectionStatusCode = StatusCodes.Status429TooManyRequests
         );
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-        services.AddSerilog();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
+            .ReadFrom.Configuration(builder.Configuration)
+            .ReadFrom.Services(services)
+            .Enrich.FromLogContext()
+            .WriteTo.Console());
 
-        services.AddDbContext<ShopDbContext>();
+        builder.Services.AddDbContext<ShopDbContext>();
 
-        services.AddSingleton((provider) => new FluidParser());
-        services.AddTransient<StripePaymentService>();
-        services.AddTransient<OrderService>();
-        services.AddTransient<ShippingService>();
-        services.AddTransient<CartService>();
-        services.AddTransient<MailService>();
-        services.AddTransient<InvoiceService>();
-        services.AddTransient<NewsletterService>();
+        builder.Services.AddSingleton((provider) => new FluidParser());
+        builder.Services.AddTransient<StripePaymentService>();
+        builder.Services.AddTransient<OrderService>();
+        builder.Services.AddTransient<ShippingService>();
+        builder.Services.AddTransient<CartService>();
+        builder.Services.AddTransient<MailService>();
+        builder.Services.AddTransient<InvoiceService>();
+        builder.Services.AddTransient<NewsletterService>();
 
-        services.AddHttpClient<IFileStorageService, SeaweedFsService>()
+        builder.Services.AddHttpClient<IFileStorageService, SeaweedFsService>()
         .AddResilienceHandler("default", builder =>
         {
             builder.AddTimeout(TimeSpan.FromSeconds(30));
@@ -132,7 +141,7 @@ class Program
             });
         });
 
-        services.AddHttpClient<IPdfConverterService, PdfConverterService>(client =>
+        builder.Services.AddHttpClient<IPdfConverterService, PdfConverterService>(client =>
         {
             client.BaseAddress = new Uri(appOptions?.PdfConverter?.Url ?? throw new InvalidOperationException("PdfConverterBaseUrl is not configured."));
         })
@@ -182,14 +191,12 @@ class Program
         }
     }
 
-    private static void ConfigureSerilog()
+    private static void ConfigureBootstrapSerilog()
     {
-        var logFile = Path.Combine("logs", "log.txt");
         Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()
             .WriteTo.Console()
-            .WriteTo.File(logFile,
-                rollingInterval: RollingInterval.Day,
-                rollOnFileSizeLimit: true)
-            .CreateLogger();
+            .CreateBootstrapLogger();
     }
 }
