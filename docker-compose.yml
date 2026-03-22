@@ -1,36 +1,81 @@
 services:
+  seaweedfs:
+    container_name: shop_seaweedfs
+    hostname: shop_seaweedfs
+    image: chrislusf/seaweedfs:4.17
+    # ports:
+    #   - 8333:8333
+    #   - 9333:9333
+    #   - 8080:8080
+    volumes:
+      - shop_seaweedfsvolume:/data
+    command:
+      - "server -s3 -dir=/data"
+  gotenberg:
+    container_name: shop_gotenberg
+    hostname: shop_gotenberg
+    image: gotenberg/gotenberg:8
   sql-server:
-    container_name: ms-sql-server-container
-    hostname: ms-sql-server-container
+    container_name: shop_sqlserver
+    hostname: shop_sqlserver
     image: mcr.microsoft.com/mssql/server:2022-latest
+    # ports:
+    #   - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=Password123!
-    ports:
-      - "1433:1433"
     volumes:
-      - sqlvolume:/var/opt/mssql
+      - shop_sqlservervolume:/var/opt/mssql
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Password123! -C -Q 'SELECT 1' || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Password123! -C -Q 'SELECT 1' || exit 1",
+        ]
       interval: 10s
       retries: 10
       start_period: 10s
       timeout: 3s
-  dotnet-api:
-    container_name: dotnet-api-container
-    image: dotnet-api
+  api:
+    container_name: shop_api
+    hostname: shop_api
+    image: shop-api
     ports:
-      - "3000:8080"
+      - "443:443"
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+
+      # - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     depends_on:
-      - sql-server
+      sql-server:
+        condition: service_healthy
+        restart: true
+      gotenberg:
+        condition: service_started
+      seaweedfs:
+        condition: service_started
+    volumes:
+      - ${SHOP_API_PATH_TO_HTTPS}:/https/
   ng-app:
-    container_name: ng-app-container
-    image: ng-app
+    container_name: shop_ng_app
+    hostname: shop_ng_app
+    image: shop-ng-app
     ports:
-      - "8000:80"
+      - "80:80"
     depends_on:
-      - dotnet-api
+      api:
+        condition: service_started
 volumes:
-  sqlvolume:
-    external: true
-    name: sqlvolume
+  shop_sqlservervolume:
+    name: shop_sqlservervolume
+  shop_seaweedfsvolume:
+    name: shop_seaweedfsvolume
+  shop_papercutmessagesvolume:
+    name: shop_papercutmessagesvolume
+  shop_papercutlogsvolume:
+    name: shop_papercutlogsvolume
+networks:
+  default:
+    name: shop_network
