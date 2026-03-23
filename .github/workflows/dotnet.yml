@@ -23,5 +23,5 @@ jobs:
         working-directory: ./api/src/App
         run: dotnet build --no-restore
       - name: Test
-        working-directory: ./api/src/App
-        run: dotnet test --verbosity normal
+        working-directory: ./api/src/AppTest
+        run: dotnet test --verbosity normal --no-build
