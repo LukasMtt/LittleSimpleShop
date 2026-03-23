@@ -1,7 +1,9 @@
+using Castle.Core.Logging;
 using HttpContextMoq;
 using HttpContextMoq.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shop.ApiModels;
 using Shop.Controllers;
@@ -25,7 +27,8 @@ public class CartControllerTest : BaseTest
         _cartService = Substitute.For<CartService>(DbContext);
         _webHostEnvironment = Substitute.For<IWebHostEnvironment>();
         _fileStorageService = Substitute.For<IFileStorageService>();
-        _cartController = new CartController(DbContext!, _fileStorageService, _cartService, _webHostEnvironment);
+        var logger = Substitute.For<ILogger<CartController>>();
+        _cartController = new CartController(DbContext!, _fileStorageService, _cartService, _webHostEnvironment, logger);
     }
 
     [Test]

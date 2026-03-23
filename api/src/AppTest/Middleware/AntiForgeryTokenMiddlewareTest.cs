@@ -2,6 +2,7 @@ using App.Middlewares;
 using HttpContextMoq;
 using HttpContextMoq.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using NSubstitute;
 
@@ -18,7 +19,8 @@ public class AntiForgeryTokenMiddlewareTest : BaseTest
     public void Setup()
     {
         _next = Substitute.For<RequestDelegate>();
-        _antiForgeryTokenMiddleware = new AntiForgeryTokenMiddleware(_next, false);
+        var logger = Substitute.For<ILogger<AntiForgeryTokenMiddleware>>();
+        _antiForgeryTokenMiddleware = new AntiForgeryTokenMiddleware(_next, logger, false);
     }
 
     [TestCase("Post", false)]
