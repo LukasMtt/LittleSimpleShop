@@ -16,11 +16,17 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
-      - name: Restore dependencies
+      - name: Restore app dependencies
         working-directory: ./api/src/App
         run: dotnet restore
-      - name: Build
+      - name: Build app
         working-directory: ./api/src/App
+        run: dotnet build --no-restore
+      - name: Restore test dependencies
+        working-directory: ./api/src/AppTest
+        run: dotnet restore
+      - name: Build tests
+        working-directory: ./api/src/AppTest
         run: dotnet build --no-restore
       - name: Test
         working-directory: ./api/src/AppTest
