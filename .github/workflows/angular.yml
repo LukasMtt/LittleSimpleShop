@@ -16,8 +16,8 @@ jobs:
 
     steps:
       - name: Checkout source code
-        working-directory: ./frontend/app
         uses: actions/checkout@v3
+        working-directory: ./frontend/app
       - name: Setup Node.js $
         uses: actions/setup-node@v3
         with:
