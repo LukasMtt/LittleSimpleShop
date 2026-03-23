@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,4 +24,4 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         working-directory: ./api/src/App
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --verbosity normal
