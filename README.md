@@ -11,23 +11,47 @@ Aside from lacking features, the final step of a productive/test deployment is n
 
 Using an arbitrary color scheme and the german internationalized resources, we might get that starting page:
 ![alt text](assets/image.png)
+
 Mobile:
 ![alt text](assets/image-1.png)
+
 As you see, the exemplary shop ("Alices wundervoller Shop") is a pottery shop, some pictures are supplied. \
 Within the product show sites, we have some basic actions and product infos:
 ![alt text](assets/image-2.png)
+
 The checkout process is modelled as a breadcrumb path, collecting address info and redirecting to stripe:
 ![alt text](assets/image-3.png)
+
 ... supply address info and shipping info ...
 ![alt text](assets/image-4.png)
+
 ... you are redirected to the stripe payment form if you process further ...
 ![alt text](assets/image-5.png)
+
 After a successful checkout, you can track your order...
 ![alt text](assets/image-6.png)
+
 ... and you get an email with an invoice, which has a very basic template, but can be prettified.
 ![alt text](assets/image-7.png)
 
 # Structure and Tech
+
+The project mainly consists of a backend (ASP .NET Core Web API) and a frontend (Angular SPA). \
+The implementation includes and employs the following tech/practices/dependencies:
+
+- SQL Server as a database using EF Core as ORM and FluentMigrator for migrations
+- checkout workflow as an anonymous user
+- double submit approach for implementing an anti-forgery token with the API and SPA (Cookie and Header)
+- serving images and documents via the file storage system SeaweedFS including a creation workflow for invoices
+- creating PDF-invoices utilizing a templating engine to fill a html that gets converted by the PDF converter service Gotenberg
+- sending E-Mails using MailKit
+- payment via interfacing the Stripe API - that covers a secure payment handling utilizing the stripe payment form, using the webhook upon succeeded payment and handling those results
+- setup for not yet implemented features: collecting newsletter email, presenting cookie (Datenschutz) information extendible for further use of private data
+- source generator mapper Mapperly
+- minimal test setup (no exhaustive coverage yet)
+
+The project includes Dockerfiles for the API and the frontend, and a Docker-compose file to start these two and the depending services/database. \
+Two basic github action workflows build and test the projects parts.
 
 # Run with Docker
 
