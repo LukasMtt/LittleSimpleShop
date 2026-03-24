@@ -13,7 +13,7 @@ Using an arbitrary color scheme, the german internationalized resources and some
 
 ![alt text](assets/image.png)
 
-Mobile:
+The website is designed in an adaptive way to scale to mobile devices:
 ![alt text](assets/image-1.png)
 
 As you see, the exemplary shop ("Alices wundervoller Shop") is a pottery shop and some pictures are supplied, that show the shops product categories. \
@@ -75,7 +75,7 @@ Before building, you must adapt these config files if you want to fully use the 
 
 The current handling of secrets via the config files is only suited for dev and test scenarios. Prod usage requires a hardened approach via other means (secret vault...). \
 Finally you can build the images:
-`docker build ./ -t "shop-ng-app:latest" --no-cache`
+`docker build ./ -t "shop-ng-app:latest" --no-cache` \
 `docker build ./ -t "shop-api:latest" --no-cache`
 
 Next, we need some final setup to prepare the docker compose. \
