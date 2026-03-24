@@ -67,10 +67,10 @@ Furthermore, the project includes/demonstrates:
 # Run with Docker
 
 Use the appsettings.Docker.json and app.config.docker.json for the respective projects as a base to build the Docker-images. \
-Before building, you must adapt these config files if you want to fully use the shop. Most of the settings properties are suited for the setup defined by the docker-compose file, however the Stripe keys and the SMTP server properties need configuration:
+Before building, you must adapt these config files if you want to fully use the shop. Most of the settings properties are suited for the setup defined by the docker-compose file, however the Stripe keys and the SMTP server properties require configuration:
 
-- in appsettings.json, update **StripePrivateKey** and **StripeWebhookSecret** to match yours (see https://docs.stripe.com/keys, you need a Stripe account for the setup). Use only the test (sandbox) keys for this project, since it is currently in a dev/test stage
-- in appsettings.json, update the **EMail** section to match a test server setup. My tests use Papercut SMTP outside of the container as a toy setup to receive and see incoming messages. A mail server is currently not part of the docker compose.
+- in appsettings.json, update **StripePrivateKey** and **StripeWebhookSecret** to match your keys (see https://docs.stripe.com/keys, you need a Stripe account for the setup). Use only the test (sandbox) keys for this project, since it is currently in a dev/test stage
+- in appsettings.json, update the **EMail** section to match a test server setup. My tests use Papercut SMTP outside of the compose network (_host.docker.internal_) on the host machine as a toy setup to receive and see incoming messages. A mail server is currently not part of the docker compose.
 - in app.config.json, update **stripePublicKey** to match your respective key (see above)
 
 The current handling of secrets via the config files is only suited for dev and test scenarios. Prod usage requires a hardened approach via other means (secret vault...). \
@@ -82,18 +82,17 @@ Next, we need some final setup to prepare the docker compose. \
 To have a working Stripe webhook, we need to listen to listen to events and forward them as a way to test the functionality locally. See https://docs.stripe.com/webhooks (under #2) and use:
 `stripe listen --forward-to https://localhost:443/shop/Payment/PersistSuccessfulStripePaymentResult --log-level=debug`
 This matches the exposed API service, which will be created soon. \
-The API uses https, so you need to configure a cert (https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0), which will be bound by a volume to the container. You can find an env variable in the compose file, **SHOP_API_PATH_TO_HTTPS**. Create that env var with a path to the dev cert. \
-Some further adjustments should be done in the docker compose file. \
-You should change the password of the SQL server instance. Uncomment the code to reach the server from the host machine in order to create the database. \
-You can now run `docker compose up` in the compose files directory. At first, the API will throw an exception since the database is neither seeded nor created. Connect to the database and simply create a database named **Shop**. \
-Run `docker compose down` to stop the containers and rerun them with `docker compose up`. \
-You should be able to access the SPA at http://localhost. \
+The API uses https, so you need to configure a cert (https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0), which will be mapped as a volume into the container. You can see that an env variable is used in the compose file: **SHOP_API_PATH_TO_HTTPS**. Create that env var assigning the path to your dev cert. \
+Some further adjustments should be done in the docker compose file: you should change the password of the SQL server instance. Uncomment the code to reach the server from the host machine. \
+You can now run `docker compose up` in the compose files directory. At first, the API will throw an exception since the database is non existent. Connect to the database and simply create a database named **Shop**. Run `docker compose down` to stop the containers and rerun them with `docker compose up`. \
+Alternatively, before running the compose up command, start up the Microsoft SQL Server with the mapped volume and create the database via the mssql console. \
+You should now be able to access the SPA at http://localhost. \
 Currently, no UI management for the shops actual content is available. The products and categories have to be filled in the database.
 
-# ToDo's and open issues
+# Open ToDos
 
-As can be seen under the issues section, there is some open work to do including testing, productive deployment preparation and security hardening. \
-Furthermore, feature extension ideas come to mind quickly and range from an account-/login-functionality to a search function and more fine-tuned product detail site. On top of this, the whole solution can be expanded into a more full-fledged E-commerce system, allowing to manage the contents in an UI - think of a multi-tenant approach on top, that suits the shop use case.
+As can be seen under the issues section, there is some work to do including testing, productive deployment preparation and security hardening. \
+Furthermore, feature extension ideas include an account-/login-functionality, a search function and a more fine-tuned product detail site. On top of this, the whole solution can be expanded into a more full-fledged E-commerce system, allowing to manage the contents in an UI - think of a multi-tenant approach on top, that suits the shop use case.
 
 # License
 
