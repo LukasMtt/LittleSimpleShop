@@ -9,50 +9,60 @@ Aside from lacking features, the final step of a productive/test deployment to h
 
 # Features
 
-Using an arbitrary color scheme, the german internationalized resources and some pre-created data, we might see that starting page:
+Using an arbitrary color scheme, the german internationalized resources and some pre-created data, we might see the following starting page:
+
 ![alt text](assets/image.png)
 
 Mobile:
 ![alt text](assets/image-1.png)
 
-As you see, the exemplary shop ("Alices wundervoller Shop") is a pottery shop, some pictures are supplied. \
+As you see, the exemplary shop ("Alices wundervoller Shop") is a pottery shop and some pictures are supplied, that show the shops product categories. \
 Within the product show sites, we have some basic actions and product infos:
+
 ![alt text](assets/image-2.png)
 
 The checkout process is modelled as a breadcrumb path, collecting address info and redirecting to stripe:
+
 ![alt text](assets/image-3.png)
 
 ... supply address info and shipping info ...
+
 ![alt text](assets/image-4.png)
 
 ... you are redirected to the stripe payment form if you process further ...
+
 ![alt text](assets/image-5.png)
 
 After a successful checkout, you can track your order...
 ![alt text](assets/image-6.png)
 
-... and you get an email with an invoice, which has a very basic template, but can be prettified.
+... and you get an email with an invoice, which has a very basic template, but can be prettified later.
+
 ![alt text](assets/image-7.png)
 
 # Structure and Tech
 
 The project mainly consists of a backend (ASP .NET Core Web API) and a frontend (Angular SPA). \
-The implementation includes and employs the following tech/practices/dependencies:
+The implementation includes and employs (among additional things) the following tech features and APIs:
 
-- SQL Server as a database using EF Core as ORM and FluentMigrator for migrations
-- checkout workflow as an anonymous user
-- double submit approach for implementing an anti-forgery token with the API and SPA (Cookie and Header)
-- serving images and documents via the file storage system SeaweedFS including a creation workflow for invoices
-- creating PDF-invoices utilizing a templating engine to fill a html that gets converted by the PDF converter service Gotenberg
-- sending E-Mails using MailKit
-- payment via interfacing the Stripe API - that covers a secure payment handling utilizing the stripe payment form, using the webhook upon succeeded payment and handling those results
-- setup for not yet implemented features: collecting newsletter email, presenting cookie (Datenschutz) information extendible for further use of private data
-- source generator mapper Mapperly
-- logging with Serilog
-- minimal test setup (no exhaustive coverage yet)
+- **Microsoft SQL Server** as a database using **EF Core** as ORM and **FluentMigrator** for migrations
+- checkout workflow (only) as an anonymous user modelled as a breadcrumb path
+- double submit approach for protection against CSRF to secure mutating HTTP requests (cookie and header)
+- serving images and documents via the file storage system **SeaweedFS** including a creation workflow for invoices
+- creating PDF invoices utilizing templating engine **Fluid** to fill a html that gets converted by the PDF converter service **Gotenberg**
+- sending E-Mails using **MailKit**
+- payment via interfacing the **Stripe** API - implementing a secure payment handling utilizing the Stripe payment form, using a webhook upon succeeded payment and handling a successful payment event
+- setup for not yet implemented features: collecting newsletter email subscribers, presenting cookie information extendible for further use for privacy declarations, discount code, shipping provider stubs...
+- source generator powered mapper **Mapperly**
+- logging setup with **Serilog**
+- minimal test setup (no exhaustive coverage yet) for dotnet using **NUnit** and **NSubstitute** and other packages
+- various self-implemented UI elements including the checkout path, snackbar, image carousel...
 
-The project includes Dockerfiles for the API and the frontend, and a Docker-compose file to start these two and the depending services/database. \
-Two basic github action workflows build and test the projects parts.
+Furthermore, the project includes/demonstrates:
+
+- **Dockerfiles** for the API and the frontend
+- **Docker-compose** file to start up the two developed services and the depending services (file storage and PDF converter) and the database.
+- two small, basic **Github Action workflows**, that build and test the projects parts
 
 # Run with Docker
 
@@ -83,7 +93,7 @@ Currently, no UI management for the shops actual content is available. The produ
 # ToDo's and open issues
 
 As can be seen under the issues section, there is some open work to do including testing, productive deployment preparation and security hardening. \
-Furthermore, feature extension ideas come to mind quickly and range from an account-/login-functionality to a search function and more fine-tuned product detail site. On top of this, the whole solution can be expanded into a more full-fetched E-commerce system, allowing to manage the contents - think of a multi-tenant approach, that suits the shop use case.
+Furthermore, feature extension ideas come to mind quickly and range from an account-/login-functionality to a search function and more fine-tuned product detail site. On top of this, the whole solution can be expanded into a more full-fledged E-commerce system, allowing to manage the contents in an UI - think of a multi-tenant approach on top, that suits the shop use case.
 
 # License
 
