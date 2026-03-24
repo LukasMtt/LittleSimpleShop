@@ -3,13 +3,13 @@
 # Overview
 
 LittleSimpleShop is a learning-project that employs various techniques and technologies. It mainly serves as a training ground for me to learn, experiment and explore in order to deepen my technical understanding (_without_ the use of AI). \
-The general goal is to implement a minimal Shop-/E-Commerce-Website that combines services to handle the presentation of products and the ordering process. Some parts of the application are meant to be extended (see Issues). \
+The general goal is to implement a minimal Shop-/E-Commerce-Website that combines services to handle the presentation of products and the ordering process. Some parts of the application should be extended for production use (see Issues). \
 Since the main purpose of the project is to give me a playground to test out code, services, CI and practices, I tried to cover different areas of the development process (even if it is only a minimal proof of concept). \
 Aside from lacking features, the final step of a productive/test deployment is not done and not prepared yet.
 
 # Features
 
-Using an arbitrary color scheme and the german internationalized resources, we might get that starting page:
+Using an arbitrary color scheme, the german internationalized resources and some pre-created data, we might see that starting page:
 ![alt text](assets/image.png)
 
 Mobile:
@@ -73,9 +73,12 @@ To have a working Stripe webhook, we need to listen to listen to events and forw
 `stripe listen --forward-to https://localhost:443/shop/Payment/PersistSuccessfulStripePaymentResult --log-level=debug`
 This matches the exposed API service, which will be created soon. \
 The API uses https, so you need to configure a cert (https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0), which will be bound by a volume to the container. You can find an env variable in the compose file, **SHOP_API_PATH_TO_HTTPS**. Create that env var with a path to the dev cert. \
-Some further adjustments should be done in the docker compose file. You should change the password of the SQL server instance. You can uncomment the code to reach the server from the host machine in order to add actual data to the shop, like products, categories and images. This might also require to expose SeaweedFS ports to the host. \
-You can now run `docker compose up` in the compose files directory. You should be able to access the SPA at http://localhost. \
-Currently, no UI management for the shops actual content is available. The products and categories have to be filled manually.
+Some further adjustments should be done in the docker compose file. \
+You should change the password of the SQL server instance. Uncomment the code to reach the server from the host machine in order to create the database. \
+You can now run `docker compose up` in the compose files directory. At first, the API will throw an exception since the database is neither seeded nor created. Connect to the database and simply create a database named **Shop**. \
+Run `docker compose down` to stop the containers and rerun them with `docker compose up`. \
+You should be able to access the SPA at http://localhost. \
+Currently, no UI management for the shops actual content is available. The products and categories have to be filled in the database.
 
 # ToDo's and open issues
 
