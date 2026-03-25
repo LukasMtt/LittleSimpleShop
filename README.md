@@ -12,6 +12,10 @@ See what it looks like:
 
 <iframe width="560" height="315" src="assets/shop-tour-preview.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+<p align="center" width="100%">
+<video src="assets/shop-tour-preview.mp4" width="80%" controls></video>
+</p>
+
 # Features
 
 Using an arbitrary color scheme, the german internationalized resources and some pre-created data, we might see the following starting page:
