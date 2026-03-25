@@ -10,10 +10,10 @@ Aside from lacking features, the final step of a productive/test deployment to h
 
 See what it looks like:
 
-<iframe width="560" height="315" src="assets/shop-tour-preview.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://github.com/user-attachments/assets/8cb26b08-c526-4223-939f-456cef497da0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <p align="center" width="100%">
-<video src="assets/shop-tour-preview.mp4" width="80%" controls></video>
+<video src="https://github.com/user-attachments/assets/8cb26b08-c526-4223-939f-456cef497da0" width="80%" controls></video>
 </p>
 
 # Features
