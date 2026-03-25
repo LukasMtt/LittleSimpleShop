@@ -8,7 +8,9 @@ Some parts of the application are worth to be extended for production use (see I
 Since the main purpose of the project is to give me a playground to test out code, services, CI, dependencies and practices, I tried to cover different areas of the development process (even if it is only a minimal proof of concept), ranging from coding to testing to containerization. \
 Aside from lacking features, the final step of a productive/test deployment to host the shop is not done yet and future work.
 
-See what it looks like: ![alt text](assets/shop-tour-preview.mp4)
+See what it looks like:
+
+<iframe width="560" height="315" src="assets/shop-tour-preview.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Features
 
