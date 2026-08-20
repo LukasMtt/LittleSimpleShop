@@ -216,13 +216,6 @@ export class EndpointResolveService {
     this.getCountries
   ];
 
-  apiBaseEndpointUrl = '';
-
-  constructor(appConfigService: AppConfigService) {
-    this.apiBaseEndpointUrl =
-      appConfigService.getConfigProperty('apiBaseEndpointUrl');
-  }
-
   public buildUrl(leaf: EndpointItem, params: KeyValue<string, string>[]) {
     const hasParams = params && params.length > 0;
     let paramSuffix = hasParams ? '?' : '';
@@ -250,9 +243,6 @@ export class EndpointResolveService {
       return '';
     }
 
-    return `${this.apiBaseEndpointUrl}/${this.concatEndpointNodes(
-      '',
-      targetLeafCandidates[0]
-    )}`;
+    return this.concatEndpointNodes('', targetLeafCandidates[0]);
   }
 }

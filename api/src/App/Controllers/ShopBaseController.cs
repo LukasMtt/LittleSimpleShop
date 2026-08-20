@@ -5,6 +5,7 @@ using Shop.Interfaces;
 namespace Shop.Controllers;
 
 [ApiController]
+[AutoValidateAntiforgeryToken]
 [Route("shop/[controller]/[action]")]
 public abstract class ShopBaseController : ControllerBase
 {

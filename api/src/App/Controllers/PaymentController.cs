@@ -57,6 +57,7 @@ public class PaymentController : ShopBaseController
 
     //webhook method for stripe 
     [HttpPost]
+    [IgnoreAntiforgeryToken]
     public async Task<IActionResult> PersistSuccessfulStripePaymentResult()
     {
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
