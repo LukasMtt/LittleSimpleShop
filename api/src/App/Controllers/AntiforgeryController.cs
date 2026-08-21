@@ -17,9 +17,15 @@ public class AntiforgeryController : ControllerBase
     [HttpGet]
     public IActionResult GetAntiforgeryToken()
     {
-        // only responsible for generating and sending the antiforgery token to the client via cookie at first load of SPA
-        // functionality for the form embedded token not used
-        _antiforgery.GetAndStoreTokens(HttpContext);
+        // store token in the response cookie that gets actually evaluated on the way back within antiforgery filter
+        AntiforgeryTokenSet tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+
+        if (tokens.RequestToken != null)
+        {
+            // this cookie serves as the cookie that can be read client side and based on that the header is generated
+            HttpContext.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Path = "/", SameSite = SameSiteMode.Strict, Secure = true });
+        }
+
         return Ok();
     }
 }

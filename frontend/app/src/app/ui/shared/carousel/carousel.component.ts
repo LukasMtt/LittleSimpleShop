@@ -1,7 +1,10 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { FileFetchService } from '../../../services/file.fetch.service';
 import { DisplayImageInput } from '../../../models/component/display-image.input';
+import {
+  EndpointItem,
+  EndpointResolveService
+} from '../../../services/endpoint.resolve.service';
 
 @Component({
   selector: 'app-carousel',
@@ -25,11 +28,22 @@ export class CarouselComponent {
     }
   });
 
-  constructor(private fileFetchService: FileFetchService) {
+  constructor(private endpointResolveService: EndpointResolveService) {
     effect(() => {
       if (this.imagesInput()) {
         this.filledImages.set([]);
-        this.setImagesDataUrl();
+        let images: DisplayImageInput[] = [];
+        this.imagesInput()!.forEach((image) => {
+          image.imgSrc = this.endpointResolveService.buildUrl(
+            EndpointItem.GetPublicImage,
+            [
+              { key: 'imageId', value: `${image?.id ?? 0}` },
+              { key: 'fileId', value: `${image?.fileId ?? ''}` }
+            ]
+          );
+          images.push(image);
+        });
+        this.filledImages.set(images);
       }
     });
   }
@@ -44,26 +58,6 @@ export class CarouselComponent {
       this.currentIndex.update((value) => (value + 1) % imagesCount);
     }
     this.toggledImage.update((value) => !value);
-  }
-
-  public setImagesDataUrl() {
-    if (!this.imagesInput() || this.imagesInput()?.length === 0) {
-      return;
-    }
-    this.imagesInput()!.forEach((image) => {
-      let httpResponse = this.fileFetchService.getPublicImageResponseBlob(
-        image.id || 0,
-        image.fileId || ''
-      );
-      httpResponse.subscribe((response) => {
-        this.fileFetchService.readFileAsDataUrl(
-          response.body as Blob,
-          response.headers.get('Content-Type') ?? '',
-          image.fileContent!
-        );
-        this.filledImages.update((value) => [...value, image]);
-      });
-    });
   }
 
   public openPopUpCarouselImage() {

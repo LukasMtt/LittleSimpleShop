@@ -5,5 +5,5 @@ export interface DisplayImageInput {
   fileId?: string;
   productId?: number;
   categoryId?: number;
-  fileContent?: FileContentInput;
+  imgSrc?: string;
 }

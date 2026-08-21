@@ -14,7 +14,7 @@ import { routes } from './app.routes';
 import {
   HttpClient,
   provideHttpClient,
-  withInterceptors
+  withXsrfConfiguration
 } from '@angular/common/http';
 import { AppConfigService } from './services/app.config.service';
 import { ResourceService } from './services/resource.service';
@@ -36,13 +36,10 @@ const appConfigServiceAndAntiforgeryTokenProvider = provideAppInitializer(
     ) => {
       return async () => {
         await appConfigService.loadAppConfig();
-        const apiBaseEndpointUrl =
-          appConfigService.getConfigProperty('apiBaseEndpointUrl');
         return httpClient
-          .get<any>(
-            `${apiBaseEndpointUrl}/shop/Antiforgery/GetAntiforgeryToken`,
-            { withCredentials: true }
-          )
+          .get<any>(`/shop/Antiforgery/GetAntiforgeryToken`, {
+            withCredentials: true
+          })
           .subscribe();
       };
     })(inject(AppConfigService), inject(HttpClient));
@@ -67,12 +64,11 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({ onSameUrlNavigation: 'reload' })
     ),
     provideHttpClient(
-      // todo: consider reestablishing when relative paths are applicable
-      // withXsrfConfiguration({
-      //   cookieName: 'XSRF-TOKEN',
-      //   headerName: 'X-Xsrf-Header'
-      // })
-      withInterceptors([csrfInterceptor])
+      // we get two cookies and XSRF_TOKEN is essential for Angular because it is readable by the client
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN'
+      })
     ),
     appConfigServiceAndAntiforgeryTokenProvider,
     resourceServiceProvider,

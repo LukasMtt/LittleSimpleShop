@@ -139,8 +139,7 @@ export class ProductShowComponent extends BaseComponent {
           );
           if (product && product.images && product.images.length > 0) {
             this.productMainImage.set({
-              ...product.images[0],
-              fileContent: { dataUrl: '' }
+              ...product.images[0]
             });
             this.carouselImages.set(
               product.images

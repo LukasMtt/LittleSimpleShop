@@ -1,0 +1,12 @@
+{
+  "/shop": {
+    "target": {
+      "host": "localhost",
+      "protocol": "https:",
+      "port": 7228
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
+}

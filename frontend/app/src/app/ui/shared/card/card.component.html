@@ -1,9 +1,5 @@
 <div class="card-img-container">
-  <img
-    [src]="cardModel?.image?.fileContent?.dataUrl"
-    class="card-img"
-    alt="card picture"
-  />
+  <img [src]="imgSrc()" class="card-img" alt="card picture" />
 </div>
 <div class="card-bottom-content">
   <ng-content />

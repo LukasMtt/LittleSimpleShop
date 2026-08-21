@@ -1,5 +1,3 @@
-using App.Middlewares;
-
 using FluentMigrator.Runner;
 
 using Fluid;
@@ -53,7 +51,6 @@ class Program
             app.UseHttpsRedirection();
             app.UseExceptionHandler("/error");
             app.UseAuthorization();
-            app.UseAntiforgeryToken();
             app.MapControllers();
             app.UseRateLimiter();
 
@@ -81,23 +78,11 @@ class Program
                 );
             });
         }
+        builder.Services.AddControllersWithViews().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddAntiforgery(options =>
         {
-            options.HeaderName = "X-Xsrf-Header";
-            options.Cookie.Name = "XSRF-TOKEN";
-            options.Cookie.Path = "/";
-            options.Cookie.HttpOnly = false;
-            if (isDevEnv)
-            {
-                options.Cookie.SameSite = SameSiteMode.None;
-            }
-            else
-            {
-                options.Cookie.SameSite = SameSiteMode.Strict;
-            }
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.HeaderName = "X-XSRF-TOKEN";
         });
-        builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         builder.Services.AddRateLimiter(options => options.AddPolicy("paymentRateLimiterPolicy",
             httpContext => RateLimitPartition.GetFixedWindowLimiter(
                 partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",

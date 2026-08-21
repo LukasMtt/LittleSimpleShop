@@ -5,9 +5,11 @@ import { CurrencyPipe } from '@angular/common';
 import { BaseComponent } from '../../shared/base.component';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { FileFetchService } from '../../../services/file.fetch.service';
-import { DisplayImageInput } from '../../../models/component/display-image.input';
 import { MetadataService } from '../../../services/metadata.service';
+import {
+  EndpointItem,
+  EndpointResolveService
+} from '../../../services/endpoint.resolve.service';
 
 @Component({
   selector: 'app-cart-sidebar-item',
@@ -44,18 +46,27 @@ export class CartSidebarItemComponent extends BaseComponent {
     return '';
   });
   currency = signal<string>('USD');
-
-  cartItemImage: DisplayImageInput | undefined;
+  imgSrc = signal<string>('');
 
   constructor(
     public cartService: CartService,
-    private fileFetchService: FileFetchService,
-    metaDataService: MetadataService
+    metaDataService: MetadataService,
+    endpointResolveService: EndpointResolveService
   ) {
     super();
     effect(() => {
-      this.cartItemImage = this.cartItem()?.product.image;
-      this.setCartItemImage();
+      this.imgSrc.set(
+        endpointResolveService.buildUrl(EndpointItem.GetPublicImage, [
+          {
+            key: 'imageId',
+            value: `${this.cartItem()?.product?.image?.id ?? 0}`
+          },
+          {
+            key: 'fileId',
+            value: `${this.cartItem()?.product?.image?.fileId ?? ''}`
+          }
+        ])
+      );
     });
     metaDataService.getMetadata().subscribe((metadata) => {
       this.currency.set(metadata.currency ?? 'USD');
@@ -72,22 +83,5 @@ export class CartSidebarItemComponent extends BaseComponent {
     if (this.cartItem()?.product) {
       this.cartService.popCartItemByProductId(this.cartItem()!.product.id);
     }
-  }
-
-  public setCartItemImage() {
-    if (!this.cartItemImage) {
-      return;
-    }
-    let httpResponse = this.fileFetchService.getPublicImageResponseBlob(
-      this.cartItemImage.id,
-      this.cartItemImage.fileId || ''
-    );
-    httpResponse.subscribe((response) => {
-      this.fileFetchService.readFileAsDataUrl(
-        response.body as Blob,
-        response.headers.get('Content-Type') ?? '',
-        this.cartItemImage!.fileContent!
-      );
-    });
   }
 }
