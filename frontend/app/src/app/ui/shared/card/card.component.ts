@@ -1,6 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { FileFetchService } from '../../../services/file.fetch.service';
+import { Component, computed, inject, input } from '@angular/core';
 import { CardInput } from '../../../models/component/card.input';
+import {
+  EndpointItem,
+  EndpointResolveService
+} from '../../../services/endpoint.resolve.service';
 
 @Component({
   selector: 'app-card',
@@ -9,34 +12,15 @@ import { CardInput } from '../../../models/component/card.input';
   styleUrl: './card.component.css'
 })
 export class CardComponent {
-  @Input({ required: true }) get cardModel(): CardInput | undefined {
-    return this._cardModel;
-  }
-  set cardModel(newValue: CardInput | undefined) {
-    this._cardModel = newValue;
-    this.setImageDataUrl();
-  }
-  @Input() routerLink: string = '';
+  endpointResolveService = inject(EndpointResolveService);
 
-  private _cardModel: CardInput | undefined;
+  cardModel = input<CardInput | undefined>(undefined);
+  routerLink = input<string>('');
 
-  constructor(private fileFetchService: FileFetchService) {}
-
-  public setImageDataUrl() {
-    if (!this.cardModel?.image) {
-      return;
-    }
-    let httpResponse = this.fileFetchService.getPublicImageResponseBlob(
-      this.cardModel?.image?.id ?? 0,
-      this.cardModel?.image?.fileId ?? ''
-    );
-    httpResponse.subscribe((response) => {
-      this.cardModel!.image!.fileContent = { dataUrl: '' };
-      this.fileFetchService.readFileAsDataUrl(
-        response.body as Blob,
-        response.headers.get('Content-Type') ?? '',
-        this.cardModel!.image!.fileContent!
-      );
-    });
-  }
+  imgSrc = computed(() => {
+    return this.endpointResolveService.buildUrl(EndpointItem.GetPublicImage, [
+      { key: 'imageId', value: `${this.cardModel()?.image?.id ?? 0}` },
+      { key: 'fileId', value: `${this.cardModel()?.image?.fileId ?? ''}` }
+    ]);
+  });
 }

@@ -4,7 +4,7 @@
   >
   @if (toggledImage()) {
     <img
-      [src]="filledImages()[currentIndex()]?.fileContent?.dataUrl || ''"
+      [src]="filledImages()[currentIndex()]?.imgSrc || ''"
       class="selected-image"
       alt="selected image"
       animate.enter="change-image-animation"
@@ -12,7 +12,7 @@
     />
   } @else {
     <img
-      [src]="filledImages()[currentIndex()]?.fileContent?.dataUrl || ''"
+      [src]="filledImages()[currentIndex()]?.imgSrc || ''"
       class="selected-image"
       alt="selected image"
       animate.enter="change-image-animation"
@@ -36,7 +36,7 @@
     animate.leave="pop-up-close-image-animation"
   >
     <img
-      [src]="filledImages()[currentIndex()]?.fileContent?.dataUrl || ''"
+      [src]="filledImages()[currentIndex()]?.imgSrc || ''"
       class="pop-up-image"
       alt="pop up image"
     />

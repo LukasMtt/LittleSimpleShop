@@ -60,8 +60,7 @@ export class CartService {
                       image: {
                         id: mainProductImage.id,
                         fileId: mainProductImage.fileId,
-                        productId: mainProductImage.productId,
-                        fileContent: { dataUrl: '' }
+                        productId: mainProductImage.productId
                       }
                     },
                     amount: amount
@@ -93,7 +92,7 @@ export class CartService {
   public pushCartItem(item: CartItemModel) {
     const cartItems = this.cart().cartItems;
     const existingItem = cartItems.find(
-      (x) => x.product && item.product && x.product.id === item.product.id
+      (x) => x.product && item.product && x.product.id == item.product.id
     );
     if (existingItem) {
       return this.updateCartItemAmount(
